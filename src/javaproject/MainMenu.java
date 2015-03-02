@@ -50,15 +50,27 @@ public class MainMenu extends BasicGameState{
             System.out.println("Login: ");
             Scanner scanner = new Scanner(System.in);
             String nickname = scanner.nextLine();
-            System.out.println("Password: ");
-            String password = scanner.nextLine();
-            if(DBFunctions.verify(nickname, password)==false){
-                System.out.print("Nice try guy, Try Again \n");
+
+            int playerID = DBFunctions.verifyNickname(nickname);
+
+            if(playerID==-1){
+                System.out.print("Player not found! Would you like to create a new account? Y/N\n");
+                String answer = scanner.nextLine().toLowerCase();
+                if(answer.equals("y")) {
+                    //do function for this shit
+                }
             }
             else{
-                System.out.print("Lets get this partz started");
-                control=false;
+
+            System.out.println("Password: ");
+            String password = scanner.nextLine();
+
+            if(DBFunctions.verifyPassword(playerID, password) == true){
+                    System.out.print("Welcome!");
+                    control=false;
+            }
             }
         }
     }
 }
+

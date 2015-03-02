@@ -48,22 +48,28 @@ public class DBFunctions {
         } {
 
         }
-        for(Player player: players){
+        /*for(Player player: players){
             System.out.print(player.getNickname() + "\t" + player.getPassword() + "\n") ;
-        }
+        }*/
         return players;
     }
 
-    public static boolean verify(String nickname, String password){
+    public static int verifyNickname(String nickname){
         ArrayList<Player> players = DBFunctions.getPlayers();
-        for (Player player : players){
-            if (nickname.toLowerCase().equals(player.getNickname().toLowerCase())  && password.toLowerCase().equals(player.getPassword().toLowerCase())){
-                return true;
-            }
-            else{
-                System.out.print(nickname.toLowerCase() + player.getNickname().toLowerCase()  + password.toLowerCase() + player.getPassword().toLowerCase());
+        for (int i = 0; i < players.size(); i++){
+            if (nickname.toLowerCase().equals(players.get(i).getNickname().toLowerCase())){
+                return i;
             }
         }
+        return -1;
+    }
+
+    public static boolean verifyPassword(int id, String password){
+        ArrayList<Player> players = DBFunctions.getPlayers();
+        Player player = players.get(id);
+            if (password.toLowerCase().equals(player.getPassword().toLowerCase())){
+                return true;
+            }
         return false;
     }
 
