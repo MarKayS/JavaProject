@@ -10,6 +10,8 @@ public class DBFunctions {
 
     public ArrayList<Player> getPlayers(){
         String select = "SELECT * FROM Player";
+
+        return null;
     }
 
 
