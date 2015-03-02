@@ -8,11 +8,11 @@ import java.sql.Connection;
 public class DBConnection {
 
     // database URL
-    private static final String dbURL = "jdbc:mysql://wm48.wedos.net:3306";
-    private static final String username = "a24820_jsoko";
+    private static final String dbURL = "jdbc:mysql://db4free.net/jsokoban";
+    private static final String username = "jsoko";
     private static final String password = "sokoban123";
     // declare Connection for accessing and querying database
-    private Connection connection;
+    private static Connection connection;
 
     // constructor connects to database
     public DBConnection() {
@@ -20,7 +20,7 @@ public class DBConnection {
         try {
 
             // establish connection to database
-            connection = (Connection) DriverManager.getConnection(dbURL, username, password);
+            connection = DriverManager.getConnection(dbURL, username, password);
 
         } catch (SQLException sqlException) {
             JOptionPane.showMessageDialog(null, sqlException.getMessage(),
@@ -43,8 +43,7 @@ public class DBConnection {
         }
     }
 
-    public Connection getConnection() throws SQLException {
-        System.out.print(connection.getClientInfo());
+    public static Connection getConnection() throws SQLException {
         return connection;
     }
 }

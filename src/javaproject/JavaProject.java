@@ -10,6 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import persistance.DBConnection;
+import persistance.DBFunctions;
 
 import java.io.File;
 
@@ -51,8 +52,10 @@ public class JavaProject extends StateBasedGame {
             //app.setVSync(true);
             //app.start();
             persistance.DBConnection connection = new DBConnection();
+            persistance.DBFunctions functions = new DBFunctions();
 
-            System.out.print(connection.getConnection());
+            functions.getPlayers();
+
         } catch(SlickException e) {
             e.printStackTrace();
         }

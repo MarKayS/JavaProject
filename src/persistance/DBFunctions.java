@@ -14,12 +14,17 @@ import java.util.ArrayList;
 public class DBFunctions {
 
     public ArrayList<Player> getPlayers(){
-        ArrayList<Player> players;
+        ArrayList<Player> players = new ArrayList<>();
         String select = "SELECT * FROM Player";
 
         //Querries:
         Statement statement;
-        Connection connection = DBConnection.getConnection();
+        Connection connection = null;
+        try {
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         try{
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
@@ -33,6 +38,11 @@ public class DBFunctions {
                 Boolean admin_rights = resultSet.getBoolean("admin_rights");
 
                 Player player = new Player(playerID ,name, surname, password, nickname, admin_rights);
+                players.add(player);
+            }
+
+            for(Player player: players){
+                System.out.print("Name: " + player.getName() + "\t|Surname: " + player.getSurname() + "\t|Nickname: " + player.getNickname() + "\n");
             }
         }
         catch (SQLException e) {
@@ -41,7 +51,7 @@ public class DBFunctions {
 
         }
 
-        return null;
+        return players;
     }
 
 
