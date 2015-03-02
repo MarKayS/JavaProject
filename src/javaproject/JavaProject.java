@@ -9,6 +9,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import persistance.DBConnection;
 
 import java.io.File;
 
@@ -29,6 +30,7 @@ public class JavaProject extends StateBasedGame {
        // this.addState(new SplashScreen(SPLASHSCREEN));
         //this.addState(new MainMenu(MAINMENU));
         this.addState(new Game(GAME));
+
     }
 
     public int getHeight(){
@@ -47,8 +49,12 @@ public class JavaProject extends StateBasedGame {
             app.setTargetFrameRate(120);
             app.setShowFPS(true);
             //app.setVSync(true);
-            app.start();
+            //app.start();
+            persistance.DBConnection connection = new DBConnection();
+            System.out.print(connection.getConnection());
         } catch(SlickException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
