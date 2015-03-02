@@ -43,7 +43,8 @@ public class DBConnection {
         }
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+        System.out.print(connection.getClientInfo());
         return connection;
     }
 }
