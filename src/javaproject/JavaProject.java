@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 
 
 import java.io.File;
+import java.util.Scanner;
 
 public class JavaProject extends StateBasedGame {
     public static final int SPLASHSCREEN = 0;

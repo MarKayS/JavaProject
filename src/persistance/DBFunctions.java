@@ -21,6 +21,7 @@ public class DBFunctions {
         Statement statement;
         Connection connection = null;
         try {
+            DBConnection.connect();
             connection = DBConnection.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,10 +40,6 @@ public class DBFunctions {
 
                 Player player = new Player(playerID ,name, surname, password, nickname, admin_rights);
                 players.add(player);
-            }
-
-            for(Player player: players){
-                System.out.print("Name: " + player.getName() + "\t|Surname: " + player.getSurname() + "\t|Nickname: " + player.getNickname() + "\n");
             }
         }
         catch (SQLException e) {

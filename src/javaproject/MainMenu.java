@@ -46,16 +46,15 @@ public class MainMenu extends BasicGameState{
     }
 
     public void loginprompt(){
-        System.out.println("Login: ");
-        Scanner scanner = new Scanner(System.in);
-        String nickname = scanner.nextLine();
-        System.out.println("Password: ");
-        String password = scanner.nextLine();
         boolean control = true;
         while(control){
+            System.out.println("Login: ");
+            Scanner scanner = new Scanner(System.in);
+            String nickname = scanner.nextLine();
+            System.out.println("Password: ");
+            String password = scanner.nextLine();
             if(DBFunctions.verify(nickname, password)==false){
-                System.out.print("Nice try guy");
-
+                System.out.print("Nice try guy, Try Again \n");
             }
             else{
                 System.out.print("Lets get this partz started");

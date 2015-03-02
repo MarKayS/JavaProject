@@ -15,8 +15,7 @@ public class DBConnection {
     private static Connection connection;
 
     // constructor connects to database
-    public DBConnection() {
-        // connect to database books
+    public static void connect(){
         try {
 
             // establish connection to database
@@ -28,7 +27,6 @@ public class DBConnection {
 
             System.exit(1);
         }
-
     }
 
     public void closeConnection() {
