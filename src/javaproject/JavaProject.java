@@ -51,10 +51,9 @@ public class JavaProject extends StateBasedGame {
             //app.setVSync(true);
             //app.start();
             persistance.DBConnection connection = new DBConnection();
+
             System.out.print(connection.getConnection());
         } catch(SlickException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
