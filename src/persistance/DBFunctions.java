@@ -1,6 +1,7 @@
 package persistance;
 
 import javaproject.Player;
+import org.lwjgl.Sys;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,15 +48,20 @@ public class DBFunctions {
         } {
 
         }
-
+        for(Player player: players){
+            System.out.print(player.getNickname() + "\t" + player.getPassword() + "\n") ;
+        }
         return players;
     }
 
     public static boolean verify(String nickname, String password){
         ArrayList<Player> players = DBFunctions.getPlayers();
         for (Player player : players){
-            if (nickname.toLowerCase() == player.getNickname().toLowerCase() && password.toLowerCase() == player.getPassword().toLowerCase()){
+            if (nickname.toLowerCase().equals(player.getNickname().toLowerCase())  && password.toLowerCase().equals(player.getPassword().toLowerCase())){
                 return true;
+            }
+            else{
+                System.out.print(nickname.toLowerCase() + player.getNickname().toLowerCase()  + password.toLowerCase() + player.getPassword().toLowerCase());
             }
         }
         return false;

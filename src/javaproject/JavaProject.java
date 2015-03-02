@@ -9,6 +9,8 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import persistance.DBConnection;
+import persistance.DBFunctions;
 
 
 import java.io.File;
@@ -29,8 +31,8 @@ public class JavaProject extends StateBasedGame {
 
     public void initStatesList(GameContainer gc) throws SlickException {
        // this.addState(new SplashScreen(SPLASHSCREEN));
-        this.addState(new MainMenu(MAINMENU));
-        //this.addState(new Game(GAME));
+        //this.addState(new MainMenu(MAINMENU));
+        this.addState(new Game(GAME));
 
     }
 
@@ -50,13 +52,13 @@ public class JavaProject extends StateBasedGame {
             app.setTargetFrameRate(120);
             app.setShowFPS(true);
             MainMenu menu = new MainMenu(1);
-            menu.loginprompt();
             //app.setVSync(true);
             //app.start();
-            //persistance.DBConnection connection = new DBConnection();
-            //persistance.DBFunctions functions = new DBFunctions();
+            persistance.DBConnection connection = new DBConnection();
+            persistance.DBFunctions functions = new DBFunctions();
 
-           // functions.getPlayers();
+            functions.getPlayers();
+            menu.loginprompt();
 
         } catch(SlickException e) {
             e.printStackTrace();

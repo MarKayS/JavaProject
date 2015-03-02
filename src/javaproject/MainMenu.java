@@ -41,7 +41,6 @@ public class MainMenu extends BasicGameState{
 
     @Override
     public int getID() {
-
         return this.id;
     }
 
