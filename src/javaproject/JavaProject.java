@@ -1,6 +1,5 @@
 package javaproject;
 
-
 /**
  * Switching to another state
  * enterState(Game.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
