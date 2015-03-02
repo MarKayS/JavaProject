@@ -5,6 +5,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import persistance.DBFunctions;
+
+import java.util.Scanner;
 
 /**
  * Created by MKS on 8. 11. 2014.
@@ -40,5 +43,24 @@ public class MainMenu extends BasicGameState{
     public int getID() {
 
         return this.id;
+    }
+
+    public void loginprompt(){
+        System.out.println("Login: ");
+        Scanner scanner = new Scanner(System.in);
+        String nickname = scanner.nextLine();
+        System.out.println("Password: ");
+        String password = scanner.nextLine();
+        boolean control = true;
+        while(control){
+            if(DBFunctions.verify(nickname, password)==false){
+                System.out.print("Nice try guy");
+
+            }
+            else{
+                System.out.print("Lets get this partz started");
+                control=false;
+            }
+        }
     }
 }

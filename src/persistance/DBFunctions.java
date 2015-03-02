@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class DBFunctions {
 
-    public ArrayList<Player> getPlayers(){
+    public static ArrayList<Player> getPlayers(){
         ArrayList<Player> players = new ArrayList<>();
         String select = "SELECT * FROM Player";
 
@@ -52,6 +52,16 @@ public class DBFunctions {
         }
 
         return players;
+    }
+
+    public static boolean verify(String nickname, String password){
+        ArrayList<Player> players = DBFunctions.getPlayers();
+        for (Player player : players){
+            if (nickname.toLowerCase() == player.getNickname().toLowerCase() && password.toLowerCase() == player.getPassword().toLowerCase()){
+                return true;
+            }
+        }
+        return false;
     }
 
 
