@@ -54,8 +54,6 @@ public class JavaProject extends StateBasedGame {
             System.out.print(connection.getConnection());
         } catch(SlickException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
