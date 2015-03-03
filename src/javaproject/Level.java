@@ -3,12 +3,15 @@ package javaproject;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Level {
     int levelID;
     int gameID;
-    String level;
+    Character[][] level;
 
-    public Level(int levelID, int gameID, String level){
+    public Level(int levelID, int gameID, Character[][] level){
         this.levelID = levelID;
         this.gameID = gameID;
         this.level = level;
@@ -22,7 +25,7 @@ public class Level {
         return gameID;
     }
 
-    public String getLevel() {
+    public Character[][] getLevel() {
         return level;
     }
 }

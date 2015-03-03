@@ -57,7 +57,7 @@ public class JavaProject extends StateBasedGame {
             persistance.DBConnection connection = new DBConnection();
             persistance.DBFunctions functions = new DBFunctions();
 
-            functions.getLevels();
+            functions.getLevels("1");
 
             //menu.loginprompt();
             //DBConnection.closeConnection();
