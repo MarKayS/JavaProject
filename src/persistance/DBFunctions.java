@@ -8,9 +8,6 @@ import org.lwjgl.Sys;
 
 import java.util.ArrayList;
 
-/**
- * Created by tomasbird on 02.3.2015.
- */
 public class DBFunctions {
 
     public static ArrayList<Player> getPlayers(){
@@ -72,9 +69,7 @@ public class DBFunctions {
                 int gameID = resultSet.getInt("gameID");
                 String levelParse = resultSet.getString("level");
                 System.out.print(levelParse);
-                levelParser(levelParse);
-
-                //Level level1 = new Level(levelID, gameID, level);
+                Level level1 = new Level(levelID, gameID, levelParse);
                 //levels.add(level1);
             }
         }
@@ -129,36 +124,4 @@ public class DBFunctions {
         }
         return true;
     }
-
-    private static Character[][] levelParser(String levelParse){
-        int x = 0;
-        int y = -2;
-        for(int i = 0; i < levelParse.length(); i++){
-            if(levelParse.charAt(i) == '\n'){
-                x++;
-            }
-            if(levelParse.charAt(i) != '\n' && x == 0){
-                y++;
-                //System.out.print("\n" + levelParse.charAt(i));
-            }
-
-        }
-        System.out.print("\nx: " + x + "\ty: " + y + "\n");
-
-        Character[][] level = new Character[x][y];
-
-
-        int c = 0;
-        for(int i = 0; i < x; i++){
-            for(int j = 0; i < y; j++){
-                level[i][j] = levelParse.charAt(c);
-                c++;
-            }
-            c++;
-        }
-        return level;
-
-
-    }
-
 }
