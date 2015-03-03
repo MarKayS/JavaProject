@@ -3,6 +3,7 @@ package javaproject;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Level {
     Character[][] level;
     int maxX;
     int maxY;
+    boolean playerX = false;
 
     public Level(int levelID, int gameID, String levelString){
         this.levelID = levelID;
@@ -74,6 +76,77 @@ public class Level {
                 System.out.print(level[i][j]);
             }
             System.out.print("\n");
+        }
+    }
+    public Point locatePlayer(){
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+                if (level[i][j] == 'P')
+                    return new Point(j,i);
+            }
+        }
+        return new Point(-1,-1);
+    }
+    public boolean move(Point from, char direction){
+        int x = 0, y = 0;
+
+        if (direction == 'w'){
+            y = -1;
+        }
+        else if(direction == 's'){
+            y = +1;
+        }
+        else if(direction == 'a'){
+            x = -1;
+        }
+        else if (direction == 'd'){
+            x = +1;
+        }
+        Point to = new Point(from.x+x,from.y+y);
+        if(level[from.y][from.x] != 'B' && level[from.y][from.x] != '0' && level[from.y][from.x] != 'P'){
+            System.out.print(level[from.y][from.x]);
+            return false;
+        }
+        else if(level[to.y][to.x] == 'W'){
+            return false;
+        }
+        else {
+            if(level[from.y][from.x] == 'P'){
+                if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0'){
+                    if(move(to,direction)){
+                        //move(from, direction);
+                    }
+                    else {
+                        System.out.print("Tried to move box");
+                        return false;
+                    }
+                }
+            }
+            if(level[from.y][from.x] == '0'){
+                level[from.y][from.x] = 'X';
+                level[to.y][to.x] = 'B';
+
+            }
+            else if (level[to.y][to.x] == 'X'){
+                if(level[from.y][from.x] == 'B')
+                    level[to.y][to.x] = '0';
+                else if(level[from.y][from.x] == 'P'){
+                    level[from.y][from.x] = ' ';
+                    level[to.y][to.x] = 'P';
+                    playerX = true;
+                }
+            }
+            else {
+
+                level[to.y][to.x] = level[from.y][from.x];
+                if (playerX && level[from.y][from.x] == 'P'){
+                    level[from.y][from.x] = 'X';
+                    playerX = false;
+                    System.out.print("\n woop woop its the sound of the police \n");
+                }
+                else {level[from.y][from.x] = ' ';}
+            }
+            return true;
         }
     }
 }
