@@ -31,7 +31,7 @@ public class DBConnection {
         }
     }
 
-    public void closeConnection() {
+    public static void closeConnection() {
         try {
             connection.close();
         } // handle exceptions closing statement and connection

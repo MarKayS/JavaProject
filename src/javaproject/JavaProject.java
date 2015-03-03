@@ -54,11 +54,13 @@ public class JavaProject extends StateBasedGame {
             MainMenu menu = new MainMenu(1);
             //app.setVSync(true);
             //app.start();
-            //persistance.DBConnection connection = new DBConnection();
-            //persistance.DBFunctions functions = new DBFunctions();
+            persistance.DBConnection connection = new DBConnection();
+            persistance.DBFunctions functions = new DBFunctions();
 
-            //functions.getPlayers();
-            menu.loginprompt();
+            functions.getLevels();
+
+            //menu.loginprompt();
+            //DBConnection.closeConnection();
 
         } catch(SlickException e) {
             e.printStackTrace();

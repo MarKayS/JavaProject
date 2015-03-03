@@ -4,15 +4,26 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 public class Level {
-    public void init() throws SlickException {
+    int levelID;
+    int gameID;
+    String level;
 
-         }
-
-    public void render(Graphics g) throws SlickException{
-
+    public Level(int levelID, int gameID, String level){
+        this.levelID = levelID;
+        this.gameID = gameID;
+        this.level = level;
     }
 
-    public void update(int delta) throws SlickException{
+    public int getLevelID() {
+        return levelID;
+    }
+
+    public int getGameID() {
+        return gameID;
+    }
+
+    public String getLevel() {
+        return level;
     }
 }
 

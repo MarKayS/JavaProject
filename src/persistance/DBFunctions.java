@@ -1,6 +1,8 @@
 package persistance;
 
 import java.sql.PreparedStatement;
+
+import javaproject.Level;
 import javaproject.Player;
 import org.lwjgl.Sys;
 
@@ -51,6 +53,40 @@ public class DBFunctions {
             System.out.print(player.getNickname() + "\t" + player.getPassword() + "\n") ;
         }*/
         return players;
+    }
+
+    public static ArrayList<Level> getLevels(){
+        ArrayList<Level> levels = new ArrayList<>();
+        String select = "SELECT level from Level WHERE gameID = 1";
+
+        Statement statement;
+        Connection connection = null;
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+
+            while(resultSet.next()){
+                int levelID = resultSet.getInt("levelID");
+                int gameID = resultSet.getInt("gameID");
+                String level = resultSet.getString("level");
+
+                Level level1 = new Level(levelID, gameID, level);
+                levels.add(level1);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for(Level level: levels){
+            System.out.print(level.getLevel() + "\n") ;
+        }
+        return levels;
     }
 
     public static int verifyNickname(String nickname){
