@@ -57,7 +57,7 @@ public class DBFunctions {
 
     public static ArrayList<Level> getLevels(){
         ArrayList<Level> levels = new ArrayList<>();
-        String select = "SELECT level from Level WHERE gameID = 1";
+        String select = "SELECT * from Level WHERE gameID = 1";
 
         Statement statement;
         Connection connection = null;
