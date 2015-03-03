@@ -61,6 +61,7 @@ public class JavaProject extends StateBasedGame {
             persistance.DBFunctions functions = new DBFunctions();
 
             levels.add(functions.getLevel("1"));
+            System.out.print("MaxX: " + levels.get(0).getMaxX() + "\tMaxY: " + levels.get(0).getMaxY() +"\n");
             levels.get(0).render();
 
 
