@@ -48,9 +48,9 @@ public class DBFunctions {
         return players;
     }
 
-    public static ArrayList<Level> getLevels(String selectGameID){
-        ArrayList<Level> levels = new ArrayList<>();
+    public static Level getLevel(String selectGameID){
         String select = "SELECT * from Level WHERE gameID = ";
+        Level level = null;
 
         Statement statement;
         Connection connection = null;
@@ -68,18 +68,15 @@ public class DBFunctions {
                 int levelID = resultSet.getInt("levelID");
                 int gameID = resultSet.getInt("gameID");
                 String levelParse = resultSet.getString("level");
-                System.out.print(levelParse);
-                Level level1 = new Level(levelID, gameID, levelParse);
-                //levels.add(level1);
+                //System.out.print(levelParse);
+                level = new Level(levelID, gameID, levelParse);
+
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        for(Level level: levels){
-            System.out.print(level.getLevel() + "\n") ;
-        }
-        return levels;
+        return level;
     }
 
     public static int verifyNickname(String nickname){

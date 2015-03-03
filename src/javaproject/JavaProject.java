@@ -14,6 +14,7 @@ import persistance.DBFunctions;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class JavaProject extends StateBasedGame {
@@ -23,7 +24,6 @@ public class JavaProject extends StateBasedGame {
     private static int width = 800;
     private static int height = 600;
     static int fps = 0;
-
 
     public JavaProject(String appName) {
         super(appName);
@@ -51,13 +51,18 @@ public class JavaProject extends StateBasedGame {
             app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), false);
             app.setTargetFrameRate(120);
             app.setShowFPS(true);
+
             MainMenu menu = new MainMenu(1);
+            ArrayList<Level> levels = new ArrayList<>();
+
             //app.setVSync(true);
             //app.start();
-            persistance.DBConnection connection = new DBConnection();
+            //persistance.DBConnection connection = new DBConnection();
             persistance.DBFunctions functions = new DBFunctions();
 
-            functions.getLevels("1");
+            levels.add(functions.getLevel("1"));
+            levels.get(0).render();
+
 
             //menu.loginprompt();
             //DBConnection.closeConnection();
