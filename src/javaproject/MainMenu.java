@@ -78,9 +78,9 @@ public class MainMenu extends BasicGameState{
         System.out.print("Please type your name: \n");
         Scanner scanner = new Scanner(System.in);
         String name = scanner.nextLine();
-        System.out.print("Please type password for surname: \n");
+        System.out.print("Please type your surname: \n");
         String surname = scanner.nextLine();
-        System.out.print("Please type password for nickname " + nickname + ": \n");
+        System.out.print("Please type the password for nickname " + nickname + ": \n");
         String password = scanner.nextLine();
         if(DBFunctions.register(name,surname,nickname,password)==true){
             System.out.print("Registration successful \n");
