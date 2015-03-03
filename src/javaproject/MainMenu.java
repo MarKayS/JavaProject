@@ -57,7 +57,8 @@ public class MainMenu extends BasicGameState{
                 System.out.print("Player not found! Would you like to create a new account? Y/N\n");
                 String answer = scanner.nextLine().toLowerCase();
                 if(answer.equals("y")) {
-                    //do function for this shit
+                    registerprompt(nickname);
+
                 }
             }
             else{
@@ -70,6 +71,22 @@ public class MainMenu extends BasicGameState{
                     control=false;
             }
             }
+        }
+    }
+
+    public void registerprompt(String nickname){
+        System.out.print("Please type your name: \n");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        System.out.print("Please type password for surname: \n");
+        String surname = scanner.nextLine();
+        System.out.print("Please type password for nickname " + nickname + ": \n");
+        String password = scanner.nextLine();
+        if(DBFunctions.register(name,surname,nickname,password)==true){
+            System.out.print("Registration successful \n");
+        }
+        else{
+            System.out.print("Registration failed \n");
         }
     }
 }

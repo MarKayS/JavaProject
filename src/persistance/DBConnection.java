@@ -12,14 +12,16 @@ public class DBConnection {
     private static final String username = "jsoko";
     private static final String password = "sokoban123";
     // declare Connection for accessing and querying database
-    private static Connection connection;
+    private static Connection connection = null;
 
     // constructor connects to database
     public static void connect(){
-        try {
 
-            // establish connection to database
-            connection = DriverManager.getConnection(dbURL, username, password);
+        try {
+            if(connection == null || connection.isClosed()){
+                // establish connection to database
+                connection = DriverManager.getConnection(dbURL, username, password);
+            }
 
         } catch (SQLException sqlException) {
             JOptionPane.showMessageDialog(null, sqlException.getMessage(),

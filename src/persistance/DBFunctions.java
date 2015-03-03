@@ -1,5 +1,6 @@
 package persistance;
 
+import java.sql.PreparedStatement;
 import javaproject.Player;
 import org.lwjgl.Sys;
 
@@ -45,8 +46,6 @@ public class DBFunctions {
         }
         catch (SQLException e) {
             e.printStackTrace();
-        } {
-
         }
         /*for(Player player: players){
             System.out.print(player.getNickname() + "\t" + player.getPassword() + "\n") ;
@@ -72,6 +71,28 @@ public class DBFunctions {
             }
         return false;
     }
+    public static boolean register(String name, String surname, String nickname, String password){
 
+        Connection connection = null;
+        PreparedStatement statement;
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.prepareStatement("INSERT INTO Player (name, surname, nickname, password, admin_rights) VALUES (?,?,?,?,false)");
+            statement.setString(1,name);
+            statement.setString(2,surname);
+            statement.setString(3,nickname);
+            statement.setString(4,password);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+        e.printStackTrace();
+        }
+        return true;
+    }
 }
