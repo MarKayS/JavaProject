@@ -1,4 +1,4 @@
-package javaproject;
+package core;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -31,8 +31,6 @@ public class Level {
 
         }
         y--;// final enter
-        //System.out.print("\nx: " + x + "\ty: " + y + "\n");
-
         Character[][] level = new Character[x][y];
 
         int c = 0;
@@ -104,7 +102,6 @@ public class Level {
         }
         Point to = new Point(from.x+x,from.y+y);
         if(level[from.y][from.x] != 'B' && level[from.y][from.x] != '0' && level[from.y][from.x] != 'P'){
-            System.out.print(level[from.y][from.x]);
             return false;
         }
         else if(level[to.y][to.x] == 'W'){
@@ -114,10 +111,8 @@ public class Level {
             if(level[from.y][from.x] == 'P'){
                 if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0'){
                     if(move(to,direction)){
-                        //move(from, direction);
                     }
                     else {
-                        System.out.print("Tried to move box");
                         return false;
                     }
                 }
@@ -125,7 +120,6 @@ public class Level {
             if(level[from.y][from.x] == '0'){
                 level[from.y][from.x] = 'X';
                 level[to.y][to.x] = 'B';
-
             }
             else if (level[to.y][to.x] == 'X'){
                 if(level[from.y][from.x] == 'B')
@@ -137,12 +131,10 @@ public class Level {
                 }
             }
             else {
-
                 level[to.y][to.x] = level[from.y][from.x];
                 if (playerX && level[from.y][from.x] == 'P'){
                     level[from.y][from.x] = 'X';
                     playerX = false;
-                    System.out.print("\n woop woop its the sound of the police \n");
                 }
                 else {level[from.y][from.x] = ' ';}
             }

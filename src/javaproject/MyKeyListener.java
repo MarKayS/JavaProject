@@ -1,5 +1,6 @@
 package javaproject;
 
+import core.Player;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 

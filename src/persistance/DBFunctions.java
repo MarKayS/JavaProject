@@ -2,9 +2,8 @@ package persistance;
 
 import java.sql.*;
 
-import javaproject.Level;
-import javaproject.Player;
-import org.lwjgl.Sys;
+import core.Level;
+import core.Player;
 
 import java.util.ArrayList;
 

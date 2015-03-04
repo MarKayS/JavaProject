@@ -5,11 +5,11 @@ package javaproject;
  * enterState(Game.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
  **/
 
+import core.Level;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
-import persistance.DBConnection;
 import persistance.DBFunctions;
 
 

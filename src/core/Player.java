@@ -1,4 +1,4 @@
-package javaproject;
+package core;
 
 public class Player {
     int playerID;
