@@ -12,7 +12,8 @@ public class MenuFunctions {
     public static void loginprompt(){
         boolean control = true;
         while(control){
-            System.out.println("Login: ");
+            Language.language();
+            System.out.println(Language.getText("loginpromptKey"));
             Scanner scanner = new Scanner(System.in);
             String nickname = scanner.nextLine();
 

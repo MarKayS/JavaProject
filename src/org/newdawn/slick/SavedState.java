@@ -168,7 +168,7 @@ public class SavedState {
 			ServiceManager.lookup("javax.jnlp.PersistenceService");
 			Log.info("Webstart detected using Muffins");
 		} catch (Exception e) {
-			Log.info("Using Local File System");
+			Log.info("Using local File System");
 			return false;
 		}
 		return true;
