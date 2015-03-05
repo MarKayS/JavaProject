@@ -12,7 +12,8 @@ public class Language {
 
     public static void language (String l){
         if (l.equals("en")) locale = new Locale("en");
-        if (l.equals("cz")) locale = new Locale("cz");
+        if (l.equals("cs")) locale = new Locale("cs");
+        if (l.equals("nl")) locale = new Locale("nl");
         resourceBundle = ResourceBundle.getBundle("resources.lang", locale);
     }
 
