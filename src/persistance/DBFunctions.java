@@ -47,10 +47,9 @@ public class DBFunctions {
         return players;
     }
 
-    public static Level getLevel(String selectGameID, String selectLevelID){
-        String select = "SELECT * from Level WHERE gameID = ";
-        String selectLevel = " AND levelID = ";
-        Level level = null;
+    public static ArrayList<String> getGames(){
+        String select = "SELECT * from Game";
+        ArrayList<String> games = new ArrayList<>();
 
         Statement statement;
         Connection connection = null;
@@ -62,21 +61,48 @@ public class DBFunctions {
         }
         try{
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(select + selectGameID + selectLevel + selectLevelID);
+            ResultSet resultSet = statement.executeQuery(select);
 
             while(resultSet.next()){
-                int levelID = resultSet.getInt("levelID");
                 int gameID = resultSet.getInt("gameID");
-                String levelParse = resultSet.getString("level");
-                //System.out.print(levelParse);
-                level = new Level(levelID, gameID, levelParse);
-
+                String gameName = resultSet.getString("gameName");
+                String game = String.valueOf(gameID) + ". - " + gameName;
+                games.add(game);
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return level;
+        return games;
+    }
+
+    public static ArrayList<Level> getLevels(int selectGameID){
+        ArrayList<Level> levels = new ArrayList<>();
+        String select = "SELECT * from Level WHERE gameID = ";
+
+        Statement statement;
+        Connection connection = null;
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(select + selectGameID);
+
+            while(resultSet.next()){
+                int levelID = resultSet.getInt("levelID");
+                int gameID = resultSet.getInt("gameID");
+                String levelParse = resultSet.getString("level");
+                levels.add(new Level(levelID, gameID, levelParse));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return levels;
     }
 
     public static int verifyNickname(String nickname){
