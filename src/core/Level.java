@@ -25,7 +25,6 @@ public class Level {
                 x++;
             }
             if(levelString.charAt(i) != '\n' && x == 1){
-                //System.out.print(y + " " +  levelString.charAt(i) + "\n");
                 y++;
             }
 
