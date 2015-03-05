@@ -47,8 +47,9 @@ public class DBFunctions {
         return players;
     }
 
-    public static Level getLevel(String selectGameID){
+    public static Level getLevel(String selectGameID, String selectLevelID){
         String select = "SELECT * from Level WHERE gameID = ";
+        String selectLevel = " AND levelID = ";
         Level level = null;
 
         Statement statement;
@@ -61,7 +62,7 @@ public class DBFunctions {
         }
         try{
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(select + selectGameID);
+            ResultSet resultSet = statement.executeQuery(select + selectGameID + selectLevel + selectLevelID);
 
             while(resultSet.next()){
                 int levelID = resultSet.getInt("levelID");

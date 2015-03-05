@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Starter {
     public static void main(String[] args) {
         ArrayList<Level> levels = new ArrayList<>();
-        levels.add(DBFunctions.getLevel("1"));
+        levels.add(DBFunctions.getLevel("1", "2"));
         System.out.print("MaxX: " + levels.get(0).getMaxX() + "\tMaxY: " + levels.get(0).getMaxY() + "\n");
         levels.get(0).render();
         boolean gameover = false;
