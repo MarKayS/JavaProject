@@ -1,23 +1,22 @@
 package core;
 
-import org.lwjgl.Sys;
 import persistance.DBFunctions;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Created by MarKay on 4. 3. 2015.
- */
+
 public class MenuFunctions {
 
     public static void loginprompt(){
         boolean control = true;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Please chose your default language:\n\ten - english\n\tcs - czech\n\tnl - dutch\n");
+        String lang = scanner.nextLine();
+        Language.language(lang);
+
         while(control){
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Please chose your default language:\n\ten - english\n\tcs - czech\n\tnl - dutch\n");
-            String lang = scanner.nextLine();
-            Language.language(lang);
             System.out.println(Language.getText("loginpromptKey"));
             String nickname = scanner.nextLine();
 
@@ -38,7 +37,10 @@ public class MenuFunctions {
 
                 if(DBFunctions.verifyPassword(playerID, password) == true){
                     System.out.print(Language.getText("loginSucKey") + "\n");
-                    control=false;
+                    control = false;
+                }
+                else{
+                    System.out.print(Language.getText("wrongPassKey") + "\n\n");
                 }
             }
         }
