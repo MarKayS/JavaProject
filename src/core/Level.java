@@ -63,6 +63,16 @@ public class Level {
         return level;
     }
 
+    public boolean checkWin(){
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+               if(level[i][j].equals('X'))
+                   return false;
+            }
+        }
+        return true;
+    }
+
     public void render(){
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
