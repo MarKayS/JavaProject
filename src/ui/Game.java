@@ -37,31 +37,17 @@ public class Game extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        if(gamestate == 1){
-            g.drawString("U WIN",container.getScreenWidth()/2,container.getScreenHeight()/2);
-        }
+        g.drawString("U WON",500,500);
         lrend.Render(levels.get(0), g);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-
-            if(levels.get(0).checkWin()){
-                gamestate = 1;
-            }
-
-            if (i.isKeyPressed(Input.KEY_UP)||i.isKeyPressed(Input.KEY_W)){
-                levels.get(0).move(levels.get(0).locatePlayer(),'w');
-            }
-            else if (i.isKeyPressed(Input.KEY_DOWN)||i.isKeyPressed(Input.KEY_S)){
-                levels.get(0).move(levels.get(0).locatePlayer(),'s');
-            }
-            else if (i.isKeyPressed(Input.KEY_LEFT)||i.isKeyPressed(Input.KEY_A)){
-                levels.get(0).move(levels.get(0).locatePlayer(),'a');
-            }
-            else if (i.isKeyPressed(Input.KEY_RIGHT)||i.isKeyPressed(Input.KEY_D)){
-                levels.get(0).move(levels.get(0).locatePlayer(),'d');
-            }
+        if(levels.get(0).checkWin()){
+            gamestate = 1;
+        }
+        if (i.isKeyPressed(Input.KEY_UP)||i.isKeyPressed(Input.KEY_W)){
+            levels.get(0).move(levels.get(0).locatePlayer(),'w');
         }
         else if (i.isKeyPressed(Input.KEY_DOWN)||i.isKeyPressed(Input.KEY_S)){
             levels.get(0).move(levels.get(0).locatePlayer(),'s');
