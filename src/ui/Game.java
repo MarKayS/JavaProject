@@ -1,10 +1,14 @@
-package javaproject;
+package ui;
 
 
+import core.Level;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import persistance.DBFunctions;
+
 import java.math.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -12,9 +16,8 @@ public class Game extends BasicGameState {
     private int id;
     private Graphics g;
     private StateBasedGame game;
-    private int texx=500;
-    private int texy=500;
-    private double a=0;
+    private ArrayList<Level> levels;
+    private LevelRenderer lrend;
     public int gamestate = 0;  // 0 intro, 1 game, 2 finish, -1 gameover(fail)
 
     Game(int i){
@@ -24,23 +27,20 @@ public class Game extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
+        lrend = new LevelRenderer(container.getGraphics(),container.getScreenHeight(),container.getScreenWidth());
+        levels = DBFunctions.getLevels(1);
         Input i = container.getInput();
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        String s = String.valueOf(a);
-        g.drawString(s,texx,texy);
+
+        lrend.Render(levels.get(0), g);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
-        double x = 500+Math.cos(a)*100;
-        double y = 500+Math.sin(a)*100;
-        texx = (int) x;
-        texy = (int) y;
-        a+=0.1;
     }
 
 

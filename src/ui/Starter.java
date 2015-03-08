@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Starter {
+
     public static void main(String[] args) {
-        boolean gameover = false;
+
+        SlickGUI.main(args);
+        /*boolean gameover = false;
         Scanner scanner = new Scanner(System.in);
         char direction;
 
@@ -24,6 +27,6 @@ public class Starter {
             direction = scanner.next().charAt(0);
             levels.get(levelID - 1).move(levels.get(levelID - 1).locatePlayer(),direction);
             levels.get(levelID - 1).render();
-        }
+        }*/
     }
 }

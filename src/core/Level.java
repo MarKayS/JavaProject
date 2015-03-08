@@ -63,6 +63,7 @@ public class Level {
         return maxY;
     }
 
+
     public Character[][] getLevel() {
         return level;
     }
