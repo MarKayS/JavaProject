@@ -19,6 +19,7 @@ public class Game extends BasicGameState {
     private StateBasedGame game;
     private ArrayList<Level> levels;
     private LevelRenderer lrend;
+    static boolean faceRight = true;
     public int gamestate = 0;  // 0 intro, 1 game, 2 finish, -1 gameover(fail)
 
     Game(int i){
@@ -62,6 +63,18 @@ public class Game extends BasicGameState {
                 levels.get(0).move(levels.get(0).locatePlayer(),'d');
             }
         }
+        else if (i.isKeyPressed(Input.KEY_DOWN)||i.isKeyPressed(Input.KEY_S)){
+            levels.get(0).move(levels.get(0).locatePlayer(),'s');
+        }
+        else if (i.isKeyPressed(Input.KEY_LEFT)||i.isKeyPressed(Input.KEY_A)){
+            faceRight = false;
+            levels.get(0).move(levels.get(0).locatePlayer(),'a');
+        }
+        else if (i.isKeyPressed(Input.KEY_RIGHT)||i.isKeyPressed(Input.KEY_D)){
+            faceRight = true;
+            levels.get(0).move(levels.get(0).locatePlayer(),'d');
+        }
+    }
 
 
     @Override
