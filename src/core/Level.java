@@ -1,11 +1,6 @@
 package core;
 
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class Level {
     int levelID;
