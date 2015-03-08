@@ -37,7 +37,9 @@ public class Game extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawString("U WON",500,500);
+        if(gamestate == 1) {
+            g.drawString("U WON", container.getScreenWidth()/2, container.getScreenHeight()/2);
+        }
         lrend.Render(levels.get(0), g);
     }
 
