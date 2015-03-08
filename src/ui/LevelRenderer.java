@@ -33,6 +33,7 @@ public class LevelRenderer {
             floor = new Image("res/game1/floor1.png");
             floort = new Image("res/game1/floor1t.png");
             player = new Image("res/player/player.png");
+
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -56,8 +57,13 @@ public class LevelRenderer {
                     gg.drawImage(boxf, j*boxf.getHeight(), i*boxf.getWidth());
                 }
                 else if (chars[i][j].equals('P')){
-                    //player
-                    gg.drawImage(player, j * player.getHeight(), i * player.getWidth());
+                    if(Game.faceRight == true){
+                        gg.drawImage(player, j * player.getHeight(), i * player.getWidth());
+                    }
+                    else if(Game.faceRight == false){
+                        gg.drawImage(player.getFlippedCopy(true, false), j * player.getHeight(), i * player.getWidth());
+                    }
+
                 }
 
             }
