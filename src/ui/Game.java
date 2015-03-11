@@ -21,9 +21,13 @@ public class Game extends BasicGameState {
     private LevelRenderer lrend;
     static boolean faceRight = true;
     public int gamestate = 0;  // 0 intro, 1 game, 2 finish, -1 gameover(fail)
+    int levelNumber, gameNumber;
 
-    Game(int i){
+
+    Game(int i, int l, int g){
         this.id = i;
+        this.levelNumber = l;
+        this.gameNumber = g;
     }
 
     @Override
@@ -31,36 +35,36 @@ public class Game extends BasicGameState {
         this.game = game;
 
         lrend = new LevelRenderer(container.getGraphics(),container.getScreenHeight(),container.getScreenWidth());
-        levels = DBFunctions.getLevels(1);
+        levels = DBFunctions.getLevels(gameNumber);
         i = container.getInput();
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        lrend.Render(levels.get(levelNumber), g);
         if(gamestate == 1) {
             g.drawString("U WON", container.getScreenWidth()/2, container.getScreenHeight()/2);
         }
-        lrend.Render(levels.get(0), g);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        if(levels.get(0).checkWin()){
+        if(levels.get(levelNumber).checkWin()){
             gamestate = 1;
         }
         if (i.isKeyPressed(Input.KEY_UP)||i.isKeyPressed(Input.KEY_W)){
-            levels.get(0).move(levels.get(0).locatePlayer(),'w');
+            levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(),'w');
         }
         else if (i.isKeyPressed(Input.KEY_DOWN)||i.isKeyPressed(Input.KEY_S)){
-            levels.get(0).move(levels.get(0).locatePlayer(),'s');
+            levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(),'s');
         }
         else if (i.isKeyPressed(Input.KEY_LEFT)||i.isKeyPressed(Input.KEY_A)){
             faceRight = false;
-            levels.get(0).move(levels.get(0).locatePlayer(),'a');
+            levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(),'a');
         }
         else if (i.isKeyPressed(Input.KEY_RIGHT)||i.isKeyPressed(Input.KEY_D)){
             faceRight = true;
-            levels.get(0).move(levels.get(0).locatePlayer(),'d');
+            levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(),'d');
         }
     }
 

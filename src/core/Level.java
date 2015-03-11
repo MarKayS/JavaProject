@@ -4,15 +4,17 @@ import java.awt.*;
 
 public class Level {
     int levelID;
-    int gameID;
+    int gameNumber;
+    int levelNumber;
     Character[][] level;
     int maxX;
     int maxY;
     boolean playerX = false;
 
-    public Level(int levelID, int gameID, String levelString){
+    public Level(int levelID, int gameNumber, int levelNumber, String levelString){
         this.levelID = levelID;
-        this.gameID = gameID;
+        this.gameNumber = gameNumber;
+        this.levelNumber = levelNumber;
         int x = 1;
         int y = 0;
         for(int i = 0; i < levelString.length(); i++){
@@ -46,8 +48,12 @@ public class Level {
         return levelID;
     }
 
-    public int getGameID() {
-        return gameID;
+    public int getGameNumber() {
+        return gameNumber;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
     }
 
     public int getMaxX() {
@@ -66,7 +72,7 @@ public class Level {
     public boolean checkWin(){
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
-               if(level[i][j].equals('X'))
+               if(level[i][j].equals('B'))
                    return false;
             }
         }

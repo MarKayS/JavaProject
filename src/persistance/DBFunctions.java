@@ -46,7 +46,7 @@ public class DBFunctions {
         }*/
         return players;
     }
-
+    /* //WE DONT HAVE GAME TABLE ANYMORE
     public static ArrayList<String> getGames(){
         String select = "SELECT * from Game";
         ArrayList<String> games = new ArrayList<>();
@@ -64,7 +64,7 @@ public class DBFunctions {
             ResultSet resultSet = statement.executeQuery(select);
 
             while(resultSet.next()){
-                int gameID = resultSet.getInt("gameID");
+                int gameID = resultSet.getInt("gameNumber");
                 String gameName = resultSet.getString("gameName");
                 String game = String.valueOf(gameID) + ". - " + gameName;
                 games.add(game);
@@ -75,10 +75,10 @@ public class DBFunctions {
         }
         return games;
     }
-
+    */
     public static ArrayList<Level> getLevels(int selectGameID){
         ArrayList<Level> levels = new ArrayList<>();
-        String select = "SELECT * from Level WHERE gameID = ";
+        String select = "SELECT * from Level WHERE gameNumber = ";
 
         Statement statement;
         Connection connection = null;
@@ -94,9 +94,10 @@ public class DBFunctions {
 
             while(resultSet.next()){
                 int levelID = resultSet.getInt("levelID");
-                int gameID = resultSet.getInt("gameID");
+                int gameNumber = resultSet.getInt("gameNumber");
+                int levelNumber = resultSet.getInt("levelNumber");
                 String levelParse = resultSet.getString("level");
-                levels.add(new Level(levelID, gameID, levelParse));
+                levels.add(new Level(levelID, gameNumber, levelNumber, levelParse));
             }
         }
         catch (SQLException e) {
