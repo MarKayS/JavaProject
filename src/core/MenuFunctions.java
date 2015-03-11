@@ -61,7 +61,7 @@ public class MenuFunctions {
             System.out.print(Language.getText("regUnsucKey"));
         }
     }
-
+    /*
     public static int gameselectpromt(){
         ArrayList<String> games = DBFunctions.getGames();
         System.out.print(Language.getText("gameSelectKey") + "\n");
@@ -72,7 +72,7 @@ public class MenuFunctions {
         Scanner scanner = new Scanner(System.in);
         int gameID = scanner.nextInt();
         return gameID;
-    }
+    }*/
 
     public static int levelselectprompt(int size){
         System.out.print(Language.getText("levelSelectKey") + size + ")" );

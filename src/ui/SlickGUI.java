@@ -22,8 +22,8 @@ public class SlickGUI extends StateBasedGame {
     private static int width = 800;
     private static int height = 600;
     static int fps = 0;
-    private static int levelNumber = 0;
-    private static int gameNumber = 2;
+    private static int levelNumber = 1;
+    private static int gameNumber = 1;
 
     public SlickGUI(String appName) {
         super(appName);
