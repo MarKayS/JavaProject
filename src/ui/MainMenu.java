@@ -17,9 +17,10 @@ import java.util.Scanner;
 public class MainMenu extends BasicGameState{
     private int id;
     private StateBasedGame game;
-    Image logo = null, cz = null, nl = null, en = null;
 
-
+    //Images & MouseOverAreas
+    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null;
+    MouseOverArea czMouseArea, enMouseArea, nlMouseArea;
 
     MainMenu(int i){
         this.id = i;
@@ -28,28 +29,47 @@ public class MainMenu extends BasicGameState{
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
+
+        //Images
         try {
             logo = new Image("res/menu/logo.png");
+
             cz = new Image("res/menu/czech.png");
+            czp = new Image("res/menu/czechp.png");
+
             nl = new Image("res/menu/dutch.png");
+            nlp = new Image("res/menu/dutchp.png");
+
             en = new Image("res/menu/english.png");
+            enp = new Image("res/menu/englishp.png");
         } catch (SlickException e) {
             e.printStackTrace();
         }
+
+        //mouseOverAreas
+        czMouseArea = new MouseOverArea(container, cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
+        enMouseArea = new MouseOverArea(container, en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);
+        nlMouseArea = new MouseOverArea(container, nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
+    }
+
+    public void renderMenu(GameContainer container, StateBasedGame game, Graphics g){
+        g.drawImage(logo, container.getWidth()/2 - logo.getWidth()/2, 50);
+        g.drawString("Please select your language: ", container.getWidth()/2 - 130,     container.getHeight()/2 - 50);
+
+        //mouseover tests
+        czMouseArea.render(container, g);
+        czMouseArea.setMouseOverImage(czp);
+
+        enMouseArea.render(container, g);
+        enMouseArea.setMouseOverImage(enp);
+
+        nlMouseArea.render(container, g);
+        nlMouseArea.setMouseOverImage(nlp);
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(logo, container.getWidth()/2 - logo.getWidth()/2, 50);
-
-        //mouseover tests
-        MouseOverArea logoMouse = new MouseOverArea(container, cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
-        logoMouse.setMouseOverColor(Color.white);
-
-        g.drawString("Please select your language: ", container.getWidth()/2 - 130,     container.getHeight()/2 - 50);
-        /*g.drawImage(cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
-        g.drawImage(nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
-        g.drawImage(en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);*/
+        renderMenu(container, game, g);
     }
 
     @Override
