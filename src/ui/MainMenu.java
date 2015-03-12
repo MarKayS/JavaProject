@@ -17,12 +17,14 @@ import java.util.Scanner;
 public class MainMenu extends BasicGameState{
     private int id;
     private StateBasedGame game;
+    Input input;
+    int counter = 0;
+    String login, password;
 
     TextField loginTxtField = null, pwTxtField = null;
     //Images & MouseOverAreas
-    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null;
-    MouseOverArea czMouseArea, enMouseArea, nlMouseArea;
-
+    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, button = null, buttonp = null;
+    MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton;
 
     MainMenu(int i){
         this.id = i;
@@ -43,8 +45,12 @@ public class MainMenu extends BasicGameState{
 
         core.Language.language("cs");
 
+        input = container.getInput();
+
         try {
             logo = new Image("res/menu/logo.png");
+            button = new Image("res/menu/login.png");
+            buttonp = new Image("res/menu/loginp.png");
 
             cz = new Image("res/menu/czech.png");
             czp = new Image("res/menu/czechp.png");
@@ -62,26 +68,16 @@ public class MainMenu extends BasicGameState{
         czMouseArea = new MouseOverArea(container, cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
         enMouseArea = new MouseOverArea(container, en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);
         nlMouseArea = new MouseOverArea(container, nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
+        loginButton = new MouseOverArea(container, button, container.getWidth()/2 - button.getWidth()/2 + 50,          container.getHeight()/2 + 30);
     }
 
-    public void renderMenu(GameContainer container, StateBasedGame game, Graphics g){
-        g.drawImage(logo, container.getWidth()/2 - logo.getWidth()/2, 50);
+    public void renderLanguages(GameContainer container, StateBasedGame game, Graphics g){
         g.drawString("Please select your language: ", container.getWidth()/2 - 130,     container.getHeight()/2 - 50);
 
         //mouseover tests
         czMouseArea.render(container, g);
         czMouseArea.setMouseOverImage(czp);
 
-        //g.drawString("Please select your language: ", container.getWidth() / 2 - 130, container.getHeight() / 2 - 50);
-        /*g.drawImage(cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
-        g.drawImage(nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
-        g.drawImage(en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);*/
-
-
-        g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 130, container.getHeight() / 2 - 50);
-        loginTxtField.render(container, g);
-        g.drawString(Language.getText("passpromptKey"), container.getWidth() / 2 - 130, container.getHeight() / 2 - 15);
-        pwTxtField.render(container,g);
         enMouseArea.render(container, g);
         enMouseArea.setMouseOverImage(enp);
 
@@ -89,13 +85,54 @@ public class MainMenu extends BasicGameState{
         nlMouseArea.setMouseOverImage(nlp);
     }
 
+    public void renderLogin(GameContainer container, StateBasedGame game, Graphics g){
+        g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 255, container.getHeight() / 2 - 50);
+        loginTxtField.render(container, g);
+
+        g.drawString(Language.getText("passpromptKey"), container.getWidth() / 2 - 255, container.getHeight() / 2 - 15);
+        pwTxtField.render(container,g);
+
+        loginButton.render(container, g);
+        loginButton.setMouseOverImage(buttonp);
+    }
+
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        renderMenu(container, game, g);
+        g.drawImage(logo, container.getWidth()/2 - logo.getWidth()/2, 50);
+
+        if(counter == 0){
+            renderLanguages(container, game, g);
+        }
+        else if (counter == 1){
+            czMouseArea.setAcceptingInput(false);
+            enMouseArea.setAcceptingInput(false);
+            nlMouseArea.setAcceptingInput(false);
+            renderLogin(container, game, g);
+        }
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if(czMouseArea.isMouseOver()){
+                Language.language("cs");
+                counter = 1;
+            }
+            else if(nlMouseArea.isMouseOver()){
+                Language.language("nl");
+                counter = 1;
+            }
+            else if(enMouseArea.isMouseOver()){
+                Language.language("en");
+                counter = 1;
+            }
+
+            if(loginButton.isMouseOver()){
+                login = loginTxtField.getText();
+                password = pwTxtField.getText();
+                System.out.print("login: " + login + "\t" + "pw: " + password);
+            }
+        }
 
     }
 
