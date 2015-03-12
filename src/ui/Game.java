@@ -37,7 +37,7 @@ public class Game extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
 
-        lrend = new LevelRenderer(container.getGraphics(),container.getScreenHeight(),container.getScreenWidth());
+        lrend = new LevelRenderer(container.getGraphics(),container.getScreenHeight(),container.getScreenWidth(), gameNumber);
         levels = DBFunctions.getLevels(gameNumber);
         i = container.getInput();
     }

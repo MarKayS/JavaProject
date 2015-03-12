@@ -13,12 +13,14 @@ public class LevelRenderer {
     Graphics g;
     int height;
     int width;
+    String game;
 
 
-    public LevelRenderer(Graphics g, int height, int width) {
+    public LevelRenderer(Graphics g, int height, int width, int gameNumber) {
         this.height = height;
         this.width = width;
         this.g = g;
+        game = "game" + gameNumber;
     }
     public void Render(Level l, Graphics gg){
         int maxY = l.getMaxY();
@@ -27,11 +29,11 @@ public class LevelRenderer {
         float divX = width/maxX;
         Image wall = null, box = null, floor = null, boxf = null, floort = null, player = null;
         try {
-            wall = new Image("res/game1/wall1.png");
-            box = new Image("res/game1/box1.png");
-            boxf = new Image("res/game1/box1f.png");
-            floor = new Image("res/game1/floor1.png");
-            floort = new Image("res/game1/floor1t.png");
+            wall = new Image("res/" + game + "/wall.png");
+            box = new Image("res/" + game + "/box.png");
+            boxf = new Image("res/" + game + "/boxf.png");
+            floor = new Image("res/" + game + "/floor.png");
+            floort = new Image("res/" + game + "/floort.png");
             player = new Image("res/player/player.png");
 
         } catch (SlickException e) {

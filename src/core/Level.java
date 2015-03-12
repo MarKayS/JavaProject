@@ -28,9 +28,7 @@ public class Level {
 
         }
         y--;// final enter
-        System.out.print("x: " + x + "\t" + "y: " + y + "\n\n");
         Character[][] level = new Character[x][y];
-
         int c = 0;
         for(int i = 0; i < x; i++){
             for(int j = 0; j < y; j++){
@@ -135,7 +133,7 @@ public class Level {
             level[from.y][from.x] = 'X';
             level[to.y][to.x] = 'B';
         } else if (level[from.y][from.x] == 'B') {
-            if (level[to.y][to.x] == 'B')
+            if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0')
                 return false;
             else if (level[to.y][to.x] == 'X') {
                 level[to.y][to.x] = '0';
