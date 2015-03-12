@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class MainMenu extends BasicGameState{
     private int id;
     private StateBasedGame game;
+    boolean control = true;
     Input input;
     int counter = 0;
     String login, password;
@@ -114,6 +115,7 @@ public class MainMenu extends BasicGameState{
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            /* CHOSE LANGUAGE */
             if(czMouseArea.isMouseOver()){
                 Language.language("cs");
                 counter = 1;
@@ -127,10 +129,38 @@ public class MainMenu extends BasicGameState{
                 counter = 1;
             }
 
+            /* LOGIN HERE */
             if(loginButton.isMouseOver()){
                 login = loginTxtField.getText();
                 password = pwTxtField.getText();
-                System.out.print("login: " + login + "\t" + "pw: " + password);
+
+                control = true;
+                while(control){
+                    /* VERIFY THE USER */
+                    int playerID = DBFunctions.verifyNickname(login);
+
+                    /* player not found in DB, ask for registration etc. : */
+                    if(playerID == -1){
+                        /*
+                        System.out.print(Language.getText("loginNFKey"));
+                        String answer = scanner.nextLine().toLowerCase();
+                        if(answer.equals("y")) {
+                            registerprompt(nickname);
+                            */
+
+                        }
+                    /* player FOUND in DB, verify pw: */
+                    else{
+                        if(DBFunctions.verifyPassword(playerID, password) == true){
+                            System.out.print(Language.getText("loginSucKey") + "\n");
+                            control = false;
+                        }
+                        else{
+                            System.out.print(Language.getText("wrongPassKey") + "\n");
+                            control = false;
+                        }
+                    }
+                }
             }
         }
 
