@@ -98,61 +98,53 @@ public class Level {
         }
         return new Point(-1,-1);
     }
-    public boolean move(Point from, char direction){
+    public boolean move(Point from, char direction) {
         int x = 0, y = 0;
 
-        if (direction == 'w'){
+        if (direction == 'w') {
             y = -1;
-        }
-        else if(direction == 's'){
+        } else if (direction == 's') {
             y = +1;
-        }
-        else if(direction == 'a'){
+        } else if (direction == 'a') {
             x = -1;
-        }
-        else if (direction == 'd'){
+        } else if (direction == 'd') {
             x = +1;
         }
-        Point to = new Point(from.x+x,from.y+y);
-        if(level[from.y][from.x] != 'B' && level[from.y][from.x] != '0' && level[from.y][from.x] != 'P'){
+        Point to = new Point(from.x + x, from.y + y);
+
+        if (level[to.y][to.x] == 'W') {
             return false;
         }
-        else if(level[to.y][to.x] == 'W'){
-            return false;
-        }
-        else {
-            if(level[from.y][from.x] == 'P'){
-                if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0'){
-                    if(move(to,direction)){
-                    }
-                    else {
-                        return false;
-                    }
+        if (level[from.y][from.x] == 'P') {
+            if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0') {
+                if (!move(to, direction)) {
+                    return false;
                 }
             }
-            if(level[from.y][from.x] == '0'){
+            if (playerX) {
                 level[from.y][from.x] = 'X';
+                playerX = false;
+            } else {
+                level[from.y][from.x] = ' ';
+            }
+            if (level[to.y][to.x] == 'X') {
+                playerX = true;
+            }
+            level[to.y][to.x] = 'P';
+        } else if (level[from.y][from.x] == '0') {
+            level[from.y][from.x] = 'X';
+            level[to.y][to.x] = 'B';
+        } else if (level[from.y][from.x] == 'B') {
+            if (level[to.y][to.x] == 'B')
+                return false;
+            else if (level[to.y][to.x] == 'X') {
+                level[to.y][to.x] = '0';
+            } else {
                 level[to.y][to.x] = 'B';
             }
-            else if (level[to.y][to.x] == 'X'){
-                if(level[from.y][from.x] == 'B')
-                    level[to.y][to.x] = '0';
-                else if(level[from.y][from.x] == 'P'){
-                    level[from.y][from.x] = ' ';
-                    level[to.y][to.x] = 'P';
-                    playerX = true;
-                }
-            }
-            else {
-                level[to.y][to.x] = level[from.y][from.x];
-                if (playerX && level[from.y][from.x] == 'P'){
-                    level[from.y][from.x] = 'X';
-                    playerX = false;
-                }
-                else {level[from.y][from.x] = ' ';}
-            }
+            level[from.y][from.x] = ' ';
+        }
             return true;
         }
     }
-}
 
