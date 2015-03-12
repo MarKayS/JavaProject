@@ -1,9 +1,10 @@
 package ui;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.lwjgl.input.Cursor;
+import org.newdawn.slick.*;
+import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.gui.MouseOverArea;
+import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import persistance.DBFunctions;
@@ -19,6 +20,7 @@ public class MainMenu extends BasicGameState{
     Image logo = null, cz = null, nl = null, en = null;
 
 
+
     MainMenu(int i){
         this.id = i;
     }
@@ -26,7 +28,6 @@ public class MainMenu extends BasicGameState{
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
-
         try {
             logo = new Image("res/menu/logo.png");
             cz = new Image("res/menu/czech.png");
@@ -40,10 +41,15 @@ public class MainMenu extends BasicGameState{
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawImage(logo, container.getWidth()/2 - logo.getWidth()/2, 50);
-        g.drawString("Please select your language: ", container.getWidth()/2, container.getHeight()/2 - 50);
-        g.drawImage(cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
+
+        //mouseover tests
+        MouseOverArea logoMouse = new MouseOverArea(container, cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
+        logoMouse.setMouseOverColor(Color.white);
+
+        g.drawString("Please select your language: ", container.getWidth()/2 - 130,     container.getHeight()/2 - 50);
+        /*g.drawImage(cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
         g.drawImage(nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
-        g.drawImage(en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);
+        g.drawImage(en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);*/
     }
 
     @Override
