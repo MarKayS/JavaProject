@@ -153,6 +153,7 @@ public class MainMenu extends BasicGameState{
                     else{
                         if(DBFunctions.verifyPassword(playerID, password) == true){
                             System.out.print(Language.getText("loginSucKey") + "\n");
+                            game.enterState(2);
                             control = false;
                         }
                         else{
