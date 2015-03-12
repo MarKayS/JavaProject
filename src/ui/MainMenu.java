@@ -1,9 +1,9 @@
 package ui;
 
+import core.Language;
 import org.lwjgl.input.Cursor;
 import org.newdawn.slick.*;
-import org.newdawn.slick.gui.GUIContext;
-import org.newdawn.slick.gui.MouseOverArea;
+import org.newdawn.slick.gui.*;
 import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -18,9 +18,11 @@ public class MainMenu extends BasicGameState{
     private int id;
     private StateBasedGame game;
 
+    TextField loginTxtField = null, pwTxtField = null;
     //Images & MouseOverAreas
     Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null;
     MouseOverArea czMouseArea, enMouseArea, nlMouseArea;
+
 
     MainMenu(int i){
         this.id = i;
@@ -29,8 +31,18 @@ public class MainMenu extends BasicGameState{
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
+        this.loginTxtField = new TextField(container,container.getDefaultFont(),container.getWidth() / 2 - 20, container.getHeight() / 2 - 50,150,20);
+        loginTxtField.setBackgroundColor(Color.white);
+        loginTxtField.setBorderColor(Color.gray);
+        loginTxtField.setTextColor(Color.black);
 
-        //Images
+        this.pwTxtField = new TextField(container,container.getDefaultFont(),container.getWidth() / 2 - 20, container.getHeight() / 2 - 15,150,20);
+        pwTxtField.setBackgroundColor(Color.white);
+        pwTxtField.setBorderColor(Color.gray);
+        pwTxtField.setTextColor(Color.black);
+
+        core.Language.language("cs");
+
         try {
             logo = new Image("res/menu/logo.png");
 
@@ -60,6 +72,16 @@ public class MainMenu extends BasicGameState{
         czMouseArea.render(container, g);
         czMouseArea.setMouseOverImage(czp);
 
+        //g.drawString("Please select your language: ", container.getWidth() / 2 - 130, container.getHeight() / 2 - 50);
+        /*g.drawImage(cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
+        g.drawImage(nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
+        g.drawImage(en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);*/
+
+
+        g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 130, container.getHeight() / 2 - 50);
+        loginTxtField.render(container, g);
+        g.drawString(Language.getText("passpromptKey"), container.getWidth() / 2 - 130, container.getHeight() / 2 - 15);
+        pwTxtField.render(container,g);
         enMouseArea.render(container, g);
         enMouseArea.setMouseOverImage(enp);
 
