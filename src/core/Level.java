@@ -34,11 +34,7 @@ public class Level {
         int c = 0;
         for(int i = 0; i < x; i++){
             for(int j = 0; j < y; j++){
-                while(levelString.charAt(c)!= 'W' &&  levelString.charAt(c)!= 'P' && levelString.charAt(c)!= 'B' && levelString.charAt(c)!= ' ' && levelString.charAt(c)!= 'X'){
-                    if(c == levelString.length()){
-                        System.out.print(i + "\t" + j + "\n");
-                    }
-                    else
+                while(levelString.charAt(c)!= 'W' &&  levelString.charAt(c)!= 'P' && levelString.charAt(c)!= 'B' && levelString.charAt(c)!= ' ' && levelString.charAt(c)!= 'X' && levelString.charAt(c)!= '0'){
                         c++;
                 }
                 level[i][j] = levelString.charAt(c);
