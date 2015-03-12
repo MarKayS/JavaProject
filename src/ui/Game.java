@@ -23,11 +23,14 @@ public class Game extends BasicGameState {
     public int gamestate = 0;  // 0 intro, 1 game, 2 finish, -1 gameover(fail)
     int levelNumber, gameNumber;
 
-
     Game(int i, int l, int g){
         this.id = i;
         this.levelNumber = l;
         this.gameNumber = g;
+    }
+
+    private Level getLevel(int gameNumber, int levelNumber){
+        return null;
     }
 
     @Override

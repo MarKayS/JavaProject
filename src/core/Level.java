@@ -17,6 +17,7 @@ public class Level {
         this.levelNumber = levelNumber;
         int x = 1;
         int y = 0;
+        System.out.print("Length: " + levelString.length() + "\n");
         for(int i = 0; i < levelString.length(); i++){
             if(levelString.charAt(i) == '\n'){
                 x++;
@@ -27,13 +28,18 @@ public class Level {
 
         }
         y--;// final enter
+        System.out.print("x: " + x + "\t" + "y: " + y + "\n\n");
         Character[][] level = new Character[x][y];
 
         int c = 0;
         for(int i = 0; i < x; i++){
             for(int j = 0; j < y; j++){
                 while(levelString.charAt(c)!= 'W' &&  levelString.charAt(c)!= 'P' && levelString.charAt(c)!= 'B' && levelString.charAt(c)!= ' ' && levelString.charAt(c)!= 'X'){
-                    c++;
+                    if(c == levelString.length()){
+                        System.out.print(i + "\t" + j + "\n");
+                    }
+                    else
+                        c++;
                 }
                 level[i][j] = levelString.charAt(c);
                 c++;
