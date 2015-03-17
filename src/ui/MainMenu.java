@@ -1,15 +1,13 @@
 package ui;
 
 import core.Language;
-import org.lwjgl.input.Cursor;
 import org.newdawn.slick.*;
 import org.newdawn.slick.gui.*;
-import org.newdawn.slick.opengl.ImageData;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import persistance.DBFunctions;
-
-import java.util.Scanner;
 
 /**
  * Created by MKS on 8. 11. 2014.
@@ -24,8 +22,8 @@ public class MainMenu extends BasicGameState{
 
     TextField loginTxtField = null, pwTxtField = null;
     //Images & MouseOverAreas
-    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, button = null, buttonp = null;
-    MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton;
+    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, loginImg = null, loginImgp = null, regImg = null, regImgp = null;
+    MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton;
 
     MainMenu(int i){
         this.id = i;
@@ -38,20 +36,21 @@ public class MainMenu extends BasicGameState{
         loginTxtField.setBackgroundColor(Color.white);
         loginTxtField.setBorderColor(Color.gray);
         loginTxtField.setTextColor(Color.black);
-
         this.pwTxtField = new TextField(container,container.getDefaultFont(),container.getWidth() / 2 - 20, container.getHeight() / 2 - 15,150,20);
         pwTxtField.setBackgroundColor(Color.white);
         pwTxtField.setBorderColor(Color.gray);
         pwTxtField.setTextColor(Color.black);
 
-        core.Language.language("cs");
+//        core.Language.language("cs");
 
         input = container.getInput();
 
         try {
             logo = new Image("res/menu/logo.png");
-            button = new Image("res/menu/login.png");
-            buttonp = new Image("res/menu/loginp.png");
+            loginImg = new Image("res/menu/login.png");
+            loginImgp = new Image("res/menu/loginp.png");
+            regImg = new Image("res/menu/reg.png");
+            regImgp = new Image("res/menu/regp.png");
 
             cz = new Image("res/menu/czech.png");
             czp = new Image("res/menu/czechp.png");
@@ -69,7 +68,8 @@ public class MainMenu extends BasicGameState{
         czMouseArea = new MouseOverArea(container, cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
         enMouseArea = new MouseOverArea(container, en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);
         nlMouseArea = new MouseOverArea(container, nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
-        loginButton = new MouseOverArea(container, button, container.getWidth()/2 - button.getWidth()/2 + 50,          container.getHeight()/2 + 30);
+        loginButton = new MouseOverArea(container, loginImg, container.getWidth()/2 - loginImg.getWidth()/2 + regImg.getWidth(),      container.getHeight()/2 + 30);
+        regButton = new MouseOverArea(container, regImg, container.getWidth()/2 - regImg.getWidth()/2 - regImg.getWidth(),          container.getHeight()/2 + 30);
     }
 
     public void renderLanguages(GameContainer container, StateBasedGame game, Graphics g){
@@ -94,7 +94,10 @@ public class MainMenu extends BasicGameState{
         pwTxtField.render(container,g);
 
         loginButton.render(container, g);
-        loginButton.setMouseOverImage(buttonp);
+        loginButton.setMouseOverImage(loginImgp);
+
+        regButton.render(container, g);
+        regButton.setMouseOverImage(regImgp);
     }
 
     @Override
@@ -135,7 +138,7 @@ public class MainMenu extends BasicGameState{
                 password = pwTxtField.getText();
 
                 control = true;
-                while(control){
+                //while(control){
                     /* VERIFY THE USER */
                     int playerID = DBFunctions.verifyNickname(login);
 
@@ -151,9 +154,9 @@ public class MainMenu extends BasicGameState{
                         }
                     /* player FOUND in DB, verify pw: */
                     else{
-                        if(DBFunctions.verifyPassword(playerID, password) == true){
-                            System.out.print(Language.getText("loginSucKey") + "\n");
-                            game.enterState(2);
+                        if(DBFunctions.verifyPassword(playerID, password)){
+                            System.out.print(Language.getText("loginSucKey").length() + "\n");
+                            game.enterState(2, new FadeOutTransition(), new FadeInTransition());
                             control = false;
                         }
                         else{
@@ -165,7 +168,7 @@ public class MainMenu extends BasicGameState{
             }
         }
 
-    }
+//    }
 
     @Override
     public int getID() {

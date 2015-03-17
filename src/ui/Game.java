@@ -1,6 +1,5 @@
 package ui;
 
-
 import core.Level;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -51,12 +50,13 @@ public class Game extends BasicGameState {
             g.setColor(new Color(1f, 1f, 1f, 0.8f));
             g.fillRoundRect(container.getScreenWidth() / 2 - container.getScreenWidth() / 4 / 2, container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2, container.getScreenWidth() / 4, container.getScreenHeight() / 4, 7);
             g.setColor(Color.red);
-            String win1 = "Level " + gameNumber + " - " + levelNumber + 1 + " completed !";
+            int levelino = levelNumber + 1;
+            String win1 = gameNumber + " - " + levelino + " completed !";
             String win2 = "Level completed in " + moves + " moves and took " + time / 1000 + " seconds";
             String cont = "Press 'SPACEBAR' to continue";
-            g.drawString(win1, (int)(container.getScreenWidth() / 2 - (win1.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 50);
-            g.drawString(win2, (int)(container.getScreenWidth() / 2 - (win2.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 100);
-            g.drawString(cont, (int)(container.getScreenWidth() / 2 - (cont.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 200);
+            g.drawString(win1, (container.getScreenWidth() / 2 - (win1.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 50);
+            g.drawString(win2, (container.getScreenWidth() / 2 - (win2.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 100);
+            g.drawString(cont, (container.getScreenWidth() / 2 - (cont.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 200);
             g.setColor(Color.white);
         }
     }

@@ -9,7 +9,6 @@ public class Level {
     Character[][] level;
     int maxX;
     int maxY;
-    boolean playerX = false;
 
     public Level(int levelID, int gameNumber, int levelNumber, String levelString){
         this.levelID = levelID;
@@ -87,6 +86,7 @@ public class Level {
             System.out.print("\n");
         }
     }
+
     public Point locatePlayer(){
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
@@ -96,7 +96,9 @@ public class Level {
         }
         return new Point(-1,-1);
     }
+
     public boolean move(Point from, char direction) {
+        boolean playerX = false;
         int x = 0, y = 0;
 
         if (direction == 'w') {
@@ -144,5 +146,48 @@ public class Level {
         }
             return true;
         }
+
+    public int getMaxBox(){
+        int max = 0;
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+                if (level[i][j] == 'B')
+                    max++;
+            }
+        }
+        return max;
     }
+
+    public Point locateBox(int n){
+        if (n+1>=getMaxBox()){
+            return new Point(-1,-1);
+        }
+        else{
+            int c = 0;
+            for(int i = 0; i < maxY; i++){
+                for(int j = 0; j < maxX; j++){
+                    if (level[i][j] == 'B')
+                        if(c!=n) c++;
+                        else return new Point(j,i);
+                }
+            }
+        }
+        return new Point(-1,-1);
+    }
+
+    public boolean checkDeadlock(){
+        //corner
+        for (int i = 0; i < getMaxBox(); i++) {
+            Point cur = locateBox(i);
+            boolean bx = false;
+            boolean by = false;
+            if (level[cur.y + 1][cur.x] == 'W' || level[cur.y + 1][cur.x] == 'B') by = true;
+            if (level[cur.y - 1][cur.x] == 'W' || level[cur.y - 1][cur.x] == 'B') by = true;
+            if (level[cur.y][cur.x + 1] == 'W' || level[cur.y][cur.x + 1] == 'B') bx = true;
+            if (level[cur.y][cur.x - 1] == 'W' || level[cur.y][cur.x - 1] == 'B') bx = true;
+            if (bx && by) return true;
+        }
+        return false;
+    }
+}
 
