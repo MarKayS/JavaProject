@@ -21,9 +21,11 @@ public class MainMenu extends BasicGameState{
     String login, password;
 
     TextField loginTxtField = null, pwTxtField = null;
+
     //Images & MouseOverAreas
-    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, loginImg = null, loginImgp = null, regImg = null, regImgp = null;
-    MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton;
+    Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, loginImg = null, loginImgp = null, regImg = null, regImgp = null,
+                play = null, playp = null, createlvl = null, createlvlp = null, editlvl = null, editlvlp = null, highscores = null, highscoresp = null, quitgame = null, quitgamep = null;
+    MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton, playButton, createLvlButton, editLvlButton, highscoresButton, quitButton;
 
     MainMenu(int i){
         this.id = i;
@@ -46,12 +48,26 @@ public class MainMenu extends BasicGameState{
         input = container.getInput();
 
         try {
+            /* LOGINS */
             logo = new Image("res/menu/logo.png");
             loginImg = new Image("res/menu/login.png");
             loginImgp = new Image("res/menu/loginp.png");
             regImg = new Image("res/menu/reg.png");
             regImgp = new Image("res/menu/regp.png");
 
+            /* MENU */
+            play = new Image("res/menu/play.png");
+            playp = new Image("res/menu/playp.png");
+            createlvl = new Image("res/menu/createlvl.png");
+            createlvlp = new Image("res/menu/createlvlp.png");
+            editlvl = new Image("res/menu/editlvl.png");
+            editlvlp = new Image("res/menu/editlvlp.png");
+            highscores = new Image("res/menu/highscores.png");
+            highscoresp = new Image("res/menu/highscoresp.png");
+            quitgame = new Image("res/menu/quitgame.png");
+            quitgamep = new Image("res/menu/quitgamep.png");
+
+            /* LANGUAGES */
             cz = new Image("res/menu/czech.png");
             czp = new Image("res/menu/czechp.png");
 
@@ -68,11 +84,18 @@ public class MainMenu extends BasicGameState{
         czMouseArea = new MouseOverArea(container, cz, container.getWidth()/2 - cz.getWidth()/2 + cz.getWidth() + 50,  container.getHeight()/2);
         enMouseArea = new MouseOverArea(container, en, container.getWidth()/2 - en.getWidth()/2 - en.getWidth() - 50,  container.getHeight()/2);
         nlMouseArea = new MouseOverArea(container, nl, container.getWidth()/2 - nl.getWidth()/2,                       container.getHeight()/2);
+
         loginButton = new MouseOverArea(container, loginImg, container.getWidth()/2 - loginImg.getWidth()/2 + regImg.getWidth(),      container.getHeight()/2 + 30);
         regButton = new MouseOverArea(container, regImg, container.getWidth()/2 - regImg.getWidth()/2 - regImg.getWidth(),          container.getHeight()/2 + 30);
+
+        playButton = new MouseOverArea(container, play, container.getWidth()/2 - play.getWidth()/2,  container.getHeight()/2);
+        createLvlButton = new MouseOverArea(container, createlvl, container.getWidth()/2 - play.getWidth()/2,  container.getHeight()/2 + createlvl.getHeight()*2);
+        editLvlButton = new MouseOverArea(container, editlvl, container.getWidth()/2 - play.getWidth()/2,  container.getHeight()/2 + editlvl.getHeight() * 4);
+        highscoresButton = new MouseOverArea(container, highscores, container.getWidth()/2 - play.getWidth()/2,  container.getHeight()/2 + editlvl.getHeight() * 6);
+        quitButton = new MouseOverArea(container, quitgame, container.getWidth()/2 - play.getWidth()/2,  container.getHeight()/2 + editlvl.getHeight() * 8);
     }
 
-    public void renderLanguages(GameContainer container, StateBasedGame game, Graphics g){
+    private void renderLanguages(GameContainer container, StateBasedGame game, Graphics g){
         g.drawString("Please select your language: ", container.getWidth()/2 - 130,     container.getHeight()/2 - 50);
 
         //mouseover tests
@@ -86,7 +109,7 @@ public class MainMenu extends BasicGameState{
         nlMouseArea.setMouseOverImage(nlp);
     }
 
-    public void renderLogin(GameContainer container, StateBasedGame game, Graphics g){
+    private void renderLogin(GameContainer container, StateBasedGame game, Graphics g){
         g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 255, container.getHeight() / 2 - 50);
         loginTxtField.render(container, g);
 
@@ -99,6 +122,14 @@ public class MainMenu extends BasicGameState{
         regButton.render(container, g);
         regButton.setMouseOverImage(regImgp);
     }
+
+    private void renderMenu(GameContainer container, StateBasedGame game, Graphics g){
+        playButton.render(container, g);
+        playButton.setMouseOverImage(playp);
+
+        createLvlButton.render(container, g);
+    }
+
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
@@ -113,6 +144,12 @@ public class MainMenu extends BasicGameState{
             nlMouseArea.setAcceptingInput(false);
             renderLogin(container, game, g);
         }
+        else if(counter == 2){
+            loginButton.setAcceptingInput(false);
+            regButton.setAcceptingInput(false);
+            renderMenu(container, game, g);
+        }
+
     }
 
     @Override
@@ -156,7 +193,8 @@ public class MainMenu extends BasicGameState{
                     else{
                         if(DBFunctions.verifyPassword(playerID, password)){
                             System.out.print(Language.getText("loginSucKey").length() + "\n");
-                            game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+                            //game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+                            counter = 2;
                             control = false;
                         }
                         else{
