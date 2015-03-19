@@ -212,21 +212,54 @@ public class MainMenu extends BasicGameState{
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
             /* Chose language */
-            if(czMouseArea.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+        if(counter == 0) {
+            if (czMouseArea.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 Language.language("cs");
                 counter = 1;
-            }
-            if(nlMouseArea.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            } else if (nlMouseArea.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 Language.language("nl");
                 counter = 1;
-            }
-            else if(enMouseArea.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            } else if (enMouseArea.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 Language.language("en");
                 counter = 1;
             }
+        }
 
-            /* Play Game */
-            else if(playButton.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+        if(counter == 1){
+            /* Login Prompt */
+            if(loginButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                login = loginTxtField.getText();
+                password = pwTxtField.getText();
+
+                /* VERIFY THE USER */
+                int playerID = DBFunctions.verifyNickname(login);
+
+                    /* player not found in DB, ask for registration etc. : */
+                if(playerID == -1){
+                        /*
+                        System.out.print(Language.getText("loginNFKey"));
+                        String answer = scanner.nextLine().toLowerCase();
+                        if(answer.equals("y")) {
+                            registerprompt(nickname);
+                            */
+
+                }
+                    /* player FOUND in DB, verify pw: */
+                else{
+                    if(DBFunctions.verifyPassword(playerID, password)){
+                        System.out.print(Language.getText("loginSucKey").length() + "\n");
+                        counter = 2;
+                    }
+                    else{
+                        System.out.print(Language.getText("wrongPassKey") + "\n");
+                    }
+                }
+            }
+        }
+
+        if(counter == 2){
+             /* Play Game */
+            if(playButton.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
 
@@ -239,9 +272,11 @@ public class MainMenu extends BasicGameState{
             else if(quitButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 container.exit();
             }
+        }
 
+        if(counter == 3){
             /* Arrows for Dimension of the field in creation of a level */
-            else if(arrowUpButtonX.isMouseOver() && counterX < 25 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if(arrowUpButtonX.isMouseOver() && counterX < 25 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 counterX += 1;
             }
             else if(arrowDownButtonX.isMouseOver() && counterX > 4 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
@@ -260,39 +295,8 @@ public class MainMenu extends BasicGameState{
                 CreateLevel.setY(counterY);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
-
-            /* Login prompt */
-            else if(loginButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                login = loginTxtField.getText();
-                password = pwTxtField.getText();
-
-                /* VERIFY THE USER */
-                int playerID = DBFunctions.verifyNickname(login);
-
-                    /* player not found in DB, ask for registration etc. : */
-                    if(playerID == -1){
-                        /*
-                        System.out.print(Language.getText("loginNFKey"));
-                        String answer = scanner.nextLine().toLowerCase();
-                        if(answer.equals("y")) {
-                            registerprompt(nickname);
-                            */
-
-                        }
-                    /* player FOUND in DB, verify pw: */
-                    else{
-                        if(DBFunctions.verifyPassword(playerID, password)){
-                            System.out.print(Language.getText("loginSucKey").length() + "\n");
-                            counter = 2;
-                        }
-                        else{
-                            System.out.print(Language.getText("wrongPassKey") + "\n");
-                        }
-                    }
-                }
         }
-
-//    }
+    }
 
     @Override
     public int getID() {
