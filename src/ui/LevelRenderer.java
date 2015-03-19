@@ -1,10 +1,7 @@
 package ui;
 
 import core.Level;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 
 /**
  * Created by MarKay on 8. 3. 2015.
@@ -22,7 +19,7 @@ public class LevelRenderer {
         this.g = g;
         game = "game" + gameNumber;
     }
-    public void Render(Level l, Graphics gg){
+    public void Render(Level l, Graphics gg, GameContainer container){
         int maxY = l.getMaxY();
         int maxX = l.getMaxX();
         float divY = height/maxY;
@@ -39,31 +36,37 @@ public class LevelRenderer {
         } catch (SlickException e) {
             e.printStackTrace();
         }
-
+        int offsetX = 0;
+        int offsetY = 0;
+        System.out.print(maxX + " " + maxY + "\n");
+        System.out.print(container.getScreenHeight() + " " + container.getScreenWidth() + "\n");
+        offsetX=(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
+        offsetY=(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
+        System.out.print(offsetX + " " + offsetY + "\n");
         Character[][] chars = l.getLevel();
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
                 //floor
-                gg.drawImage(floor, j*floor.getHeight(), i*floor.getWidth());
+                gg.drawImage(floor, offsetX+j*floor.getWidth(), offsetY+(i*floor.getHeight()));
 
                 if(chars[i][j].equals('W')){
-                    gg.drawImage(wall, j*wall.getHeight(), i*wall.getWidth());
+                    gg.drawImage(wall, offsetX+j*wall.getWidth(), offsetY+i*wall.getHeight());
                 }
                 else if(chars[i][j].equals('B')){
-                    gg.drawImage(box, j * box.getHeight(), i * box.getWidth());
+                    gg.drawImage(box, offsetX+j * box.getWidth(), offsetY+i * box.getHeight());
                 }
                 else if(chars[i][j].equals('X')){
-                    gg.drawImage(floort, j * floort.getHeight(), i * floort.getWidth());
+                    gg.drawImage(floort, offsetX+j * floort.getWidth(), offsetY+i * floort.getHeight());
                 }
                 else if(chars[i][j].equals('0')){
-                    gg.drawImage(boxf, j*boxf.getHeight(), i*boxf.getWidth());
+                    gg.drawImage(boxf, offsetX+j*boxf.getWidth(), offsetY+i*boxf.getHeight());
                 }
                 else if (chars[i][j].equals('P')){
                     if(Game.faceRight == true){
-                        gg.drawImage(player, j * player.getHeight(), i * player.getWidth());
+                        gg.drawImage(player, offsetX+j * player.getWidth(), offsetY+i * player.getHeight());
                     }
                     else if(Game.faceRight == false){
-                        gg.drawImage(player.getFlippedCopy(true, false), j * player.getHeight(), i * player.getWidth());
+                        gg.drawImage(player.getFlippedCopy(true, false), offsetX+j * player.getWidth(), offsetY+i * player.getHeight());
                     }
 
                 }

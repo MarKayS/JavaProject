@@ -194,7 +194,6 @@ public class Level {
     public boolean solve(int i, int j, Point target) {
 
         if (i < 0 || i > maxY) return false;
-
         if (j < 0 || j > maxX) return false;
 
         if (!isSafe(new Point(j, i))) {

@@ -45,7 +45,7 @@ public class Game extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        if (gamestate != 2) lrend.Render(levels.get(levelNumber), g);
+        if (gamestate != 2) lrend.Render(levels.get(levelNumber), g, container);
         if (gamestate == 1) {
             g.setColor(new Color(1f, 1f, 1f, 0.8f));
             g.fillRoundRect(container.getScreenWidth() / 2 - container.getScreenWidth() / 4 / 2, container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2, container.getScreenWidth() / 4, container.getScreenHeight() / 4, 7);

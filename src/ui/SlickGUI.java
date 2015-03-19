@@ -32,7 +32,7 @@ public class SlickGUI extends StateBasedGame {
 
     public void initStatesList(GameContainer gc) throws SlickException {
         //this.addState(new SplashScreen(SPLASHSCREEN));
-        this.addState(new MainMenu(MAINMENU));
+        //this.addState(new MainMenu(MAINMENU));
         this.addState(new Game(GAME, levelNumber, gameNumber));
         this.addState(new CreateLevel(CREATELEVEL));
     }
