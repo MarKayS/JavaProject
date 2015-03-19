@@ -42,8 +42,8 @@ public class LevelRenderer {
         int offsetX = 0;
         int offsetY = 0;
 
-        offsetX=(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
-        offsetY=(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
+        offsetX = (container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
+        offsetY = (container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
 
         chars = l.getLevel();
         for(int i = 0; i < maxY; i++){
