@@ -25,9 +25,7 @@ public class LevelRenderer {
     public void Render(Level l, Graphics gg, GameContainer container){
         maxY = l.getMaxY();
         maxX = l.getMaxX();
-        float divY = height/maxY;
-        float divX = width/maxX;
-        Image wall = null, box = null, floor = null, boxf = null, floort = null, player = null;
+        Image wall = null, box = null, floor = null, boxf = null, floort = null, player = null, button = null;
         try {
             wall = new Image("res/" + game + "/wall.png");
             box = new Image("res/" + game + "/box.png");
@@ -39,11 +37,11 @@ public class LevelRenderer {
         } catch (SlickException e) {
             e.printStackTrace();
         }
-        int offsetX = 0;
-        int offsetY = 0;
 
-        offsetX = (container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
-        offsetY = (container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
+
+
+        int offsetX=(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
+        int offsetY=(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
 
         chars = l.getLevel();
         for(int i = 0; i < maxY; i++){

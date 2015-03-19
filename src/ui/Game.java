@@ -59,6 +59,21 @@ public class Game extends BasicGameState {
             g.drawString(cont, (container.getScreenWidth() / 2 - (cont.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 200);
             g.setColor(Color.white);
         }
+        int sample = 300;
+        int offsetx = container.getScreenWidth()/2;
+        int offsety = container.getScreenHeight() - 40;
+        String movestr = "Moves: "+Integer.toString(moves);
+        String restartstr = "Press 'R' to restart this game";
+        String timestr = "Time: " + Integer.toString(time/1000);
+        String lowestmovestr = "Lowest n of moves: ";
+        String number = Integer.toString(gameNumber) + " - " + Integer.toString(levelNumber+1);
+        String besttime = "Best time: ";
+        g.drawString(movestr, offsetx-movestr.length()*8/2-300, offsety );
+        g.drawString(restartstr, offsetx - restartstr.length()*8/2, offsety);
+        g.drawString(timestr, (offsetx+300) - timestr.length()*8/2, offsety);
+        g.drawString(lowestmovestr, offsetx-lowestmovestr.length()*8/2-300, 10);
+        g.drawString(number, offsetx - number.length()*8/2, 10);
+        g.drawString(besttime, (offsetx+300) - besttime.length()*8/2, 10);
     }
 
     @Override
