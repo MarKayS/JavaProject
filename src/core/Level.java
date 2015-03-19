@@ -9,36 +9,43 @@ public class Level {
     Character[][] level;
     int maxX;
     int maxY;
+    Character[][] visited;
 
-    public Level(int levelID, int gameNumber, int levelNumber, String levelString){
+    public Level(int levelID, int gameNumber, int levelNumber, String levelString) {
         this.levelID = levelID;
         this.gameNumber = gameNumber;
         this.levelNumber = levelNumber;
         int x = 1;
         int y = 0;
         System.out.print("Length: " + levelString.length() + "\n");
-        for(int i = 0; i < levelString.length(); i++){
-            if(levelString.charAt(i) == '\n'){
+        for (int i = 0; i < levelString.length(); i++) {
+            if (levelString.charAt(i) == '\n') {
                 x++;
             }
-            if(levelString.charAt(i) != '\n' && x == 1){
+            if (levelString.charAt(i) != '\n' && x == 1) {
                 y++;
             }
 
         }
         y--;// final enter
-        Character[][] level = new Character[x][y];
+        level = new Character[x][y];
+        visited = new Character[x][y];
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                visited[i][j] = '2';
+            }
+        }
         int c = 0;
-        for(int i = 0; i < x; i++){
-            for(int j = 0; j < y; j++){
-                while(levelString.charAt(c)!= 'W' &&  levelString.charAt(c)!= 'P' && levelString.charAt(c)!= 'B' && levelString.charAt(c)!= ' ' && levelString.charAt(c)!= 'X' && levelString.charAt(c)!= '0'){
-                        c++;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                while (levelString.charAt(c) != 'W' && levelString.charAt(c) != 'P' && levelString.charAt(c) != 'B' && levelString.charAt(c) != ' ' && levelString.charAt(c) != 'X' && levelString.charAt(c) != '0') {
+                    c++;
                 }
                 level[i][j] = levelString.charAt(c);
                 c++;
             }
         }
-        this.level = level;
+        //this.level = level;
         this.maxX = y;
         this.maxY = x;
     }
@@ -68,33 +75,33 @@ public class Level {
         return level;
     }
 
-    public boolean checkWin(){
-        for(int i = 0; i < maxY; i++){
-            for(int j = 0; j < maxX; j++){
-               if(level[i][j].equals('B'))
-                   return false;
+    public boolean checkWin() {
+        for (int i = 0; i < maxY; i++) {
+            for (int j = 0; j < maxX; j++) {
+                if (level[i][j].equals('B'))
+                    return false;
             }
         }
         return true;
     }
 
-    public void render(){
-        for(int i = 0; i < maxY; i++){
-            for(int j = 0; j < maxX; j++){
+    public void render() {
+        for (int i = 0; i < maxY; i++) {
+            for (int j = 0; j < maxX; j++) {
                 System.out.print(level[i][j]);
             }
             System.out.print("\n");
         }
     }
 
-    public Point locatePlayer(){
-        for(int i = 0; i < maxY; i++){
-            for(int j = 0; j < maxX; j++){
+    public Point locatePlayer() {
+        for (int i = 0; i < maxY; i++) {
+            for (int j = 0; j < maxX; j++) {
                 if (level[i][j] == 'P')
-                    return new Point(j,i);
+                    return new Point(j, i);
             }
         }
-        return new Point(-1,-1);
+        return new Point(-1, -1);
     }
 
     public boolean move(Point from, char direction) {
@@ -144,13 +151,13 @@ public class Level {
             }
             level[from.y][from.x] = ' ';
         }
-            return true;
-        }
+        return true;
+    }
 
-    public int getMaxBox(){
+    public int getMaxBox() {
         int max = 0;
-        for(int i = 0; i < maxY; i++){
-            for(int j = 0; j < maxX; j++){
+        for (int i = 0; i < maxY; i++) {
+            for (int j = 0; j < maxX; j++) {
                 if (level[i][j] == 'B')
                     max++;
             }
@@ -158,24 +165,55 @@ public class Level {
         return max;
     }
 
-    public Point locateBox(int n){
-        if (n+1>=getMaxBox()){
-            return new Point(-1,-1);
-        }
-        else{
+    public Point locateBox(int n) {
+        if (n + 1 >= getMaxBox()) {
+            return new Point(-1, -1);
+        } else {
             int c = 0;
-            for(int i = 0; i < maxY; i++){
-                for(int j = 0; j < maxX; j++){
+            for (int i = 0; i < maxY; i++) {
+                for (int j = 0; j < maxX; j++) {
                     if (level[i][j] == 'B')
-                        if(c!=n) c++;
-                        else return new Point(j,i);
+                        if (c != n) c++;
+                        else return new Point(j, i);
                 }
             }
         }
-        return new Point(-1,-1);
+        return new Point(-1, -1);
     }
 
-    public boolean checkDeadlock(){
+    public int[][] targetmapper(Point target) {
+        return new int[][]{{0}};
+    }
+
+    public boolean isSafe(Point target) {
+        if (level[target.y][target.x] == 'X' || level[target.y][target.x] == ' ' || level[target.y][target.x] == 'P')
+            return true;
+        return false;
+    }
+
+    public boolean solve(int i, int j, Point target) {
+
+        if (i < 0 || i > maxY) return false;
+
+        if (j < 0 || j > maxX) return false;
+
+        if (!isSafe(new Point(j, i))) {
+            visited[i][j] = '0';
+            return false;
+        }
+        if (visited[i][j] != '2') return false;// null character
+        visited[i][j] = '1';
+        return i == target.y && j == target.x || (solve(i - 1, j, target) || solve(i, j - 1, target) || solve(i, j + 1, target) || solve(i + 1, j, target));
+
+    }
+
+    public boolean isReachable(Point target) {
+        Point player = locatePlayer();
+        if (!isSafe(target)) return false; // check is target is walkable
+        return solve(player.y, player.x, target);
+    }
+
+    public boolean checkDeadlock() {
         //corner
         for (int i = 0; i < getMaxBox(); i++) {
             Point cur = locateBox(i);
