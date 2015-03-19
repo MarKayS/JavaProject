@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Level {
     int levelID;
+    boolean playerX = false;
     int gameNumber;
     int levelNumber;
     Character[][] level;
@@ -105,7 +106,6 @@ public class Level {
     }
 
     public boolean move(Point from, char direction) {
-        boolean playerX = false;
         int x = 0, y = 0;
 
         if (direction == 'w') {
