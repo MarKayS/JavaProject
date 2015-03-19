@@ -12,6 +12,12 @@ public class Level {
     int maxY;
     Character[][] visited;
 
+    public Level(Character[][] level, int maxX, int maxY){
+        this.level = level;
+        this.maxX = maxX;
+        this.maxY = maxY;
+    }
+
     public Level(int levelID, int gameNumber, int levelNumber, String levelString) {
         this.levelID = levelID;
         this.gameNumber = gameNumber;
@@ -194,7 +200,6 @@ public class Level {
     public boolean solve(int i, int j, Point target) {
 
         if (i < 0 || i > maxY) return false;
-
         if (j < 0 || j > maxX) return false;
 
         if (!isSafe(new Point(j, i))) {
