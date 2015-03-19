@@ -107,6 +107,13 @@ public class MainMenu extends BasicGameState{
         arrowDownButtonY = new MouseOverArea(container, arrowDown, container.getWidth()/2 - arrowDown.getWidth()*2 + arrowUp.getWidth()  + 100,  container.getHeight()/2 + arrowDown.getHeight()+5);
 
         okButton = new MouseOverArea(container, ok, container.getWidth()/2 + 100,  container.getHeight()/2 + ok.getHeight()/2);
+
+        playButton.setAcceptingInput(false);
+        createLvlButton.setAcceptingInput(false);
+        editLvlButton.setAcceptingInput(false);
+        highscoresButton.setAcceptingInput(false);
+        quitButton.setAcceptingInput(false);
+        okButton.setAcceptingInput(false);
     }
 
     private void renderLanguages(GameContainer container, StateBasedGame game, Graphics g){
@@ -182,87 +189,85 @@ public class MainMenu extends BasicGameState{
             czMouseArea.setAcceptingInput(false);
             enMouseArea.setAcceptingInput(false);
             nlMouseArea.setAcceptingInput(false);
-            playButton.setAcceptingInput(false);
-            createLvlButton.setAcceptingInput(false);
-            quitButton.setAcceptingInput(false);
             renderLogin(container, game, g);
         }
         else if(counter == 2){
             loginButton.setAcceptingInput(false);
             regButton.setAcceptingInput(false);
             renderMenu(container, game, g);
-        }
-        else if(counter == 3){
+
             playButton.setAcceptingInput(true);
             createLvlButton.setAcceptingInput(true);
+            editLvlButton.setAcceptingInput(true);
+            highscoresButton.setAcceptingInput(true);
             quitButton.setAcceptingInput(true);
+        }
+        else if(counter == 3){
             renderCreateLevel(container, game, g);
+            okButton.setAcceptingInput(true);
         }
 
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-            /* CHOSE LANGUAGE */
-            if(czMouseArea.isMouseOver()){
+            /* Chose language */
+            if(czMouseArea.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 Language.language("cs");
                 counter = 1;
             }
-            else if(nlMouseArea.isMouseOver()){
+            if(nlMouseArea.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 Language.language("nl");
                 counter = 1;
             }
-            else if(enMouseArea.isMouseOver()){
+            else if(enMouseArea.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 Language.language("en");
                 counter = 1;
             }
 
             /* Play Game */
-            if(playButton.isMouseOver()){
+            else if(playButton.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
 
             /* Create level */
-            if(createLvlButton.isMouseOver()){
+            else if(createLvlButton.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 counter = 3;
             }
 
             /* Quit Game */
-            if(quitButton.isMouseOver()){
+            else if(quitButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 container.exit();
             }
 
             /* Arrows for Dimension of the field in creation of a level */
-            if(arrowUpButtonX.isMouseOver() && counterX < 25){
+            else if(arrowUpButtonX.isMouseOver() && counterX < 25 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 counterX += 1;
             }
-            else if(arrowDownButtonX.isMouseOver() && counterX > 4){
+            else if(arrowDownButtonX.isMouseOver() && counterX > 4 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 counterX -= 1;
             }
 
-            else if(arrowUpButtonY.isMouseOver() && counterY < 25){
+            else if(arrowUpButtonY.isMouseOver() && counterY < 25 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 counterY += 1;
             }
-            else if(arrowDownButtonY.isMouseOver() && counterY > 4){
+            else if(arrowDownButtonY.isMouseOver() && counterY > 4 && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 counterY -= 1;
             }
-            else if(okButton.isMouseOver()){
+            else if(okButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 //initiate creation level state with the dimension of counterX and counterY
                 CreateLevel.setX(counterX);
                 CreateLevel.setY(counterY);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
 
-            /* LOGIN HERE */
-            if(loginButton.isMouseOver()){
+            /* Login prompt */
+            else if(loginButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 login = loginTxtField.getText();
                 password = pwTxtField.getText();
 
-                control = true;
-                //while(control){
-                    /* VERIFY THE USER */
-                    int playerID = DBFunctions.verifyNickname(login);
+                /* VERIFY THE USER */
+                int playerID = DBFunctions.verifyNickname(login);
 
                     /* player not found in DB, ask for registration etc. : */
                     if(playerID == -1){
@@ -279,15 +284,12 @@ public class MainMenu extends BasicGameState{
                         if(DBFunctions.verifyPassword(playerID, password)){
                             System.out.print(Language.getText("loginSucKey").length() + "\n");
                             counter = 2;
-                            control = false;
                         }
                         else{
                             System.out.print(Language.getText("wrongPassKey") + "\n");
-                            control = false;
                         }
                     }
                 }
-            }
         }
 
 //    }
