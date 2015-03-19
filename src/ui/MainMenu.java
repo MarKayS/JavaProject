@@ -293,6 +293,8 @@ public class MainMenu extends BasicGameState{
                 //initiate creation level state with the dimension of counterX and counterY
                 CreateLevel.setX(counterX);
                 CreateLevel.setY(counterY);
+                CreateLevel.initiateLevel();
+                CreateLevel.initiate = true;
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
         }
@@ -303,4 +305,3 @@ public class MainMenu extends BasicGameState{
         return this.id;
     }
 }
-

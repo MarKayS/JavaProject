@@ -12,6 +12,12 @@ public class Level {
     int maxY;
     Character[][] visited;
 
+    public Level(Character[][] level, int maxX, int maxY){
+        this.level = level;
+        this.maxX = maxX;
+        this.maxY = maxY;
+    }
+
     public Level(int levelID, int gameNumber, int levelNumber, String levelString) {
         this.levelID = levelID;
         this.gameNumber = gameNumber;

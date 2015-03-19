@@ -11,6 +11,8 @@ public class LevelRenderer {
     int height;
     int width;
     String game;
+    int maxY, maxX;
+    Character[][] chars;
 
 
     public LevelRenderer(Graphics g, int height, int width, int gameNumber) {
@@ -19,9 +21,10 @@ public class LevelRenderer {
         this.g = g;
         game = "game" + gameNumber;
     }
+
     public void Render(Level l, Graphics gg, GameContainer container){
-        int maxY = l.getMaxY();
-        int maxX = l.getMaxX();
+        maxY = l.getMaxY();
+        maxX = l.getMaxX();
         float divY = height/maxY;
         float divX = width/maxX;
         Image wall = null, box = null, floor = null, boxf = null, floort = null, player = null;
@@ -38,12 +41,11 @@ public class LevelRenderer {
         }
         int offsetX = 0;
         int offsetY = 0;
-        System.out.print(maxX + " " + maxY + "\n");
-        System.out.print(container.getScreenHeight() + " " + container.getScreenWidth() + "\n");
+
         offsetX=(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
         offsetY=(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
-        System.out.print(offsetX + " " + offsetY + "\n");
-        Character[][] chars = l.getLevel();
+
+        chars = l.getLevel();
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
                 //floor
@@ -62,10 +64,10 @@ public class LevelRenderer {
                     gg.drawImage(boxf, offsetX+j*boxf.getWidth(), offsetY+i*boxf.getHeight());
                 }
                 else if (chars[i][j].equals('P')){
-                    if(Game.faceRight == true){
+                    if(Game.faceRight){
                         gg.drawImage(player, offsetX+j * player.getWidth(), offsetY+i * player.getHeight());
                     }
-                    else if(Game.faceRight == false){
+                    else{
                         gg.drawImage(player.getFlippedCopy(true, false), offsetX+j * player.getWidth(), offsetY+i * player.getHeight());
                     }
 
