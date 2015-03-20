@@ -13,22 +13,23 @@ import persistance.DBFunctions;
  * Created by MKS on 8. 11. 2014.
  */
 public class MainMenu extends BasicGameState{
-    private int id;
+    private int id, playerID;
     private StateBasedGame game;
     boolean control = true;
+    boolean pwLowerCase = false, pwUpperCase = false, pwNumber = false, badPwPrompt = false;
     Input input;
     int counter = 0;
     String login, password;
     public int counterX = 4, counterY = 4;
 
-    TextField loginTxtField = null, pwTxtField = null;
+    TextField loginTxtField = null, pwTxtField = null, surnameTxtField = null, nameTxtField = null;
 
     //Images & MouseOverAreas
     Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, loginImg = null, loginImgp = null, regImg = null, regImgp = null,
                 play = null, playp = null, createlvl = null, createlvlp = null, editlvl = null, editlvlp = null, highscores = null, highscoresp = null, quitgame = null, quitgamep = null,
-                arrowUp = null, arrowUpp = null, arrowDown = null, arrowDownp = null, ok = null, okp = null;
+                arrowUp = null, arrowUpp = null, arrowDown = null, arrowDownp = null, ok = null,okp = null, okRegister = null, okRegisterp = null;
     MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton, playButton, createLvlButton, editLvlButton, highscoresButton, quitButton,
-                  arrowUpButtonX, arrowDownButtonX, arrowUpButtonY, arrowDownButtonY, okButton;
+                  arrowUpButtonX, arrowDownButtonX, arrowUpButtonY, arrowDownButtonY, okButton, okRegisterButton;
 
     MainMenu(int i){
         this.id = i;
@@ -37,11 +38,20 @@ public class MainMenu extends BasicGameState{
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
-        this.loginTxtField = new TextField(container,container.getDefaultFont(),container.getWidth() / 2 - 20, container.getHeight() / 2 - 50,150,20);
+
+        this.nameTxtField = new TextField(container,container.getDefaultFont(),container.getWidth()/2 + 65, container.getHeight() / 2 + 55,150,20);
+        nameTxtField.setBackgroundColor(Color.white);
+        nameTxtField.setBorderColor(Color.gray);
+        nameTxtField.setTextColor(Color.black);
+        this.surnameTxtField = new TextField(container,container.getDefaultFont(),container.getWidth()/2 + 65, container.getHeight() / 2 + 20,150,20);
+        surnameTxtField.setBackgroundColor(Color.white);
+        surnameTxtField.setBorderColor(Color.gray);
+        surnameTxtField.setTextColor(Color.black);
+        this.loginTxtField = new TextField(container,container.getDefaultFont(),container.getWidth()/2 + 65, container.getHeight() / 2 - 50,150,20);
         loginTxtField.setBackgroundColor(Color.white);
         loginTxtField.setBorderColor(Color.gray);
         loginTxtField.setTextColor(Color.black);
-        this.pwTxtField = new TextField(container,container.getDefaultFont(),container.getWidth() / 2 - 20, container.getHeight() / 2 - 15,150,20);
+        this.pwTxtField = new TextField(container,container.getDefaultFont(),container.getWidth() / 2 + 65, container.getHeight() / 2 - 15,150,20);
         pwTxtField.setBackgroundColor(Color.white);
         pwTxtField.setBorderColor(Color.gray);
         pwTxtField.setTextColor(Color.black);
@@ -55,6 +65,8 @@ public class MainMenu extends BasicGameState{
             loginImgp = new Image("res/menu/loginp.png");
             regImg = new Image("res/menu/reg.png");
             regImgp = new Image("res/menu/regp.png");
+            okRegister = new Image("res/menu/ok.png");
+            okRegisterp = new Image("res/menu/okp.png");
 
             /* MENU */
             play = new Image("res/menu/play.png");
@@ -94,6 +106,7 @@ public class MainMenu extends BasicGameState{
 
         loginButton = new MouseOverArea(container, loginImg, container.getWidth()/2 - loginImg.getWidth()/2 + regImg.getWidth(),      container.getHeight()/2 + 30);
         regButton = new MouseOverArea(container, regImg, container.getWidth()/2 - regImg.getWidth()/2 - regImg.getWidth(),          container.getHeight()/2 + 30);
+        okRegisterButton = new MouseOverArea(container, okRegister, container.getWidth() / 2 - 189, container.getHeight() / 2 + 135);
 
         playButton = new MouseOverArea(container, play, container.getWidth()/2 - play.getWidth()/2 - 100,  container.getHeight()/2 - 100);
         createLvlButton = new MouseOverArea(container, createlvl, container.getWidth()/2 - play.getWidth()/2 - 100,  container.getHeight()/2 + createlvl.getHeight() * 2 - 100);
@@ -114,6 +127,7 @@ public class MainMenu extends BasicGameState{
         highscoresButton.setAcceptingInput(false);
         quitButton.setAcceptingInput(false);
         okButton.setAcceptingInput(false);
+        okRegisterButton.setAcceptingInput(false);
     }
 
     private void renderLanguages(GameContainer container, StateBasedGame game, Graphics g){
@@ -131,10 +145,10 @@ public class MainMenu extends BasicGameState{
     }
 
     private void renderLogin(GameContainer container, StateBasedGame game, Graphics g){
-        g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 255, container.getHeight() / 2 - 50);
+        g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 50);
         loginTxtField.render(container, g);
 
-        g.drawString(Language.getText("passpromptKey"), container.getWidth() / 2 - 255, container.getHeight() / 2 - 15);
+        g.drawString(Language.getText("passpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 15);
         pwTxtField.render(container,g);
 
         loginButton.render(container, g);
@@ -142,6 +156,39 @@ public class MainMenu extends BasicGameState{
 
         regButton.render(container, g);
         regButton.setMouseOverImage(regImgp);
+
+        if(playerID == -1){
+            g.drawString(Language.getText("loginNFKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 + 100);
+            okRegisterButton.render(container,g);
+            okRegisterButton.setMouseOverImage(okRegisterp);
+        }
+
+        if(playerID == -2){
+            g.drawString(Language.getText("wrongPassKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 + 100);
+        }
+    }
+
+    private void renderRegister(GameContainer container, StateBasedGame game, Graphics g){
+        g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 50);
+        loginTxtField.render(container, g);
+
+        g.drawString(Language.getText("passpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 15);
+        pwTxtField.render(container,g);
+
+        g.drawString(Language.getText("namepromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 + 20);
+        nameTxtField.render(container,g);
+
+        g.drawString(Language.getText("surnamepromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 + 55);
+        surnameTxtField.render(container,g);
+
+        regButton.setLocation(container.getWidth() / 2 - 189,container.getHeight() / 2 + 90);
+        regButton.render(container,g);
+        regButton.setMouseOverImage(regImgp);
+
+        if(badPwPrompt){
+            g.drawString(Language.getText("wrongPassTypeKey"), 250, container.getHeight() / 2 + 160);
+        }
+
     }
 
     private void renderMenu(GameContainer container, StateBasedGame game, Graphics g){
@@ -190,6 +237,8 @@ public class MainMenu extends BasicGameState{
             enMouseArea.setAcceptingInput(false);
             nlMouseArea.setAcceptingInput(false);
             renderLogin(container, game, g);
+
+            okRegisterButton.setAcceptingInput(true);
         }
         else if(counter == 2){
             loginButton.setAcceptingInput(false);
@@ -206,7 +255,11 @@ public class MainMenu extends BasicGameState{
             renderCreateLevel(container, game, g);
             okButton.setAcceptingInput(true);
         }
-
+        else if(counter == 4){
+            okButton.setAcceptingInput(false);
+            loginButton.setAcceptingInput(false);
+            renderRegister(container,game,g);
+        }
     }
 
     @Override
@@ -232,27 +285,46 @@ public class MainMenu extends BasicGameState{
                 password = pwTxtField.getText();
 
                 /* VERIFY THE USER */
-                int playerID = DBFunctions.verifyNickname(login);
+                 playerID = DBFunctions.verifyNickname(login); //if verification returns -1, a prompt is displayed (implemented in renderlogin()
 
-                    /* player not found in DB, ask for registration etc. : */
-                if(playerID == -1){
-                        /*
-                        System.out.print(Language.getText("loginNFKey"));
-                        String answer = scanner.nextLine().toLowerCase();
-                        if(answer.equals("y")) {
-                            registerprompt(nickname);
-                            */
-
-                }
+                if(playerID != -1){
                     /* player FOUND in DB, verify pw: */
-                else{
                     if(DBFunctions.verifyPassword(playerID, password)){
-                        System.out.print(Language.getText("loginSucKey").length() + "\n");
+                        /*correct login && pw, -> main menu*/
                         counter = 2;
+                     }else{
+                      /*player found, but entered incorrect pw*/
+                        playerID = -2; // == render a pw prompt (implemented in renderlogin()
+                     }
+                }
+            }
+
+            if((regButton.isMouseOver() || okRegisterButton.isMouseOver()) && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                /*user confirms registration prompt */
+                counter = 4;
+            }
+        }
+
+        if(counter == 4){
+            /* Registration form */
+            if(regButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                password = pwTxtField.getText();
+                for(int i = 0; i<password.length();i++){
+                    if(Character.isLowerCase(password.charAt(i))){
+                        pwLowerCase = true;
                     }
-                    else{
-                        System.out.print(Language.getText("wrongPassKey") + "\n");
+                    if(Character.isUpperCase(password.charAt(i))){
+                        pwUpperCase = true;
                     }
+                    if(Character.isDigit(password.charAt(i))){
+                        pwNumber = true;
+                    }
+                }
+                if(pwLowerCase && pwUpperCase && pwNumber && pwTxtField.getText().length() >= 8){
+                    DBFunctions.register(nameTxtField.getText(),surnameTxtField.getText(),loginTxtField.getText(),pwTxtField.getText());
+                    counter = 2;
+                } else {
+                    badPwPrompt = true;
                 }
             }
         }
