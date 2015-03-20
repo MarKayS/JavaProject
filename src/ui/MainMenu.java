@@ -35,9 +35,9 @@ public class MainMenu extends BasicGameState{
     //Images & MouseOverAreas
     Image logo = null, cz = null, nl = null, en = null, czp = null, enp = null, nlp = null, loginImg = null, loginImgp = null, regImg = null, regImgp = null,
                 play = null, playp = null, createlvl = null, createlvlp = null, editlvl = null, editlvlp = null, highscores = null, highscoresp = null, quitgame = null, quitgamep = null,
-                arrowUp = null, arrowUpp = null, arrowDown = null, arrowDownp = null, ok = null,okp = null, okRegister = null, okRegisterp = null;
+                arrowUp = null, arrowUpp = null, arrowDown = null, arrowDownp = null, ok = null,okp = null, okRegister = null, okRegisterp = null, placeholder = null, placeholderp = null;
     MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton, playButton, createLvlButton, editLvlButton, highscoresButton, quitButton,
-                  arrowUpButtonX, arrowDownButtonX, arrowUpButtonY, arrowDownButtonY, okButton, okRegisterButton;
+                  arrowUpButtonX, arrowDownButtonX, arrowUpButtonY, arrowDownButtonY, okButton, okRegisterButton, placeholder1, placeholder2, placeholder3;
 
     MainMenu(int i){
         this.id = i;
@@ -76,6 +76,7 @@ public class MainMenu extends BasicGameState{
             okRegister = new Image("res/menu/ok.png");
             okRegisterp = new Image("res/menu/okp.png");
 
+
             /* MENU */
             play = new Image("res/menu/play.png");
             playp = new Image("res/menu/playp.png");
@@ -93,6 +94,8 @@ public class MainMenu extends BasicGameState{
             arrowUpp = new Image("res/menu/arrowUpp.png");
             arrowDown = new Image("res/menu/arrowDown.png");
             arrowDownp = new Image("res/menu/arrowDownp.png");
+            placeholder = new Image("res/menu/placeholder.png");
+            placeholderp = new Image("res/menu/placeholderp.png");
 
             /* LANGUAGES */
             cz = new Image("res/menu/czech.png");
@@ -128,6 +131,14 @@ public class MainMenu extends BasicGameState{
         arrowDownButtonY = new MouseOverArea(container, arrowDown, container.getWidth()/2 - arrowDown.getWidth()*2 + arrowUp.getWidth()  + 100,  container.getHeight()/2 + arrowDown.getHeight()+5);
 
         okButton = new MouseOverArea(container, ok, container.getWidth()/2 + 100,  container.getHeight()/2 + ok.getHeight()/2);
+
+        placeholder1 = new MouseOverArea(container, placeholder, ((container.getScreenWidth()-(330*3))/4),container.getScreenHeight()/2-165);
+        placeholder2 = new MouseOverArea(container, placeholder, ((container.getScreenWidth()-(330*3))/4)*2+330,container.getScreenHeight()/2-165);
+        placeholder3 = new MouseOverArea(container, placeholder, ((container.getScreenWidth()-(330*3))/4)*3+660,container.getScreenHeight()/2-165);
+
+        placeholder1.setMouseOverImage(placeholderp);
+        placeholder2.setMouseOverImage(placeholderp);
+        placeholder3.setMouseOverImage(placeholderp);
 
         playButton.setAcceptingInput(false);
         createLvlButton.setAcceptingInput(false);
@@ -272,10 +283,12 @@ public class MainMenu extends BasicGameState{
             LevelRenderer levelRenderer = new LevelRenderer(1);
             ArrayList<Level> levels;
             levels = DBFunctions.getLevels(1);
-            for(int i=0;i<levels.size();i++){
-                levelRenderer.renderPreview(levels.get(i),g,new Point(300+600*i,container.getScreenHeight()/2),0.1f);
-            }
-
+            placeholder1.render(container,g);
+            placeholder2.render(container,g);
+            placeholder3.render(container,g);
+            levelRenderer.renderPreview(levels.get(0),g, new Point(((container.getScreenWidth()-(330*3))/4)+10,     container.getScreenHeight() / 2), 0.2f);
+            levelRenderer.renderPreview(levels.get(1),g, new Point(((container.getScreenWidth()-(330*3))/4)*2+340,  container.getScreenHeight() / 2), 0.2f);
+            levelRenderer.renderPreview(levels.get(2),g, new Point(((container.getScreenWidth()-(330*3))/4)*3+670,  container.getScreenHeight() / 2), 0.2f);
         }
     }
 
