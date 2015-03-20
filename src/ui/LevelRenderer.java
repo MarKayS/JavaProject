@@ -2,43 +2,41 @@ package ui;
 
 import core.Level;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
+import java.awt.*;
 
 /**
  * Created by MarKay on 8. 3. 2015.
  */
 public class LevelRenderer {
     Graphics g;
-    int height;
-    int width;
-    String game;
-    int maxY, maxX;
+    String path;
+
     Character[][] chars;
+    Image wall = null, box = null, floor = null, boxf = null, floort = null, player = null;
 
 
-    public LevelRenderer(Graphics g, int height, int width, int gameNumber) {
-        this.height = height;
-        this.width = width;
-        this.g = g;
-        game = "game" + gameNumber;
-    }
+    public LevelRenderer(int skinNumber) {
 
-    public void Render(Level l, Graphics gg, GameContainer container){
-        maxY = l.getMaxY();
-        maxX = l.getMaxX();
-        Image wall = null, box = null, floor = null, boxf = null, floort = null, player = null, button = null;
+        path = "game" + skinNumber;
         try {
-            wall = new Image("res/" + game + "/wall.png");
-            box = new Image("res/" + game + "/box.png");
-            boxf = new Image("res/" + game + "/boxf.png");
-            floor = new Image("res/" + game + "/floor.png");
-            floort = new Image("res/" + game + "/floort.png");
+            wall = new Image("res/" + path + "/wall.png");
+            box = new Image("res/" + path + "/box.png");
+            boxf = new Image("res/" + path + "/boxf.png");
+            floor = new Image("res/" + path + "/floor.png");
+            floort = new Image("res/" + path + "/floort.png");
             player = new Image("res/player/player.png");
-
         } catch (SlickException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public void render(Level l, Graphics g, GameContainer container){
+        int maxY, maxX;
+        maxY = l.getMaxY();
+        maxX = l.getMaxX();
 
         int offsetX=(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
         int offsetY=(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
@@ -47,31 +45,73 @@ public class LevelRenderer {
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
                 //floor
-                gg.drawImage(floor, offsetX+j*floor.getWidth(), offsetY+(i*floor.getHeight()));
+                g.drawImage(floor, offsetX + j * floor.getWidth(), offsetY + (i * floor.getHeight()));
 
                 if(chars[i][j].equals('W')){
-                    gg.drawImage(wall, offsetX+j*wall.getWidth(), offsetY+i*wall.getHeight());
+                    g.drawImage(wall, offsetX + j * wall.getWidth(), offsetY + i * wall.getHeight());
                 }
                 else if(chars[i][j].equals('B')){
-                    gg.drawImage(box, offsetX+j * box.getWidth(), offsetY+i * box.getHeight());
+                    g.drawImage(box, offsetX + j * box.getWidth(), offsetY + i * box.getHeight());
                 }
                 else if(chars[i][j].equals('X')){
-                    gg.drawImage(floort, offsetX+j * floort.getWidth(), offsetY+i * floort.getHeight());
+                    g.drawImage(floort, offsetX + j * floort.getWidth(), offsetY + i * floort.getHeight());
                 }
                 else if(chars[i][j].equals('0')){
-                    gg.drawImage(boxf, offsetX+j*boxf.getWidth(), offsetY+i*boxf.getHeight());
+                    g.drawImage(boxf, offsetX + j * boxf.getWidth(), offsetY + i * boxf.getHeight());
                 }
                 else if (chars[i][j].equals('P')){
                     if(Game.faceRight){
-                        gg.drawImage(player, offsetX+j * player.getWidth(), offsetY+i * player.getHeight());
+                        g.drawImage(player, offsetX + j * player.getWidth(), offsetY + i * player.getHeight());
                     }
                     else{
-                        gg.drawImage(player.getFlippedCopy(true, false), offsetX+j * player.getWidth(), offsetY+i * player.getHeight());
+                        g.drawImage(player.getFlippedCopy(true, false), offsetX + j * player.getWidth(), offsetY + i * player.getHeight());
                     }
 
                 }
 
             }
         }
+    }
+
+    public void renderPreview(Level l, Graphics g, Point target, float scale){
+        int maxY, maxX;
+        maxY = l.getMaxY();
+        maxX = l.getMaxX();
+
+        int offsetX=target.x;//(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
+        int offsetY=target.y;//(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
+        //float scale = 0.1f;
+
+        chars = l.getLevel();
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+                //floor
+                g.drawImage(floor.getScaledCopy(scale), offsetX + j * floor.getScaledCopy(scale).getWidth(), offsetY + (i * floor.getScaledCopy(scale).getHeight()));
+
+                if(chars[i][j].equals('W')){
+                    g.drawImage(wall.getScaledCopy(scale), offsetX + j * wall.getScaledCopy(scale).getWidth(), offsetY + i * wall.getScaledCopy(scale).getHeight());
+                }
+                else if(chars[i][j].equals('B')){
+                    g.drawImage(box.getScaledCopy(scale), offsetX + j * box.getScaledCopy(scale).getWidth(), offsetY + i * box.getScaledCopy(scale).getHeight());
+                }
+                else if(chars[i][j].equals('X')){
+                    g.drawImage(floort.getScaledCopy(scale), offsetX + j * floort.getScaledCopy(scale).getWidth(), offsetY + i * floort.getScaledCopy(scale).getHeight());
+                }
+                else if(chars[i][j].equals('0')){
+                    g.drawImage(boxf.getScaledCopy(scale), offsetX + j * boxf.getScaledCopy(scale).getWidth(), offsetY + i * boxf.getScaledCopy(scale).getHeight());
+                }
+                else if (chars[i][j].equals('P')){
+                    if(Game.faceRight){
+                        g.drawImage(player.getScaledCopy(scale), offsetX + j * player.getScaledCopy(scale).getWidth(), offsetY + i * player.getScaledCopy(scale).getHeight());
+                    }
+                    else{
+                        g.drawImage(player.getScaledCopy(scale).getFlippedCopy(true, false), offsetX + j * player.getScaledCopy(scale).getWidth(), offsetY + i * player.getScaledCopy(scale).getHeight());
+                    }
+
+                }
+
+            }
+        }
+
     }
 }

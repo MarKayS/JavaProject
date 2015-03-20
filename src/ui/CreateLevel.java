@@ -58,8 +58,8 @@ public class CreateLevel extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        levelRenderer = new LevelRenderer(g, maxY, maxX, 2);
-        levelRenderer.Render(myLevel, g, container);
+        levelRenderer = new LevelRenderer(2);
+        levelRenderer.render(myLevel, g, container);
 
         for (int i = 0; i < blocks.size(); i++) {
             blocks.get(i).render(container, g);

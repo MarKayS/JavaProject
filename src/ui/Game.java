@@ -38,14 +38,14 @@ public class Game extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
 
-        lrend = new LevelRenderer(container.getGraphics(), container.getScreenHeight(), container.getScreenWidth(), gameNumber);
+        lrend = new LevelRenderer(gameNumber);
         levels = DBFunctions.getLevels(gameNumber);
         i = container.getInput();
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        if (gamestate != 2) lrend.Render(levels.get(levelNumber), g, container);
+        if (gamestate != 2) lrend.render(levels.get(levelNumber), g, container);
         if (gamestate == 1) {
             g.setColor(new Color(1f, 1f, 1f, 0.8f));
             g.fillRoundRect(container.getScreenWidth() / 2 - container.getScreenWidth() / 4 / 2, container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2, container.getScreenWidth() / 4, container.getScreenHeight() / 4, 7);
@@ -59,7 +59,7 @@ public class Game extends BasicGameState {
             g.drawString(cont, (container.getScreenWidth() / 2 - (cont.length()*9)/2), container.getScreenHeight() / 2 - container.getScreenHeight() / 4 / 2 + 200);
             g.setColor(Color.white);
         }
-        int sample = 300;
+        //GUI
         int offsetx = container.getScreenWidth()/2;
         int offsety = container.getScreenHeight() - 40;
         String movestr = "Moves: "+Integer.toString(moves);

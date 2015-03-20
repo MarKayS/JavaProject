@@ -1,13 +1,21 @@
 package ui;
 
 import core.Language;
+import core.Level;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.gui.*;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import persistance.DBFunctions;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by MKS on 8. 11. 2014.
@@ -260,6 +268,15 @@ public class MainMenu extends BasicGameState{
             loginButton.setAcceptingInput(false);
             renderRegister(container,game,g);
         }
+        else if(counter==5){
+            LevelRenderer levelRenderer = new LevelRenderer(1);
+            ArrayList<Level> levels;
+            levels = DBFunctions.getLevels(1);
+            for(int i=0;i<levels.size();i++){
+                levelRenderer.renderPreview(levels.get(i),g,new Point(300+600*i,container.getScreenHeight()/2),0.1f);
+            }
+
+        }
     }
 
     @Override
@@ -332,7 +349,8 @@ public class MainMenu extends BasicGameState{
         if(counter == 2){
              /* Play Game */
             if(playButton.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+                //game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+                counter = 5;
             }
 
             /* Create level */
@@ -370,6 +388,7 @@ public class MainMenu extends BasicGameState{
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
         }
+
     }
 
     @Override
