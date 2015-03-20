@@ -96,8 +96,9 @@ public class DBFunctions {
                 int levelID = resultSet.getInt("levelID");
                 int gameNumber = resultSet.getInt("gameNumber");
                 int levelNumber = resultSet.getInt("levelNumber");
+                String levelName = resultSet.getString("levelName");
                 String levelParse = resultSet.getString("level");
-                levels.add(new Level(levelID, gameNumber, levelNumber, levelParse));
+                levels.add(new Level(levelID, gameNumber, levelNumber, levelParse, levelName));
             }
         }
         catch (SQLException e) {

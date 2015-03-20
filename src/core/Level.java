@@ -3,6 +3,7 @@ package core;
 import java.awt.*;
 
 public class Level {
+    String levelName ="";
     int levelID;
     boolean playerX = false;
     int gameNumber;
@@ -12,13 +13,13 @@ public class Level {
     int maxY;
     Character[][] visited;
 
-    public Level(Character[][] level, int maxX, int maxY){
+    public Level(Character[][] level, int maxX, int maxY) {
         this.level = level;
         this.maxX = maxX;
         this.maxY = maxY;
     }
 
-    public Level(int levelID, int gameNumber, int levelNumber, String levelString) {
+    public Level(int levelID, int gameNumber, int levelNumber, String levelString, String levelName) {
         this.levelID = levelID;
         this.gameNumber = gameNumber;
         this.levelNumber = levelNumber;
@@ -32,7 +33,6 @@ public class Level {
             if (levelString.charAt(i) != '\n' && x == 1) {
                 y++;
             }
-
         }
         y--;// final enter
         level = new Character[x][y];
@@ -76,7 +76,6 @@ public class Level {
     public int getMaxY() {
         return maxY;
     }
-
 
     public Character[][] getLevel() {
         return level;
@@ -159,8 +158,9 @@ public class Level {
         }
         return true;
     }
+}
 
-    public int getMaxBox() {
+   /* public int getMaxBox() {
         int max = 0;
         for (int i = 0; i < maxY; i++) {
             for (int j = 0; j < maxX; j++) {
@@ -187,7 +187,7 @@ public class Level {
         return new Point(-1, -1);
     }
 
-    public int[][] targetmapper(Point target) {
+  *//*  public int[][] targetmapper(Point target) {
         return new int[][]{{0}};
     }
 
@@ -232,5 +232,5 @@ public class Level {
         }
         return false;
     }
-}
+}*/
 
