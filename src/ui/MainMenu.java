@@ -278,17 +278,16 @@ public class MainMenu extends BasicGameState{
             okButton.setAcceptingInput(false);
             loginButton.setAcceptingInput(false);
             renderRegister(container,game,g);
-        }
-        else if(counter==5){
+        } else if (counter == 5) {
             LevelRenderer levelRenderer = new LevelRenderer(1);
             ArrayList<Level> levels;
             levels = DBFunctions.getLevels(1);
-            placeholder1.render(container,g);
-            placeholder2.render(container,g);
-            placeholder3.render(container,g);
-            levelRenderer.renderPreview(levels.get(0),g, new Point(((container.getScreenWidth()-(330*3))/4)+10,     container.getScreenHeight() / 2), 0.2f);
-            levelRenderer.renderPreview(levels.get(1),g, new Point(((container.getScreenWidth()-(330*3))/4)*2+340,  container.getScreenHeight() / 2), 0.2f);
-            levelRenderer.renderPreview(levels.get(2),g, new Point(((container.getScreenWidth()-(330*3))/4)*3+670,  container.getScreenHeight() / 2), 0.2f);
+            placeholder1.render(container, g);
+            placeholder2.render(container, g);
+            placeholder3.render(container, g);
+            levelRenderer.renderPreview(levels.get(0), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5,       container.getScreenHeight() / 2), 0.21f);
+            levelRenderer.renderPreview(levels.get(1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2), 0.21f);
+            levelRenderer.renderPreview(levels.get(2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2), 0.21f);
         }
     }
 
