@@ -533,10 +533,14 @@ public class MainMenu extends BasicGameState {
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                //levelNumber = page * 3 + 1;
+                levelNumber = page * 3 + 1;
+                CreateLevel.editLevel(levelNumber, container);
+                game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                //levelNumber = page * 3 + 2;
+                levelNumber = page * 3 + 2;
+                CreateLevel.editLevel(levelNumber, container);
+                game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
         }
 
