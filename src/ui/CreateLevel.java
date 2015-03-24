@@ -28,13 +28,13 @@ public class CreateLevel extends BasicGameState {
     private static int offsetY;
     private Point position;
     private long timer = 0;
-    private String levelName;
+    private static String levelName;
 
     public static boolean initiate = false;
     static Character[][] level;
     static Level myLevel;
 
-    static boolean mouseOvers = false, error = false;
+    static boolean mouseOvers = false, error = false, saveNew = false, saveSuc = false;
     boolean wall, box, floor, target, player;
     LevelRenderer levelRenderer;
     static ArrayList<MouseOverArea> blocks = new ArrayList<>();
@@ -78,9 +78,13 @@ public class CreateLevel extends BasicGameState {
         wallOver = new MouseOverArea(container, empty, container.getWidth()/2 - createLvlMenu.getWidth()/2 +    ((empty.getWidth() + 13) * 3), container.getHeight() - empty.getHeight() - 7);
         playerOver = new MouseOverArea(container, empty, container.getWidth()/2 - createLvlMenu.getWidth()/2 +  ((empty.getWidth() + 13) * 4), container.getHeight() - empty.getHeight() - 7);
 
-        saveLevel = new TextField(container, container.getDefaultFont(), 1, saveButton.getHeight()+1, 150,20);
+
+        saveLevel = new TextField(container, container.getDefaultFont(), 1, saveButton.getHeight() + 1, 150, 20);
         saveLevel.setBackgroundColor(Color.white);
         saveLevel.setTextColor(Color.black);
+
+
+
     }
 
     @Override
@@ -97,7 +101,10 @@ public class CreateLevel extends BasicGameState {
         wallOver.render(container, g);
         playerOver.render(container, g);
 
-        saveLevel.render(container, g);
+        if(saveNew){
+            saveLevel.render(container, g);
+        }
+
 
 
 
@@ -128,14 +135,18 @@ public class CreateLevel extends BasicGameState {
         }
 
         if(error){
-            g.drawString("ERROR! That level name already exists, please choose a different name!", container.getWidth()/2 - 250, container.getHeight()/2);
+            g.drawString("ERROR! That level name already exists, please choose a different name!", saveLevel.getWidth() + 5, saveButton.getHeight());
+        }
+
+        if(saveSuc){
+            g.drawString("Save successful!", saveLevel.getWidth() + 5, saveButton.getHeight());
         }
 
     }
 
-    private static void initiateMouseOvers(GameContainer container){
-        offsetX = (container.getScreenWidth()-(maxX+1)*empty.getWidth())/2;
-        offsetY = (container.getScreenHeight()-((maxY+1)*empty.getHeight()))/2;
+    private static void initiateMouseOvers(GameContainer container) {
+        offsetX = (container.getScreenWidth() - (maxX + 1) * empty.getWidth()) / 2;
+        offsetY = (container.getScreenHeight() - ((maxY + 1) * empty.getHeight())) / 2;
         for (int i = 0; i < maxY; i++) {
             for (int j = 0; j < maxX; j++) {
                 blockOver = new MouseOverArea(container, empty, offsetX + 49 * j, offsetY + 49 * i);
@@ -145,6 +156,7 @@ public class CreateLevel extends BasicGameState {
     }
 
     public static void initiateLevel(GameContainer container){
+        saveNew = true;
         level = new Character[maxY][maxX];
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
@@ -159,12 +171,20 @@ public class CreateLevel extends BasicGameState {
         initiateMouseOvers(container);
     }
 
-    public static void editLevel(Character[][] level){
+    public static void editLevel(int levelNumber, GameContainer container){
+        saveNew = false;
         ArrayList<Level> levels = DBFunctions.getLevels(0);
+        myLevel = levels.get(levelNumber);
+
+        maxX = myLevel.getMaxX();
+        maxY = myLevel.getMaxY();
+        level = myLevel.getLevel();
+        mouseOvers = true;
+        initiateMouseOvers(container);
 
     }
 
-    private boolean saveLevel(){
+    private boolean saveNewLevel(){
         ArrayList<Level> levels = DBFunctions.getLevels(0);
         int levelNumber = 0;
 
@@ -177,7 +197,15 @@ public class CreateLevel extends BasicGameState {
         levelNumber += 1;
 
         DBFunctions.insertLevel(levelName, level, levelNumber, maxX, maxY);
+        saveSuc = true;
+
         return true;
+    }
+
+    private void saveLevel(){
+        String levelName = myLevel.getLevelName().toString();
+        DBFunctions.updateLevel(levelName, level, maxX, maxY);
+        saveSuc = true;
     }
 
     private void printLevels(){
@@ -239,11 +267,14 @@ public class CreateLevel extends BasicGameState {
         else if(saveButtonMOA.isMouseOver()){
             if(container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 levelName = saveLevel.getText();
-                if(saveLevel()){
-                    System.out.print("Save successfull!\n");
-                }else{
-                    error = true;
-                }
+                if(saveNew){
+                    if (saveNewLevel()) {
+                        System.out.print("Save successfull!\n");
+                    } else {
+                        error = true;
+                    }
+                }else
+                    saveLevel();
             }
         }
         else if(container.getInput().isKeyDown(Input.KEY_HOME)){
@@ -254,6 +285,15 @@ public class CreateLevel extends BasicGameState {
             timer += delta;
             if(timer > 2000){
                 error = false;
+                timer = 0;
+            }
+        }
+
+        if(saveSuc){
+            timer += delta;
+            if(timer > 2000){
+                saveSuc = false;
+                timer = 0;
             }
         }
     }

@@ -130,6 +130,36 @@ public class DBFunctions {
         }
     }
 
+    public static void updateLevel(String levelName, Character[][] level, int maxX, int maxY){
+        PreparedStatement statement;
+        Connection connection = null;
+        String levelString = "";
+
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+                levelString += level[i][j];
+            }
+            if(i != maxY - 1)
+                levelString += "\n";
+        }
+
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.prepareStatement("UPDATE Level SET level = ? WHERE levelName = ?");
+            statement.setString(1, levelString);
+            statement.setString(2, levelName);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean register(String name, String surname, String nickname, String password){
 
         Connection connection = null;

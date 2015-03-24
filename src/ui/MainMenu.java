@@ -497,6 +497,7 @@ public class MainMenu extends BasicGameState {
 
         }
         if(counter == 6){
+            int levelNumber = 0;
             if (arrowLeftButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page > 0) page--;
             }
@@ -506,13 +507,15 @@ public class MainMenu extends BasicGameState {
                 if (page < max) page++;
             }
             if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                // page*3+0
+                levelNumber = page * 3 + 0;
+                CreateLevel.editLevel(levelNumber, container);
+                game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
-            if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                // page*3+1
+            if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                //levelNumber = page * 3 + 1;
             }
-            if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                // page*3+2
+            if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                //levelNumber = page * 3 + 2;
             }
         }
 

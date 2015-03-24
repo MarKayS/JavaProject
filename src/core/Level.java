@@ -29,25 +29,23 @@ public class Level {
         for (int i = 0; i < levelString.length(); i++) {
             if (levelString.charAt(i) == '\n') {
                 maxY++;
-                if(x>maxX)maxX=x;
-                x=0;
-            }
-            else if (levelString.charAt(i) == 'W' || levelString.charAt(i) == 'P' || levelString.charAt(i) == 'B' || levelString.charAt(i) == ' ' || levelString.charAt(i) == 'X' || levelString.charAt(i) == '0'  ) {
+                if (x > maxX) maxX = x;
+                x = 0;
+            } else if (levelString.charAt(i) == 'W' || levelString.charAt(i) == 'P' || levelString.charAt(i) == 'B' || levelString.charAt(i) == ' ' || levelString.charAt(i) == 'X' || levelString.charAt(i) == '0') {
                 x++;
             }
         }
         level = new Character[maxY][maxX];
         c = x = y = 0;
-        while(c<levelString.length()){
-            if(levelString.charAt(c) == '\n'){
-                while(x+1<maxX){
+        while (c < levelString.length()) {
+            if (levelString.charAt(c) == '\n') {
+                while (x + 1 < maxX) {
                     x++;
-                    level[y][x]=' ';
+                    level[y][x] = ' ';
                 }
-                x=0;
+                x = 0;
                 y++;
-            }
-            else if (levelString.charAt(c) == 'W' || levelString.charAt(c) == 'P' || levelString.charAt(c) == 'B' || levelString.charAt(c) == ' ' || levelString.charAt(c) == 'X' || levelString.charAt(c) == '0'  )  {
+            } else if (levelString.charAt(c) == 'W' || levelString.charAt(c) == 'P' || levelString.charAt(c) == 'B' || levelString.charAt(c) == ' ' || levelString.charAt(c) == 'X' || levelString.charAt(c) == '0') {
                 level[y][x] = levelString.charAt(c);
                 x++;
             }
@@ -67,7 +65,7 @@ public class Level {
         return levelNumber;
     }
 
-    public String getLevelName(){
+    public String getLevelName() {
         return levelName;
     }
 
