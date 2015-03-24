@@ -258,7 +258,6 @@ public class MainMenu extends BasicGameState {
     }
 
 
-
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawImage(logo, container.getWidth() / 2 - logo.getWidth() / 2, 50);
@@ -349,7 +348,7 @@ public class MainMenu extends BasicGameState {
             levels = DBFunctions.getLevels(0);
             max = DBFunctions.getLevels(0).size();
 
-            if (page * 3 + 0>= max) {
+            if (page * 3 + 0 >= max) {
                 v1 = false;
             }
             if (page * 3 + 1 >= max) {
@@ -454,9 +453,7 @@ public class MainMenu extends BasicGameState {
             /* Create level */
             else if (createLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 counter = 3;
-            }
-
-            else if(editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            } else if (editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 counter = 6;
             }
 
@@ -494,9 +491,32 @@ public class MainMenu extends BasicGameState {
                 System.out.print(max + "\n");
                 if (page < max) page++;
             }
+            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                if          (page == 0) Game.setGame(0, 1);
 
+                else if     (page == 1) Game.setGame(0, 2);
+
+                else                    Game.setGame(page*3-6, 0);
+                game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+            }
+            if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                if (page == 0) Game.setGame(1,1);
+
+                else if (page == 1) Game.setGame(1, 2);
+
+                else Game.setGame(page*3-5, 0);
+                game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+            }
+            if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                if (page == 0) Game.setGame(2, 1);
+
+                else if (page == 1) Game.setGame(2,2);
+
+                else Game.setGame(page*3 -  4, 0);
+                game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+            }
         }
-        if(counter == 6){
+        if (counter == 6) {
             if (arrowLeftButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page > 0) page--;
             }
@@ -505,13 +525,13 @@ public class MainMenu extends BasicGameState {
                 System.out.print(max + "\n");
                 if (page < max) page++;
             }
-            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 // page*3+0
             }
-            if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 // page*3+1
             }
-            if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 // page*3+2
             }
         }
