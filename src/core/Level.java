@@ -131,6 +131,7 @@ public class Level {
             if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0') {
                 if (!move(to, direction)) {
                     return false;
+                    //assfsf
                 }
             }
             if (playerX) {
