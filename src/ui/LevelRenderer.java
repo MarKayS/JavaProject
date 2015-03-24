@@ -38,19 +38,18 @@ public class LevelRenderer {
         int maxY, maxX;
         maxY = l.getMaxY();
         maxX = l.getMaxX();
-        System.out.print("Starting to render!\n");
+
 
         int offsetX=(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
         int offsetY=(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
 
         chars = l.getLevel();
-        System.out.print("MaxY: "+maxY+"\n");
-        System.out.print("MaxX: "+maxX+"\n");
+
 
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
                 //floor
-                System.out.print("Test: "+ i + " " + j + " - " + chars[i][j]+"\n");
+
                 g.drawImage(floor, offsetX + j * floor.getWidth(), offsetY + (i * floor.getHeight()));
                 if(chars[i][j]==null){}
                 else if(chars[i][j].equals('W')){
@@ -84,9 +83,9 @@ public class LevelRenderer {
         maxY = l.getMaxY();
         maxX = l.getMaxX();
 
-        int offsetX=target.x;//(container.getScreenWidth()-(maxX+1)*wall.getWidth())/2;
-        int offsetY=target.y;//(container.getScreenHeight()-((maxY+1)*wall.getHeight()))/2;
-        //float scale = 0.1f;
+        int offsetX=target.x;
+        int offsetY=target.y;
+
 
         chars = l.getLevel();
         for(int i = 0; i < maxY; i++){

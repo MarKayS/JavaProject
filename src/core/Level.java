@@ -22,10 +22,10 @@ public class Level {
         this.levelID = levelID;
         this.gameNumber = gameNumber;
         this.levelNumber = levelNumber;
+        this.levelName = levelName;
         int y = 0;
         int x = 0;
         int c = 0;
-        System.out.print("Length: " + levelString.length() + "\n");
         for (int i = 0; i < levelString.length(); i++) {
             if (levelString.charAt(i) == '\n') {
                 maxY++;
@@ -36,7 +36,6 @@ public class Level {
                 x++;
             }
         }
-        System.out.print("Creating level with " + maxX + " width and " + maxY + " length \n");
         level = new Character[maxY][maxX];
         c = x = y = 0;
         while(c<levelString.length()){
@@ -47,27 +46,13 @@ public class Level {
                 }
                 x=0;
                 y++;
-                //System.out.print("new line created: " + y + "\n");
             }
             else if (levelString.charAt(c) == 'W' || levelString.charAt(c) == 'P' || levelString.charAt(c) == 'B' || levelString.charAt(c) == ' ' || levelString.charAt(c) == 'X' || levelString.charAt(c) == '0'  )  {
                 level[y][x] = levelString.charAt(c);
                 x++;
-                //System.out.print("new character created: " + x + "\n");
             }
             c++;
         }
-        /*for (int i = 0; i < maxY; i++) {
-            for (int j = 0; j < maxX; j++) {
-                while (levelString.charAt(c) != 'W' && levelString.charAt(c) != 'P' && levelString.charAt(c) != 'B' && levelString.charAt(c) != ' ' && levelString.charAt(c) != 'X' && levelString.charAt(c) != '0') {
-                    c++;
-                }
-                level[i][j] = levelString.charAt(c);
-                c++;
-            }
-        }*/
-        //this.level = level;
-        //this.maxX = x;
-        //this.maxY = y;
     }
 
     public int getLevelID() {

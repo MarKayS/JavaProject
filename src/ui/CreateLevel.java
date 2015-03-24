@@ -26,13 +26,14 @@ public class CreateLevel extends BasicGameState {
     private static int offsetX;
     private static int offsetY;
     private Point position;
+    private long timer = 0;
     private String levelName;
 
     public static boolean initiate = false;
     static Character[][] level;
     static Level myLevel;
 
-    static boolean mouseOvers = false;
+    static boolean mouseOvers = false, error = false;
     boolean wall, box, floor, target, player;
     LevelRenderer levelRenderer;
     static ArrayList<MouseOverArea> blocks = new ArrayList<>();
@@ -122,8 +123,10 @@ public class CreateLevel extends BasicGameState {
 
                 }
             }
+        }
 
-
+        if(error){
+            g.drawString("ERROR! That level name already exists, please choose a different name!", container.getWidth()/2 - 250, container.getHeight()/2);
         }
 
     }
@@ -155,14 +158,12 @@ public class CreateLevel extends BasicGameState {
     }
 
     private boolean saveLevel(){
-        ArrayList<Level> levels;
+        ArrayList<Level> levels = DBFunctions.getLevels(0);
         int levelNumber = 0;
-
-        levels = DBFunctions.getLevels(0);
 
         for(Level level : levels){
             levelNumber = level.getLevelNumber();
-            if(level.getLevelName() == levelName){
+            if(levelName.equals(level.getLevelName())){
                 return false;
             }
         }
@@ -170,6 +171,14 @@ public class CreateLevel extends BasicGameState {
 
         DBFunctions.insertLevel(levelName, level, levelNumber, maxX, maxY);
         return true;
+    }
+
+    private void printLevels(){
+        ArrayList<Level> levels = DBFunctions.getLevels(0);
+
+        for(Level level : levels){
+            System.out.print("Level names: " + level.getLevelName() + "\n");
+        }
     }
 
     private boolean playerExists(){
@@ -225,8 +234,19 @@ public class CreateLevel extends BasicGameState {
                 levelName = saveLevel.getText();
                 if(saveLevel()){
                     System.out.print("Save successfull!\n");
-                }else
-                    System.out.print("Save FUKED UP!");
+                }else{
+                    error = true;
+                }
+            }
+        }
+        else if(container.getInput().isKeyDown(Input.KEY_HOME)){
+            printLevels();
+        }
+
+        if(error){
+            timer += delta;
+            if(timer > 2000){
+                error = false;
             }
         }
     }
