@@ -23,9 +23,9 @@ public class Level {
         this.gameNumber = gameNumber;
         this.levelNumber = levelNumber;
         this.levelName = levelName;
-        int y = 0;
+        int y;
         int x = 0;
-        int c = 0;
+        int c;
         for (int i = 0; i < levelString.length(); i++) {
             if (levelString.charAt(i) == '\n') {
                 maxY++;
@@ -132,6 +132,7 @@ public class Level {
                 if (!move(to, direction)) {
                     return false;
                 }
+                //asdasdad
             }
             if (playerX) {
                 level[from.y][from.x] = 'X';
