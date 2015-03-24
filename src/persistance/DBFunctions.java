@@ -4,10 +4,13 @@ import java.sql.*;
 
 import core.Level;
 import core.Player;
+import ui.MainMenu;
 
 import java.util.ArrayList;
 
 public class DBFunctions {
+
+    private static int playerID;
 
     public static ArrayList<Player> getPlayers(){
         ArrayList<Player> players = new ArrayList<>();
@@ -82,10 +85,37 @@ public class DBFunctions {
         ArrayList<Player> players = DBFunctions.getPlayers();
         for (int i = 0; i < players.size(); i++){
             if (nickname.toLowerCase().equals(players.get(i).getNickname().toLowerCase())){
+                playerID = players.get(i).getPlayerID();
                 return i;
             }
         }
         return -1;
+    }
+
+    public static int reportScore(int moves, int time, int levelID){
+        Connection connection = null;
+        PreparedStatement statement;
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+
+            System.out.print(moves + " " + time + " " + levelID);
+            statement = connection.prepareStatement("INSERT INTO Scores (playerID, levelID, time, moves) VALUES (?,?,?,?)");
+            statement.setInt(1, playerID);
+            statement.setInt(2, levelID);
+            statement.setInt(3, time);
+            statement.setInt(4, moves);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 
     public static boolean verifyPassword(int id, String password){
@@ -151,6 +181,7 @@ public class DBFunctions {
         } catch (SQLException e) {
         e.printStackTrace();
         }
+        verifyNickname(nickname);
         return true;
     }
 }

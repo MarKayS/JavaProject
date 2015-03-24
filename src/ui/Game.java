@@ -22,7 +22,8 @@ public class Game extends BasicGameState {
     public int gamestate = -1;  // -1 preparation, 0 game, 1 win, 2 proceed to another level
     private int moves = 0;
     private int time = 0;
-    int levelNumber, gameNumber;
+    int levelNumber, gameNumber, playerID;
+
 
     Game(int i, int l, int g) {
         this.id = i;
@@ -79,6 +80,9 @@ public class Game extends BasicGameState {
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         if (levels.get(levelNumber).checkWin()) {
+            if (gamestate != 1) {
+                DBFunctions.reportScore(moves,time/1000,levels.get(levelNumber).getLevelID());
+            }
             gamestate = 1;
         }
         if (gamestate < 1) {

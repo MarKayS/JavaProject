@@ -407,4 +407,10 @@ public class MainMenu extends BasicGameState{
     public int getID() {
         return this.id;
     }
+
+    public String getLogin() {
+        return login;
+    }
 }
+
+
