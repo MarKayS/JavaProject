@@ -16,19 +16,27 @@ public class Game extends BasicGameState {
     private Graphics g;
     private Input i;
     private StateBasedGame game;
-    private ArrayList<Level> levels;
-    private LevelRenderer lrend;
+    private static ArrayList<Level> levels;
+    private static LevelRenderer lrend;
     static boolean faceRight = true;
     public int gamestate = -1;  // -1 preparation, 0 game, 1 win, 2 proceed to another level
     private int moves = 0;
     private int time = 0;
-    int levelNumber, gameNumber, playerID;
+    static int levelNumber, gameNumber;
 
-
-    Game(int i, int l, int g) {
+    Game(int i) {
         this.id = i;
-        this.levelNumber = l;
-        this.gameNumber = g;
+    }
+
+    public static void setGame(int ln, int gn){
+        levelNumber = ln;
+        gameNumber = gn;
+        initGame();
+    }
+
+    public static void initGame(){
+        lrend = new LevelRenderer(gameNumber);
+        levels = DBFunctions.getLevels(gameNumber);
     }
 
     private Level getLevel(int gameNumber, int levelNumber) {
@@ -38,9 +46,6 @@ public class Game extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         this.game = game;
-
-        lrend = new LevelRenderer(gameNumber);
-        levels = DBFunctions.getLevels(gameNumber);
         i = container.getInput();
     }
 
@@ -107,7 +112,10 @@ public class Game extends BasicGameState {
                 levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(), 'd');
                 moves++;
                 if (gamestate == -1) gamestate++;
+            } else if (i.isKeyPressed(Input.KEY_R)){
+                initGame();
             }
+
         } else {
             if (i.isKeyDown(Input.KEY_SPACE)) {
                 gamestate = 2;

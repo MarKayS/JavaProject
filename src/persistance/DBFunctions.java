@@ -50,6 +50,7 @@ public class DBFunctions {
         return players;
     }
 
+
     public static ArrayList<Level> getLevels(int selectGameID){
         ArrayList<Level> levels = new ArrayList<>();
         String select = "SELECT * from Level WHERE gameNumber = ";
@@ -152,6 +153,36 @@ public class DBFunctions {
             statement.setInt(2, levelNumber);
             statement.setString(3, levelString);
             statement.setString(4, levelName);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateLevel(String levelName, Character[][] level, int maxX, int maxY){
+        PreparedStatement statement;
+        Connection connection = null;
+        String levelString = "";
+
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+                levelString += level[i][j];
+            }
+            if(i != maxY - 1)
+                levelString += "\n";
+        }
+
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.prepareStatement("UPDATE Level SET level = ? WHERE levelName = ?");
+            statement.setString(1, levelString);
+            statement.setString(2, levelName);
             statement.executeUpdate();
 
         } catch (SQLException e) {
