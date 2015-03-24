@@ -326,19 +326,22 @@ public class MainMenu extends BasicGameState {
                 var2 = page * 3 - 5;
                 var3 = page * 3 - 4;
             }
-            if (v1)
+            if (v1) {
                 levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
-            if (v2)
+                placeholder1.render(container, g);
+            }
+            if (v2) {
                 levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+                placeholder2.render(container, g);
+            }
             if (v3) {
                 levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+                placeholder3.render(container, g);
             }
         } else if (counter == 6) {
             LevelRenderer levelRenderer = new LevelRenderer(2);
             ArrayList<Level> levels;
-            placeholder1.render(container, g);
-            placeholder2.render(container, g);
-            placeholder3.render(container, g);
+
             arrowRightButton.render(container, g);
             arrowLeftButton.render(container, g);
             int var1 = 0, var2 = 0, var3 = 0;
@@ -359,14 +362,18 @@ public class MainMenu extends BasicGameState {
             var2 = page * 3 + 1;
             var3 = page * 3 + 2;
 
-            if (v1)
+            if (v1) {
                 levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
-            if (v2)
+                placeholder1.render(container, g);
+            }
+            if (v2) {
                 levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+                placeholder2.render(container, g);
+            }
             if (v3) {
                 levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+                placeholder3.render(container, g);
             }
-
         }
     }
 
@@ -485,7 +492,7 @@ public class MainMenu extends BasicGameState {
             if (arrowRightButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 max = (DBFunctions.getLevels(0).size() + DBFunctions.getLevels(1).size() + DBFunctions.getLevels(2).size()) / 3;
                 System.out.print(max + "\n");
-                if (page < max-1) page++;
+                if (page < max) page++;
             }
 
         }
@@ -497,6 +504,15 @@ public class MainMenu extends BasicGameState {
                 max = DBFunctions.getLevels(0).size() / 3;
                 System.out.print(max + "\n");
                 if (page < max) page++;
+            }
+            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                // page*3+0
+            }
+            if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                // page*3+1
+            }
+            if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                // page*3+2
             }
         }
 
