@@ -3,6 +3,7 @@ package ui;
 import core.Level;
 import org.newdawn.slick.*;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.gui.MouseOverArea;
@@ -78,7 +79,8 @@ public class CreateLevel extends BasicGameState {
         playerOver = new MouseOverArea(container, empty, container.getWidth()/2 - createLvlMenu.getWidth()/2 +  ((empty.getWidth() + 13) * 4), container.getHeight() - empty.getHeight() - 7);
 
         saveLevel = new TextField(container, container.getDefaultFont(), 1, saveButton.getHeight()+1, 150,20);
-        //saveLevel.setBackgroundColor(Color.white);
+        saveLevel.setBackgroundColor(Color.white);
+        saveLevel.setTextColor(Color.black);
     }
 
     @Override
@@ -155,6 +157,11 @@ public class CreateLevel extends BasicGameState {
         myLevel = new Level(level, maxX, maxY);
         mouseOvers = true;
         initiateMouseOvers(container);
+    }
+
+    public static void editLevel(Character[][] level){
+        ArrayList<Level> levels = DBFunctions.getLevels(0);
+
     }
 
     private boolean saveLevel(){

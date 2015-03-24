@@ -257,6 +257,8 @@ public class MainMenu extends BasicGameState {
         okButton.setMouseOverImage(okp);
     }
 
+
+
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawImage(logo, container.getWidth() / 2 - logo.getWidth() / 2, 50);
@@ -331,6 +333,40 @@ public class MainMenu extends BasicGameState {
             if (v3) {
                 levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
             }
+        } else if (counter == 6) {
+            LevelRenderer levelRenderer = new LevelRenderer(2);
+            ArrayList<Level> levels;
+            placeholder1.render(container, g);
+            placeholder2.render(container, g);
+            placeholder3.render(container, g);
+            arrowRightButton.render(container, g);
+            arrowLeftButton.render(container, g);
+            int var1 = 0, var2 = 0, var3 = 0;
+            boolean v1 = true, v2 = true, v3 = true;
+            levels = DBFunctions.getLevels(0);
+            max = DBFunctions.getLevels(0).size();
+
+            if (page * 3 + 0>= max) {
+                v1 = false;
+            }
+            if (page * 3 + 1 >= max) {
+                v2 = false;
+            }
+            if (page * 3 + 2 >= max) {
+                v3 = false;
+            }
+            var1 = page * 3 + 0;
+            var2 = page * 3 + 1;
+            var3 = page * 3 + 2;
+
+            if (v1)
+                levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
+            if (v2)
+                levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+            if (v3) {
+                levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+            }
+
         }
     }
 
@@ -413,6 +449,10 @@ public class MainMenu extends BasicGameState {
                 counter = 3;
             }
 
+            else if(editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                counter = 6;
+            }
+
             /* Quit Game */
             else if (quitButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 container.exit();
@@ -448,6 +488,16 @@ public class MainMenu extends BasicGameState {
                 if (page < max-1) page++;
             }
 
+        }
+        if(counter == 6){
+            if (arrowLeftButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                if (page > 0) page--;
+            }
+            if (arrowRightButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+                max = DBFunctions.getLevels(0).size() / 3;
+                System.out.print(max + "\n");
+                if (page < max) page++;
+            }
         }
 
     }
