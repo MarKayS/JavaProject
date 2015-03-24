@@ -46,36 +46,7 @@ public class DBFunctions {
         }*/
         return players;
     }
-    /* //WE DONT HAVE GAME TABLE ANYMORE
-    public static ArrayList<String> getGames(){
-        String select = "SELECT * from Game";
-        ArrayList<String> games = new ArrayList<>();
 
-        Statement statement;
-        Connection connection = null;
-        try {
-            DBConnection.connect();
-            connection = DBConnection.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try{
-            statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(select);
-
-            while(resultSet.next()){
-                int gameID = resultSet.getInt("gameNumber");
-                String gameName = resultSet.getString("gameName");
-                String game = String.valueOf(gameID) + ". - " + gameName;
-                games.add(game);
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return games;
-    }
-    */
     public static ArrayList<Level> getLevels(int selectGameID){
         ArrayList<Level> levels = new ArrayList<>();
         String select = "SELECT * from Level WHERE gameNumber = ";
@@ -125,6 +96,39 @@ public class DBFunctions {
             }
         return false;
     }
+
+    public static void insertLevel(String levelName, Character[][] level, int levelNumber, int maxX, int maxY){
+        PreparedStatement statement;
+        Connection connection = null;
+        String levelString = "";
+
+        for(int i = 0; i < maxY; i++){
+            for(int j = 0; j < maxX; j++){
+                levelString += level[i][j];
+            }
+            if(i != maxY - 1)
+                levelString += "\n";
+        }
+
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.prepareStatement("INSERT INTO Level (gameNumber, levelNumber, level, levelName) VALUES (?,?,?,?)");
+            statement.setInt(1, 0);
+            statement.setInt(2, levelNumber);
+            statement.setString(3, levelString);
+            statement.setString(4, levelName);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean register(String name, String surname, String nickname, String password){
 
         Connection connection = null;

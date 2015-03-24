@@ -9,7 +9,7 @@ import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Color;
+import persistance.DBFunctions;
 
 
 import java.awt.*;
@@ -26,6 +26,7 @@ public class CreateLevel extends BasicGameState {
     private static int offsetX;
     private static int offsetY;
     private Point position;
+    private String levelName;
 
     public static boolean initiate = false;
     static Character[][] level;
@@ -153,8 +154,22 @@ public class CreateLevel extends BasicGameState {
         initiateMouseOvers(container);
     }
 
-    private void saveLevel(){
+    private boolean saveLevel(){
+        ArrayList<Level> levels;
+        int levelNumber = 0;
 
+        levels = DBFunctions.getLevels(0);
+
+        for(Level level : levels){
+            levelNumber = level.getLevelNumber();
+            if(level.getLevelName() == levelName){
+                return false;
+            }
+        }
+        levelNumber += 1;
+
+        DBFunctions.insertLevel(levelName, level, levelNumber, maxX, maxY);
+        return true;
     }
 
     private boolean playerExists(){
@@ -207,7 +222,11 @@ public class CreateLevel extends BasicGameState {
         }
         else if(saveButtonMOA.isMouseOver()){
             if(container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                saveLevel();
+                levelName = saveLevel.getText();
+                if(saveLevel()){
+                    System.out.print("Save successfull!\n");
+                }else
+                    System.out.print("Save FUKED UP!");
             }
         }
     }

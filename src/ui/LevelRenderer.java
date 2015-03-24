@@ -21,6 +21,7 @@ public class LevelRenderer {
     public LevelRenderer(int skinNumber) {
 
         path = "game" + skinNumber;
+
         try {
             wall = new Image("res/" + path + "/wall.png");
             box = new Image("res/" + path + "/box.png");

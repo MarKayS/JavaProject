@@ -48,7 +48,7 @@ public class SlickGUI extends StateBasedGame {
         System.setProperty("org.lwjgl.librarypath", new File("native/windows").getAbsolutePath());
         try {
             AppGameContainer app = new AppGameContainer(new SlickGUI("jSokoban"));
-            app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
+            app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), false);
             app.setTargetFrameRate(120);
             app.setShowFPS(true);
 

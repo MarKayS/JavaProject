@@ -3,7 +3,7 @@ package core;
 import java.awt.*;
 
 public class Level {
-    String levelName ="";
+    String levelName = "";
     int levelID;
     boolean playerX = false;
     int gameNumber;
@@ -35,6 +35,7 @@ public class Level {
             }
         }
         y--;// final enter
+        System.out.print("X: " + y + "\n");
         level = new Character[x][y];
         visited = new Character[x][y];
         for (int i = 0; i < x; i++) {
@@ -67,6 +68,10 @@ public class Level {
 
     public int getLevelNumber() {
         return levelNumber;
+    }
+
+    public String getLevelName(){
+        return levelName;
     }
 
     public int getMaxX() {

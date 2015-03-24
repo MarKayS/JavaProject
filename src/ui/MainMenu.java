@@ -361,8 +361,8 @@ public class MainMenu extends BasicGameState{
         if(counter == 2){
              /* Play Game */
             if(playButton.isMouseOver()  && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-                //game.enterState(2, new FadeOutTransition(), new FadeInTransition());
-                counter = 5;
+                game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+                //counter = 5;
             }
 
             /* Create level */
