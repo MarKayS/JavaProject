@@ -41,8 +41,7 @@ public class SlickGUI extends StateBasedGame {
         return height;
     }
 
-    public int getWidth() {  return width;
-    }
+    public int getWidth() {  return width;  }
 
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File("native/windows").getAbsolutePath());

@@ -83,14 +83,14 @@ public class LevelRenderer {
         maxY = l.getMaxY();
         maxX = l.getMaxX();
 
-        int offsetX=target.x;
-        int offsetY=target.y;
+        int offsetX=target.x+(320-(l.getMaxX()*floor.getScaledCopy(scale).getWidth()))/2;
+        int offsetY=target.y+(320-(l.getMaxY()*floor.getScaledCopy(scale).getHeight()))/2;
 
 
         chars = l.getLevel();
         for(int i = 0; i < maxY; i++){
             for(int j = 0; j < maxX; j++){
-                //floor
+                //complex computations incoming
                 g.drawImage(floor.getScaledCopy(scale), offsetX + j * floor.getScaledCopy(scale).getWidth(), offsetY + (i * floor.getScaledCopy(scale).getHeight()));
 
                 if(chars[i][j].equals('W')){
