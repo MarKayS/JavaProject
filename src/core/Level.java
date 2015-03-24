@@ -9,9 +9,8 @@ public class Level {
     int gameNumber;
     int levelNumber;
     Character[][] level;
-    int maxX;
-    int maxY;
-    Character[][] visited;
+    int maxX = 0;
+    int maxY = 1;
 
     public Level(Character[][] level, int maxX, int maxY) {
         this.level = level;
@@ -23,39 +22,52 @@ public class Level {
         this.levelID = levelID;
         this.gameNumber = gameNumber;
         this.levelNumber = levelNumber;
-        int x = 1;
         int y = 0;
+        int x = 0;
+        int c = 0;
         System.out.print("Length: " + levelString.length() + "\n");
         for (int i = 0; i < levelString.length(); i++) {
             if (levelString.charAt(i) == '\n') {
+                maxY++;
+                if(x>maxX)maxX=x;
+                x=0;
+            }
+            else if (levelString.charAt(i) == 'W' || levelString.charAt(i) == 'P' || levelString.charAt(i) == 'B' || levelString.charAt(i) == ' ' || levelString.charAt(i) == 'X' || levelString.charAt(i) == '0'  ) {
                 x++;
             }
-            if (levelString.charAt(i) != '\n' && x == 1) {
+        }
+        System.out.print("Creating level with " + maxX + " width and " + maxY + " length \n");
+        level = new Character[maxY][maxX];
+        c = x = y = 0;
+        while(c<levelString.length()){
+            if(levelString.charAt(c) == '\n'){
+                while(x+1<maxX){
+                    x++;
+                    level[y][x]=' ';
+                }
+                x=0;
                 y++;
+                //System.out.print("new line created: " + y + "\n");
             }
-        }
-        y--;// final enter
-        System.out.print("X: " + y + "\n");
-        level = new Character[x][y];
-        visited = new Character[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                visited[i][j] = '2';
+            else if (levelString.charAt(c) == 'W' || levelString.charAt(c) == 'P' || levelString.charAt(c) == 'B' || levelString.charAt(c) == ' ' || levelString.charAt(c) == 'X' || levelString.charAt(c) == '0'  )  {
+                level[y][x] = levelString.charAt(c);
+                x++;
+                //System.out.print("new character created: " + x + "\n");
             }
+            c++;
         }
-        int c = 0;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
+        /*for (int i = 0; i < maxY; i++) {
+            for (int j = 0; j < maxX; j++) {
                 while (levelString.charAt(c) != 'W' && levelString.charAt(c) != 'P' && levelString.charAt(c) != 'B' && levelString.charAt(c) != ' ' && levelString.charAt(c) != 'X' && levelString.charAt(c) != '0') {
                     c++;
                 }
                 level[i][j] = levelString.charAt(c);
                 c++;
             }
-        }
+        }*/
         //this.level = level;
-        this.maxX = y;
-        this.maxY = x;
+        //this.maxX = x;
+        //this.maxY = y;
     }
 
     public int getLevelID() {
