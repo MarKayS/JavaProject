@@ -525,7 +525,7 @@ public class MainMenu extends BasicGameState {
             if (arrowRightButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 max = DBFunctions.getLevels(0).size() / 3;
                 System.out.print(max + "\n");
-                if (page < max) page++;
+                if (page < max) page++; //kek
             }
             if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
                 levelNumber = page * 3 + 0;
