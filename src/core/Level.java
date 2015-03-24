@@ -144,8 +144,17 @@ public class Level {
             }
             level[to.y][to.x] = 'P';
         } else if (level[from.y][from.x] == '0') {
-            level[from.y][from.x] = 'X';
-            level[to.y][to.x] = 'B';
+            if(level[to.y][to.x]=='B'||level[to.y][to.x]=='0'){
+                return false;
+            }
+            else if(level[to.y][to.x] != 'X') {
+                level[from.y][from.x] = 'X';
+                level[to.y][to.x] = 'B';
+            }
+            else{
+                level[from.y][from.x] = 'X';
+                level[to.y][to.x] = '0';
+            }
         } else if (level[from.y][from.x] == 'B') {
             if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0')
                 return false;
