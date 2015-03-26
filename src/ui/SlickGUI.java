@@ -6,6 +6,7 @@ package ui;
  **/
 
 import core.Level;
+import core.Player;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.GameContainer;
@@ -25,6 +26,7 @@ public class SlickGUI extends StateBasedGame {
     static int fps = 0;
     private static int levelNumber = 0;
     private static int gameNumber = 0;
+    Player player;
 
     public SlickGUI(String appName) {
         super(appName);
@@ -42,6 +44,10 @@ public class SlickGUI extends StateBasedGame {
     }
 
     public int getWidth() {  return width;  }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     public static void main(String[] args) {
         System.setProperty("org.lwjgl.librarypath", new File("native/windows").getAbsolutePath());
@@ -61,4 +67,6 @@ public class SlickGUI extends StateBasedGame {
             e.printStackTrace();
         }
     }
+
+
 }

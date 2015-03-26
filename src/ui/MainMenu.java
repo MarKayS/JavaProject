@@ -2,6 +2,7 @@ package ui;
 
 import core.Language;
 import core.Level;
+import core.Player;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -30,7 +31,20 @@ public class MainMenu extends BasicGameState {
     int page = 0;
     int max = 0;
     String login, password;
+    Player myPlayer;
     public int counterX = 4, counterY = 4;
+
+    /*
+    * counter 0 - language
+    * counter 1 - login
+    * conter 2 - menu
+    * counter 3 - creator
+    * counter 4 - register
+    * counter 5 - game preview
+    * counter 6 - editor
+    * counter 7 - highscore
+    *
+     */
 
     TextField loginTxtField = null, pwTxtField = null, surnameTxtField = null, nameTxtField = null;
 
@@ -40,8 +54,11 @@ public class MainMenu extends BasicGameState {
             arrowUp = null, arrowUpp = null, arrowDown = null, arrowDownp = null, ok = null, okp = null, okRegister = null, okRegisterp = null, placeholder = null, placeholderp = null,
             arrowRight = null, arrowRightp;
 
+    ArrayList<MouseOverArea> moas = new ArrayList<>();
+
     MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton, playButton, createLvlButton, editLvlButton, highscoresButton, quitButton,
             arrowUpButtonX, arrowDownButtonX, arrowUpButtonY, arrowDownButtonY, okButton, okRegisterButton, placeholder1, placeholder2, placeholder3, arrowLeftButton, arrowRightButton;
+
 
     MainMenu(int i) {
         this.id = i;
@@ -117,33 +134,33 @@ public class MainMenu extends BasicGameState {
         }
 
         //mouseOverAreas
-        czMouseArea = new MouseOverArea(container, cz, container.getWidth() / 2 - cz.getWidth() / 2 + cz.getWidth() + 50, container.getHeight() / 2);
-        enMouseArea = new MouseOverArea(container, en, container.getWidth() / 2 - en.getWidth() / 2 - en.getWidth() - 50, container.getHeight() / 2);
-        nlMouseArea = new MouseOverArea(container, nl, container.getWidth() / 2 - nl.getWidth() / 2, container.getHeight() / 2);
+        //screen 0 - Languages = 0 - 2
+        moas.add(czMouseArea = new MouseOverArea(container, cz, container.getWidth() / 2 - cz.getWidth() / 2 + cz.getWidth() + 50, container.getHeight() / 2));
+        moas.add(enMouseArea = new MouseOverArea(container, en, container.getWidth() / 2 - en.getWidth() / 2 - en.getWidth() - 50, container.getHeight() / 2));
+        moas.add(nlMouseArea = new MouseOverArea(container, nl, container.getWidth() / 2 - nl.getWidth() / 2, container.getHeight() / 2));
+        //screen 1/4 - Login/Register screen = 3-5
+        moas.add(loginButton = new MouseOverArea(container, loginImg, container.getWidth() / 2 - loginImg.getWidth() / 2 + regImg.getWidth(), container.getHeight() / 2 + 30));
+        moas.add(regButton = new MouseOverArea(container, regImg, container.getWidth() / 2 - regImg.getWidth() / 2 - regImg.getWidth(), container.getHeight() / 2 + 30));
+        moas.add(okRegisterButton = new MouseOverArea(container, okRegister, container.getWidth() / 2 - 189, container.getHeight() / 2 + 135));
+        //screen 2 - Menu screen = 6 - 10
+        moas.add(playButton = new MouseOverArea(container, play, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 - 100));
+        moas.add(createLvlButton = new MouseOverArea(container, createlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + createlvl.getHeight() * 2 - 100));
+        moas.add(editLvlButton = new MouseOverArea(container, editlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + editlvl.getHeight() * 4 - 100));
+        moas.add(highscoresButton = new MouseOverArea(container, highscores, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + highscores.getHeight() * 6 - 100));
+        moas.add(quitButton = new MouseOverArea(container, quitgame, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + quitgame.getHeight() * 8 - 100));
+        //screen 3 - Level Creator = 11 - 15
+        moas.add(arrowUpButtonX = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + 100, container.getHeight() / 2));
+        moas.add(arrowDownButtonX = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5));
+        moas.add(arrowUpButtonY = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2));
+        moas.add(arrowDownButtonY = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5));
+        moas.add(okButton = new MouseOverArea(container, ok, container.getWidth() / 2 + 100, container.getHeight() / 2 + ok.getHeight() / 2));
+        //screen 5/6 - Preview Screen = 16 - 20
+        moas.add(placeholder1 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4), container.getScreenHeight() / 2 - 165));
+        moas.add(placeholder2 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 330, container.getScreenHeight() / 2 - 165));
+        moas.add(placeholder3 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 660, container.getScreenHeight() / 2 - 165));
+        moas.add(arrowLeftButton = new MouseOverArea(container, arrowRight.getFlippedCopy(true, false), (container.getScreenWidth() / 2 - arrowRight.getWidth()), container.getScreenHeight() / 2 + 400));
+        moas.add(arrowRightButton = new MouseOverArea(container, arrowRight, (container.getScreenWidth() / 2), container.getScreenHeight() / 2 + 400));
 
-        loginButton = new MouseOverArea(container, loginImg, container.getWidth() / 2 - loginImg.getWidth() / 2 + regImg.getWidth(), container.getHeight() / 2 + 30);
-        regButton = new MouseOverArea(container, regImg, container.getWidth() / 2 - regImg.getWidth() / 2 - regImg.getWidth(), container.getHeight() / 2 + 30);
-        okRegisterButton = new MouseOverArea(container, okRegister, container.getWidth() / 2 - 189, container.getHeight() / 2 + 135);
-
-        playButton = new MouseOverArea(container, play, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 - 100);
-        createLvlButton = new MouseOverArea(container, createlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + createlvl.getHeight() * 2 - 100);
-        editLvlButton = new MouseOverArea(container, editlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + editlvl.getHeight() * 4 - 100);
-        highscoresButton = new MouseOverArea(container, highscores, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + highscores.getHeight() * 6 - 100);
-        quitButton = new MouseOverArea(container, quitgame, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + quitgame.getHeight() * 8 - 100);
-
-        arrowUpButtonX = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + 100, container.getHeight() / 2);
-        arrowDownButtonX = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5);
-        arrowUpButtonY = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2);
-        arrowDownButtonY = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5);
-
-        okButton = new MouseOverArea(container, ok, container.getWidth() / 2 + 100, container.getHeight() / 2 + ok.getHeight() / 2);
-
-        placeholder1 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4), container.getScreenHeight() / 2 - 165);
-        placeholder2 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 330, container.getScreenHeight() / 2 - 165);
-        placeholder3 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 660, container.getScreenHeight() / 2 - 165);
-
-        arrowLeftButton = new MouseOverArea(container, arrowRight.getFlippedCopy(true, false), (container.getScreenWidth() / 2 - arrowRight.getWidth()), container.getScreenHeight() / 2 + 400);
-        arrowRightButton = new MouseOverArea(container, arrowRight, (container.getScreenWidth() / 2), container.getScreenHeight() / 2 + 400);
 
         arrowLeftButton.setMouseOverImage(arrowRightp.getFlippedCopy(true, false));
         arrowRightButton.setMouseOverImage(arrowRightp);
@@ -152,15 +169,9 @@ public class MainMenu extends BasicGameState {
         placeholder2.setMouseOverImage(placeholderp);
         placeholder3.setMouseOverImage(placeholderp);
 
-        playButton.setAcceptingInput(false);
-        createLvlButton.setAcceptingInput(false);
-        editLvlButton.setAcceptingInput(false);
-        highscoresButton.setAcceptingInput(false);
-        quitButton.setAcceptingInput(false);
-        okButton.setAcceptingInput(false);
-        okRegisterButton.setAcceptingInput(false);
     }
 
+    // Screen 0
     private void renderLanguages(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString("Please select your language: ", container.getWidth() / 2 - 130, container.getHeight() / 2 - 50);
 
@@ -175,6 +186,7 @@ public class MainMenu extends BasicGameState {
         nlMouseArea.setMouseOverImage(nlp);
     }
 
+    // Screen 1
     private void renderLogin(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 50);
         loginTxtField.render(container, g);
@@ -199,6 +211,7 @@ public class MainMenu extends BasicGameState {
         }
     }
 
+    // Screen 4
     private void renderRegister(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 50);
         loginTxtField.render(container, g);
@@ -222,6 +235,7 @@ public class MainMenu extends BasicGameState {
 
     }
 
+    // Screen 2
     private void renderMenu(GameContainer container, StateBasedGame game, Graphics g) {
         playButton.render(container, g);
         playButton.setMouseOverImage(playp);
@@ -237,9 +251,18 @@ public class MainMenu extends BasicGameState {
 
         quitButton.render(container, g);
         quitButton.setMouseOverImage(quitgamep);
+
+        /* Only ADMINS can create or edit levels */
+        if(!myPlayer.isAdmin_rights()){
+            editLvlButton.setAcceptingInput(false);
+            editLvlButton.setNormalColor(Color.darkGray);
+
+            createLvlButton.setAcceptingInput(false);
+            createLvlButton.setNormalColor(Color.darkGray);
+        }
     }
 
-
+    // Screen 3
     private void renderCreateLevel(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString("X: " + Integer.toString(counterX), container.getWidth() / 2 - arrowUp.getWidth() * 2 + 150, container.getHeight() / 2 - 40);
         arrowUpButtonX.render(container, g);
@@ -257,123 +280,161 @@ public class MainMenu extends BasicGameState {
         okButton.setMouseOverImage(okp);
     }
 
+    // Screen 5
+    private void renderGamePreviews(GameContainer container, StateBasedGame game, Graphics g) {
+        LevelRenderer levelRenderer = new LevelRenderer(1);
+        ArrayList<Level> levels;
+        levels = DBFunctions.getLevels(1);
+        placeholder1.render(container, g);
+        placeholder2.render(container, g);
+        placeholder3.render(container, g);
+        arrowRightButton.render(container, g);
+        arrowLeftButton.render(container, g);
+        int var1 = 0, var2 = 0, var3 = 0;
+        boolean v1 = true, v2 = true, v3 = true;
+        if (page == 0) {
+            levels = DBFunctions.getLevels(1);
+            var1 = 0;
+            var2 = 1;
+            var3 = 2;
+        } else if (page == 1) {
+            levels = DBFunctions.getLevels(2);
+            var1 = 0;
+            var2 = 1;
+            var3 = 2;
+        } else {
+            levels = DBFunctions.getLevels(0);
+            max = DBFunctions.getLevels(0).size();
+            if (page * 3 - 6 >= max) {
+                v1 = false;
+            }
+            if (page * 3 - 5 >= max) {
+                v2 = false;
+            }
+            if (page * 3 - 4 >= max) {
+                v3 = false;
+            }
+            var1 = page * 3 - 6;
+            var2 = page * 3 - 5;
+            var3 = page * 3 - 4;
+        }
+        if (v1) {
+            levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder1.render(container, g);
+        }
+        if (v2) {
+            levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder2.render(container, g);
+        }
+        if (v3) {
+            levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder3.render(container, g);
+        }
 
+    }
+
+    // Screen 6
+    private void renderEditPreviews(GameContainer container, StateBasedGame game, Graphics g) {
+        LevelRenderer levelRenderer = new LevelRenderer(2);
+        ArrayList<Level> levels;
+
+        arrowRightButton.render(container, g);
+        arrowLeftButton.render(container, g);
+        int var1 = 0, var2 = 0, var3 = 0;
+        boolean v1 = true, v2 = true, v3 = true;
+        levels = DBFunctions.getLevels(0);
+        max = DBFunctions.getLevels(0).size();
+
+        if (page * 3 + 0 >= max) {
+            v1 = false;
+        }
+        if (page * 3 + 1 >= max) {
+            v2 = false;
+        }
+        if (page * 3 + 2 >= max) {
+            v3 = false;
+        }
+        var1 = page * 3 + 0;
+        var2 = page * 3 + 1;
+        var3 = page * 3 + 2;
+
+        if (v1) {
+            levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder1.render(container, g);
+        }
+        if (v2) {
+            levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder2.render(container, g);
+        }
+        if (v3) {
+            levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder3.render(container, g);
+        }
+    }
+
+    //TODO: Screen 7 @MatousVales - Highscores
+
+    private void inputsetter(int screenNumber) {
+        for (MouseOverArea m : moas) {
+            m.setAcceptingInput(false);
+        }
+        switch (screenNumber) {
+            case 0:
+                for (int i = 0; i <= 2; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 1:
+                for (int i = 3; i <= 5; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 2:
+                for (int i = 6; i <= 10; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 3:
+                for (int i = 11; i <= 15; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 4:
+                for (int i = 6; i <= 10; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 5:
+                for (int i = 16; i <= 20; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 6:
+                for (int i = 16; i <= 20; i++) {
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+        }
+    }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawImage(logo, container.getWidth() / 2 - logo.getWidth() / 2, 50);
-
+        inputsetter(counter);
         if (counter == 0) {
             renderLanguages(container, game, g);
         } else if (counter == 1) {
-            czMouseArea.setAcceptingInput(false);
-            enMouseArea.setAcceptingInput(false);
-            nlMouseArea.setAcceptingInput(false);
             renderLogin(container, game, g);
-
-            okRegisterButton.setAcceptingInput(true);
         } else if (counter == 2) {
-            loginButton.setAcceptingInput(false);
-            regButton.setAcceptingInput(false);
             renderMenu(container, game, g);
-
-            playButton.setAcceptingInput(true);
-            createLvlButton.setAcceptingInput(true);
-            editLvlButton.setAcceptingInput(true);
-            highscoresButton.setAcceptingInput(true);
-            quitButton.setAcceptingInput(true);
         } else if (counter == 3) {
             renderCreateLevel(container, game, g);
-            okButton.setAcceptingInput(true);
         } else if (counter == 4) {
-            okButton.setAcceptingInput(false);
-            loginButton.setAcceptingInput(false);
             renderRegister(container, game, g);
         } else if (counter == 5) {
-            LevelRenderer levelRenderer = new LevelRenderer(1);
-            ArrayList<Level> levels;
-            levels = DBFunctions.getLevels(1);
-            placeholder1.render(container, g);
-            placeholder2.render(container, g);
-            placeholder3.render(container, g);
-            arrowRightButton.render(container, g);
-            arrowLeftButton.render(container, g);
-            int var1 = 0, var2 = 0, var3 = 0;
-            boolean v1 = true, v2 = true, v3 = true;
-            if (page == 0) {
-                levels = DBFunctions.getLevels(1);
-                var1 = 0;
-                var2 = 1;
-                var3 = 2;
-            } else if (page == 1) {
-                levels = DBFunctions.getLevels(2);
-                var1 = 0;
-                var2 = 1;
-                var3 = 2;
-            } else {
-                levels = DBFunctions.getLevels(0);
-                max = DBFunctions.getLevels(0).size();
-                if (page * 3 - 6 >= max) {
-                    v1 = false;
-                }
-                if (page * 3 - 5 >= max) {
-                    v2 = false;
-                }
-                if (page * 3 - 4 >= max) {
-                    v3 = false;
-                }
-                var1 = page * 3 - 6;
-                var2 = page * 3 - 5;
-                var3 = page * 3 - 4;
-            }
-            if (v1) {
-                levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder1.render(container, g);
-            }
-            if (v2) {
-                levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder2.render(container, g);
-            }
-            if (v3) {
-                levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder3.render(container, g);
-            }
+            renderGamePreviews(container, game, g);
         } else if (counter == 6) {
-            LevelRenderer levelRenderer = new LevelRenderer(2);
-            ArrayList<Level> levels;
-
-            arrowRightButton.render(container, g);
-            arrowLeftButton.render(container, g);
-            int var1 = 0, var2 = 0, var3 = 0;
-            boolean v1 = true, v2 = true, v3 = true;
-            levels = DBFunctions.getLevels(0);
-            max = DBFunctions.getLevels(0).size();
-
-            if (page * 3 + 0 >= max) {
-                v1 = false;
-            }
-            if (page * 3 + 1 >= max) {
-                v2 = false;
-            }
-            if (page * 3 + 2 >= max) {
-                v3 = false;
-            }
-            var1 = page * 3 + 0;
-            var2 = page * 3 + 1;
-            var3 = page * 3 + 2;
-
-            if (v1) {
-                levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder1.render(container, g);
-            }
-            if (v2) {
-                levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder2.render(container, g);
-            }
-            if (v3) {
-                levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder3.render(container, g);
-            }
+            renderEditPreviews(container, game, g);
         }
     }
 
@@ -401,11 +462,17 @@ public class MainMenu extends BasicGameState {
 
                 /* VERIFY THE USER */
                 playerID = DBFunctions.verifyNickname(login); //if verification returns -1, a prompt is displayed (implemented in renderlogin()
-
+                ArrayList<Player> players = DBFunctions.getPlayers();
                 if (playerID != -1) {
                     /* player FOUND in DB, verify pw: */
                     if (DBFunctions.verifyPassword(playerID, password)) {
                         /*correct login && pw, -> main menu*/
+                        /* Create the player */
+                        for (Player player : players) {
+                            if (player.getNickname().toLowerCase().equals(login.toLowerCase())) {
+                                myPlayer = new Player(player.getPlayerID(), player.getName(), player.getSurname(), player.getPassword(), player.getNickname(), player.isAdmin_rights());
+                            }
+                        }
                         counter = 2;
                     } else {
                       /*player found, but entered incorrect pw*/
@@ -437,6 +504,7 @@ public class MainMenu extends BasicGameState {
                 }
                 if (pwLowerCase && pwUpperCase && pwNumber && pwTxtField.getText().length() >= 8) {
                     DBFunctions.register(nameTxtField.getText(), surnameTxtField.getText(), loginTxtField.getText(), pwTxtField.getText());
+                    //setter
                     counter = 2;
                 } else {
                     badPwPrompt = true;
@@ -454,13 +522,21 @@ public class MainMenu extends BasicGameState {
             /* Create level */
             else if (createLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 counter = 3;
-            } else if (editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            }
+
+            /* Edit level */
+            else if (editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 counter = 6;
             }
 
             /* Quit Game */
             else if (quitButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 container.exit();
+            }
+
+            /* Test of player creation */
+            else if (input.isKeyPressed(Input.KEY_HOME)) {
+                System.out.print(myPlayer.getNickname() + "\t" + myPlayer.isAdmin_rights());
             }
         }
 
@@ -493,31 +569,31 @@ public class MainMenu extends BasicGameState {
                 if (page < max) page++;
             }
             if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if          (page == 0) Game.setGame(0, 1);
+                if (page == 0) Game.setGame(0, 1);
 
-                else if     (page == 1) Game.setGame(0, 2);
+                else if (page == 1) Game.setGame(0, 2);
 
-                else                    Game.setGame(page*3-6, 0);
+                else Game.setGame(page * 3 - 6, 0);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if (page == 0) Game.setGame(1,1);
+                if (page == 0) Game.setGame(1, 1);
 
                 else if (page == 1) Game.setGame(1, 2);
 
-                else Game.setGame(page*3-5, 0);
+                else Game.setGame(page * 3 - 5, 0);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page == 0) Game.setGame(2, 1);
 
-                else if (page == 1) Game.setGame(2,2);
+                else if (page == 1) Game.setGame(2, 2);
 
-                else Game.setGame(page*3 -  4, 0);
+                else Game.setGame(page * 3 - 4, 0);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
         }
-        if(counter == 6){
+        if (counter == 6) {
             int levelNumber = 0;
             if (arrowLeftButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page > 0) page--;
@@ -527,7 +603,7 @@ public class MainMenu extends BasicGameState {
                 System.out.print(max + "\n");
                 if (page < max) page++; //kek
             }
-            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 levelNumber = page * 3 + 0;
                 CreateLevel.editLevel(levelNumber, container);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
@@ -541,6 +617,12 @@ public class MainMenu extends BasicGameState {
                 levelNumber = page * 3 + 2;
                 CreateLevel.editLevel(levelNumber, container);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
+            }
+        }
+
+        if(input.isKeyPressed(Input.KEY_ESCAPE) && counter > 1){
+            if(counter > 2 && counter != 4){
+                counter = 2;
             }
         }
 

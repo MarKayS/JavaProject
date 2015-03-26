@@ -23,9 +23,9 @@ public class Level {
         this.gameNumber = gameNumber;
         this.levelNumber = levelNumber;
         this.levelName = levelName;
-        int y = 0;
+        int y;
         int x = 0;
-        int c = 0;
+        int c;
         for (int i = 0; i < levelString.length(); i++) {
             if (levelString.charAt(i) == '\n') {
                 maxY++;
@@ -133,6 +133,7 @@ public class Level {
                     return false;
                     //assfsf
                 }
+                //asdasdad
             }
             if (playerX) {
                 level[from.y][from.x] = 'X';
@@ -145,8 +146,17 @@ public class Level {
             }
             level[to.y][to.x] = 'P';
         } else if (level[from.y][from.x] == '0') {
-            level[from.y][from.x] = 'X';
-            level[to.y][to.x] = 'B';
+            if(level[to.y][to.x]=='B'||level[to.y][to.x]=='0'){
+                return false;
+            }
+            else if(level[to.y][to.x] != 'X') {
+                level[from.y][from.x] = 'X';
+                level[to.y][to.x] = 'B';
+            }
+            else{
+                level[from.y][from.x] = 'X';
+                level[to.y][to.x] = '0';
+            }
         } else if (level[from.y][from.x] == 'B') {
             if (level[to.y][to.x] == 'B' || level[to.y][to.x] == '0')
                 return false;
