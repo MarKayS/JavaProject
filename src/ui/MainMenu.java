@@ -2,7 +2,6 @@ package ui;
 
 import core.Language;
 import core.Level;
-import net.java.games.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -158,6 +157,7 @@ public class MainMenu extends BasicGameState {
 
     }
 
+    // Screen 0
     private void renderLanguages(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString("Please select your language: ", container.getWidth() / 2 - 130, container.getHeight() / 2 - 50);
 
@@ -172,6 +172,7 @@ public class MainMenu extends BasicGameState {
         nlMouseArea.setMouseOverImage(nlp);
     }
 
+    // Screen 1
     private void renderLogin(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 50);
         loginTxtField.render(container, g);
@@ -196,6 +197,7 @@ public class MainMenu extends BasicGameState {
         }
     }
 
+    // Screen 4
     private void renderRegister(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString(Language.getText("loginpromptKey"), container.getWidth() / 2 - 189, container.getHeight() / 2 - 50);
         loginTxtField.render(container, g);
@@ -219,6 +221,7 @@ public class MainMenu extends BasicGameState {
 
     }
 
+    // Screen 2
     private void renderMenu(GameContainer container, StateBasedGame game, Graphics g) {
         playButton.render(container, g);
         playButton.setMouseOverImage(playp);
@@ -236,7 +239,7 @@ public class MainMenu extends BasicGameState {
         quitButton.setMouseOverImage(quitgamep);
     }
 
-
+    // Screen 3
     private void renderCreateLevel(GameContainer container, StateBasedGame game, Graphics g) {
         g.drawString("X: " + Integer.toString(counterX), container.getWidth() / 2 - arrowUp.getWidth() * 2 + 150, container.getHeight() / 2 - 40);
         arrowUpButtonX.render(container, g);
@@ -253,6 +256,100 @@ public class MainMenu extends BasicGameState {
         okButton.render(container, g);
         okButton.setMouseOverImage(okp);
     }
+
+    // Screen 5
+    private void renderGamePreviews(GameContainer container, StateBasedGame game, Graphics g){
+        LevelRenderer levelRenderer = new LevelRenderer(1);
+        ArrayList<Level> levels;
+        levels = DBFunctions.getLevels(1);
+        placeholder1.render(container, g);
+        placeholder2.render(container, g);
+        placeholder3.render(container, g);
+        arrowRightButton.render(container, g);
+        arrowLeftButton.render(container, g);
+        int var1 = 0, var2 = 0, var3 = 0;
+        boolean v1 = true, v2 = true, v3 = true;
+        if (page == 0) {
+            levels = DBFunctions.getLevels(1);
+            var1 = 0;
+            var2 = 1;
+            var3 = 2;
+        } else if (page == 1) {
+            levels = DBFunctions.getLevels(2);
+            var1 = 0;
+            var2 = 1;
+            var3 = 2;
+        } else {
+            levels = DBFunctions.getLevels(0);
+            max = DBFunctions.getLevels(0).size();
+            if (page * 3 - 6 >= max) {
+                v1 = false;
+            }
+            if (page * 3 - 5 >= max) {
+                v2 = false;
+            }
+            if (page * 3 - 4 >= max) {
+                v3 = false;
+            }
+            var1 = page * 3 - 6;
+            var2 = page * 3 - 5;
+            var3 = page * 3 - 4;
+        }
+        if (v1) {
+            levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder1.render(container, g);
+        }
+        if (v2) {
+            levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder2.render(container, g);
+        }
+        if (v3) {
+            levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder3.render(container, g);
+        }
+
+    }
+
+    // Screen 6
+    private void renderEditPreviews(GameContainer container, StateBasedGame game, Graphics g){
+        LevelRenderer levelRenderer = new LevelRenderer(2);
+        ArrayList<Level> levels;
+
+        arrowRightButton.render(container, g);
+        arrowLeftButton.render(container, g);
+        int var1 = 0, var2 = 0, var3 = 0;
+        boolean v1 = true, v2 = true, v3 = true;
+        levels = DBFunctions.getLevels(0);
+        max = DBFunctions.getLevels(0).size();
+
+        if (page * 3 + 0 >= max) {
+            v1 = false;
+        }
+        if (page * 3 + 1 >= max) {
+            v2 = false;
+        }
+        if (page * 3 + 2 >= max) {
+            v3 = false;
+        }
+        var1 = page * 3 + 0;
+        var2 = page * 3 + 1;
+        var3 = page * 3 + 2;
+
+        if (v1) {
+            levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder1.render(container, g);
+        }
+        if (v2) {
+            levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder2.render(container, g);
+        }
+        if (v3) {
+            levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
+            placeholder3.render(container, g);
+        }
+    }
+
+    //TODO: Screen 7 @MatousVales - Highscores
 
     private void inputsetter(int screenNumber){
         for(MouseOverArea m : moas){
@@ -302,109 +399,19 @@ public class MainMenu extends BasicGameState {
         g.drawImage(logo, container.getWidth() / 2 - logo.getWidth() / 2, 50);
         inputsetter(counter);
         if (counter == 0) {
-
             renderLanguages(container, game, g);
         } else if (counter == 1) {
-
             renderLogin(container, game, g);
-
-            okRegisterButton.setAcceptingInput(true);
         } else if (counter == 2) {
-
             renderMenu(container, game, g);
-
-
         } else if (counter == 3) {
             renderCreateLevel(container, game, g);
-
         } else if (counter == 4) {
-
             renderRegister(container, game, g);
         } else if (counter == 5) {
-            LevelRenderer levelRenderer = new LevelRenderer(1);
-            ArrayList<Level> levels;
-            levels = DBFunctions.getLevels(1);
-            placeholder1.render(container, g);
-            placeholder2.render(container, g);
-            placeholder3.render(container, g);
-            arrowRightButton.render(container, g);
-            arrowLeftButton.render(container, g);
-            int var1 = 0, var2 = 0, var3 = 0;
-            boolean v1 = true, v2 = true, v3 = true;
-            if (page == 0) {
-                levels = DBFunctions.getLevels(1);
-                var1 = 0;
-                var2 = 1;
-                var3 = 2;
-            } else if (page == 1) {
-                levels = DBFunctions.getLevels(2);
-                var1 = 0;
-                var2 = 1;
-                var3 = 2;
-            } else {
-                levels = DBFunctions.getLevels(0);
-                max = DBFunctions.getLevels(0).size();
-                if (page * 3 - 6 >= max) {
-                    v1 = false;
-                }
-                if (page * 3 - 5 >= max) {
-                    v2 = false;
-                }
-                if (page * 3 - 4 >= max) {
-                    v3 = false;
-                }
-                var1 = page * 3 - 6;
-                var2 = page * 3 - 5;
-                var3 = page * 3 - 4;
-            }
-            if (v1) {
-                levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder1.render(container, g);
-            }
-            if (v2) {
-                levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder2.render(container, g);
-            }
-            if (v3) {
-                levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder3.render(container, g);
-            }
+            renderGamePreviews(container, game, g);
         } else if (counter == 6) {
-            LevelRenderer levelRenderer = new LevelRenderer(2);
-            ArrayList<Level> levels;
-
-            arrowRightButton.render(container, g);
-            arrowLeftButton.render(container, g);
-            int var1 = 0, var2 = 0, var3 = 0;
-            boolean v1 = true, v2 = true, v3 = true;
-            levels = DBFunctions.getLevels(0);
-            max = DBFunctions.getLevels(0).size();
-
-            if (page * 3 + 0 >= max) {
-                v1 = false;
-            }
-            if (page * 3 + 1 >= max) {
-                v2 = false;
-            }
-            if (page * 3 + 2 >= max) {
-                v3 = false;
-            }
-            var1 = page * 3 + 0;
-            var2 = page * 3 + 1;
-            var3 = page * 3 + 2;
-
-            if (v1) {
-                levelRenderer.renderPreview(levels.get(var1), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) + 5, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder1.render(container, g);
-            }
-            if (v2) {
-                levelRenderer.renderPreview(levels.get(var2), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 335, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder2.render(container, g);
-            }
-            if (v3) {
-                levelRenderer.renderPreview(levels.get(var3), g, new Point(((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 665, container.getScreenHeight() / 2 - 160), 0.21f);
-                placeholder3.render(container, g);
-            }
+            renderEditPreviews(container, game, g);
         }
     }
 
