@@ -85,6 +85,9 @@ public class Game extends BasicGameState {
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         if (levels.get(levelNumber).checkWin()) {
+            if (gamestate != 1) {
+                DBFunctions.reportScore(moves,time/1000,levels.get(levelNumber).getLevelID());
+            }
             gamestate = 1;
         }
         if (gamestate < 1) {

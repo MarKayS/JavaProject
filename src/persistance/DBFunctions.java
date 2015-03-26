@@ -4,10 +4,14 @@ import java.sql.*;
 
 import core.Level;
 import core.Player;
+import core.Score;
+import ui.MainMenu;
 
 import java.util.ArrayList;
 
 public class DBFunctions {
+
+    private static int playerID;
 
     public static ArrayList<Player> getPlayers(){
         ArrayList<Player> players = new ArrayList<>();
@@ -82,10 +86,69 @@ public class DBFunctions {
         ArrayList<Player> players = DBFunctions.getPlayers();
         for (int i = 0; i < players.size(); i++){
             if (nickname.toLowerCase().equals(players.get(i).getNickname().toLowerCase())){
+                playerID = players.get(i).getPlayerID();
                 return i;
             }
         }
         return -1;
+    }
+
+    public static ArrayList<Score> getHighScores(){
+        ArrayList<Score> scores = new ArrayList<>();
+        String selectScore = "SELECT min(sc.moves) as score, sc.time, sc.moves, lv.levelName, pl.nickname from Scores sc join Player pl ON sc.playerID=pl.playerID join Level lv on lv.levelID=sc.levelID Group by levelName";
+
+        Statement statement;
+        Connection connection = null;
+
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectScore);
+
+            while(resultSet.next()){
+                int levelID = resultSet.getInt("levelID");
+                int gameNumber = resultSet.getInt("gameNumber");
+                int levelNumber = resultSet.getInt("levelNumber");
+                String levelName = resultSet.getString("levelName");
+                String levelParse = resultSet.getString("level");
+                scores.add(new Score(resultSet.getInt("score"), resultSet.getInt("time"), resultSet.getString("levelName"), resultSet.getString("nickname")));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scores;
+    }
+
+    public static int reportScore(int moves, int time, int levelID){
+        Connection connection = null;
+        PreparedStatement statement;
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+
+            System.out.print(moves + " " + time + " " + levelID);
+            statement = connection.prepareStatement("INSERT INTO Scores (playerID, levelID, time, moves) VALUES (?,?,?,?)");
+            statement.setInt(1, playerID);
+            statement.setInt(2, levelID);
+            statement.setInt(3, time);
+            statement.setInt(4, moves);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 
     public static boolean verifyPassword(int id, String password){
@@ -181,6 +244,7 @@ public class DBFunctions {
         } catch (SQLException e) {
         e.printStackTrace();
         }
+        verifyNickname(nickname);
         return true;
     }
 }

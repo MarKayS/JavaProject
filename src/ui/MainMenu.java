@@ -373,6 +373,11 @@ public class MainMenu extends BasicGameState {
         }
     }
 
+    // Screen 7
+    private void renderHighScores(GameContainer container, StateBasedGame game, Graphics g){
+
+    }
+
     //TODO: Screen 7 @MatousVales - Highscores
 
     private void inputsetter(int screenNumber) {
@@ -436,6 +441,8 @@ public class MainMenu extends BasicGameState {
             renderGamePreviews(container, game, g);
         } else if (counter == 6) {
             renderEditPreviews(container, game, g);
+        } else if (counter == 7) {
+            renderHighScores(container, game, g);
         }
     }
 
@@ -619,6 +626,11 @@ public class MainMenu extends BasicGameState {
                 CreateLevel.editLevel(levelNumber, container);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
+
+        }
+        if (counter == 7) {
+            //DBFunctions.gethighsccores something something
+
         }
 
         if(input.isKeyPressed(Input.KEY_ESCAPE) && counter >=0){
@@ -642,4 +654,10 @@ public class MainMenu extends BasicGameState {
     public int getID() {
         return this.id;
     }
+
+    public String getLogin() {
+        return login;
+    }
 }
+
+
