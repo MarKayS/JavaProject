@@ -95,7 +95,7 @@ public class DBFunctions {
 
     public static ArrayList<Score> getHighScores(){
         ArrayList<Score> scores = new ArrayList<>();
-        String selectScore = "SELECT min(sc.moves) as score, sc.time, sc.moves, lv.levelName, pl.nickname from Scores sc join Player pl ON sc.playerID=pl.playerID join Level lv on lv.levelID=sc.levelID Group by levelName";
+        String selectScore = "SELECT * FROM (SELECT sc.time,sc.moves,lv.levelName,pl.nickname FROM Scores sc JOIN Player pl ON sc.playerID = pl.playerID JOIN Level lv ON lv.levelID = sc.levelID Order by moves,time asc) as T group by levelName HAVING (moves= MIN(moves))";
 
         Statement statement;
         Connection connection = null;
@@ -110,13 +110,8 @@ public class DBFunctions {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(selectScore);
 
-            while(resultSet.next()){
-                int levelID = resultSet.getInt("levelID");
-                int gameNumber = resultSet.getInt("gameNumber");
-                int levelNumber = resultSet.getInt("levelNumber");
-                String levelName = resultSet.getString("levelName");
-                String levelParse = resultSet.getString("level");
-                scores.add(new Score(resultSet.getInt("score"), resultSet.getInt("time"), resultSet.getString("levelName"), resultSet.getString("nickname")));
+            while (resultSet.next()) {
+                scores.add(new Score(resultSet.getInt("time"), resultSet.getInt("moves"), resultSet.getString("levelName"), resultSet.getString("nickname")));
             }
         }
         catch (SQLException e) {
