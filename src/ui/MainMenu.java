@@ -2,6 +2,7 @@ package ui;
 
 import core.Language;
 import core.Level;
+import core.Player;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -30,7 +31,20 @@ public class MainMenu extends BasicGameState {
     int page = 0;
     int max = 0;
     String login, password;
+    Player myPlayer;
     public int counterX = 4, counterY = 4;
+
+    /*
+    * counter 0 - language
+    * counter 1 - login
+    * conter 2 - menu
+    * counter 3 - creator
+    * counter 4 - register
+    * counter 5 - game preview
+    * counter 6 - editor
+    * counter 7 - highscore
+    *
+     */
 
     TextField loginTxtField = null, pwTxtField = null, surnameTxtField = null, nameTxtField = null;
 
@@ -237,6 +251,15 @@ public class MainMenu extends BasicGameState {
 
         quitButton.render(container, g);
         quitButton.setMouseOverImage(quitgamep);
+
+        /* Only ADMINS can create or edit levels */
+        if(!myPlayer.isAdmin_rights()){
+            editLvlButton.setAcceptingInput(false);
+            editLvlButton.setNormalColor(Color.darkGray);
+
+            createLvlButton.setAcceptingInput(false);
+            createLvlButton.setNormalColor(Color.darkGray);
+        }
     }
 
     // Screen 3
@@ -258,7 +281,7 @@ public class MainMenu extends BasicGameState {
     }
 
     // Screen 5
-    private void renderGamePreviews(GameContainer container, StateBasedGame game, Graphics g){
+    private void renderGamePreviews(GameContainer container, StateBasedGame game, Graphics g) {
         LevelRenderer levelRenderer = new LevelRenderer(1);
         ArrayList<Level> levels;
         levels = DBFunctions.getLevels(1);
@@ -311,7 +334,7 @@ public class MainMenu extends BasicGameState {
     }
 
     // Screen 6
-    private void renderEditPreviews(GameContainer container, StateBasedGame game, Graphics g){
+    private void renderEditPreviews(GameContainer container, StateBasedGame game, Graphics g) {
         LevelRenderer levelRenderer = new LevelRenderer(2);
         ArrayList<Level> levels;
 
@@ -351,43 +374,43 @@ public class MainMenu extends BasicGameState {
 
     //TODO: Screen 7 @MatousVales - Highscores
 
-    private void inputsetter(int screenNumber){
-        for(MouseOverArea m : moas){
+    private void inputsetter(int screenNumber) {
+        for (MouseOverArea m : moas) {
             m.setAcceptingInput(false);
         }
-        switch(screenNumber){
+        switch (screenNumber) {
             case 0:
-                for(int i=0;i<2;i++){
+                for (int i = 0; i <= 2; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
             case 1:
-                for(int i=3;i<5;i++){
+                for (int i = 3; i <= 5; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
             case 2:
-                for(int i=6;i<10;i++){
+                for (int i = 6; i <= 10; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
             case 3:
-                for(int i=11;i<15;i++){
+                for (int i = 11; i <= 15; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
             case 4:
-                for(int i=6;i<10;i++){
+                for (int i = 6; i <= 10; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
             case 5:
-                for(int i=16;i<20;i++){
+                for (int i = 16; i <= 20; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
             case 6:
-                for(int i=16;i<20;i++){
+                for (int i = 16; i <= 20; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
@@ -439,11 +462,17 @@ public class MainMenu extends BasicGameState {
 
                 /* VERIFY THE USER */
                 playerID = DBFunctions.verifyNickname(login); //if verification returns -1, a prompt is displayed (implemented in renderlogin()
-
+                ArrayList<Player> players = DBFunctions.getPlayers();
                 if (playerID != -1) {
                     /* player FOUND in DB, verify pw: */
                     if (DBFunctions.verifyPassword(playerID, password)) {
                         /*correct login && pw, -> main menu*/
+                        /* Create the player */
+                        for (Player player : players) {
+                            if (player.getNickname().toLowerCase().equals(login.toLowerCase())) {
+                                myPlayer = new Player(player.getPlayerID(), player.getName(), player.getSurname(), player.getPassword(), player.getNickname(), player.isAdmin_rights());
+                            }
+                        }
                         counter = 2;
                     } else {
                       /*player found, but entered incorrect pw*/
@@ -475,6 +504,7 @@ public class MainMenu extends BasicGameState {
                 }
                 if (pwLowerCase && pwUpperCase && pwNumber && pwTxtField.getText().length() >= 8) {
                     DBFunctions.register(nameTxtField.getText(), surnameTxtField.getText(), loginTxtField.getText(), pwTxtField.getText());
+                    //setter
                     counter = 2;
                 } else {
                     badPwPrompt = true;
@@ -492,13 +522,21 @@ public class MainMenu extends BasicGameState {
             /* Create level */
             else if (createLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 counter = 3;
-            } else if (editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            }
+
+            /* Edit level */
+            else if (editLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 counter = 6;
             }
 
             /* Quit Game */
             else if (quitButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 container.exit();
+            }
+
+            /* Test of player creation */
+            else if (input.isKeyPressed(Input.KEY_HOME)) {
+                System.out.print(myPlayer.getNickname() + "\t" + myPlayer.isAdmin_rights());
             }
         }
 
@@ -531,31 +569,31 @@ public class MainMenu extends BasicGameState {
                 if (page < max) page++;
             }
             if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if          (page == 0) Game.setGame(0, 1);
+                if (page == 0) Game.setGame(0, 1);
 
-                else if     (page == 1) Game.setGame(0, 2);
+                else if (page == 1) Game.setGame(0, 2);
 
-                else                    Game.setGame(page*3-6, 0);
+                else Game.setGame(page * 3 - 6, 0);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-                if (page == 0) Game.setGame(1,1);
+                if (page == 0) Game.setGame(1, 1);
 
                 else if (page == 1) Game.setGame(1, 2);
 
-                else Game.setGame(page*3-5, 0);
+                else Game.setGame(page * 3 - 5, 0);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page == 0) Game.setGame(2, 1);
 
-                else if (page == 1) Game.setGame(2,2);
+                else if (page == 1) Game.setGame(2, 2);
 
-                else Game.setGame(page*3 -  4, 0);
+                else Game.setGame(page * 3 - 4, 0);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
         }
-        if(counter == 6){
+        if (counter == 6) {
             int levelNumber = 0;
             if (arrowLeftButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page > 0) page--;
@@ -565,7 +603,7 @@ public class MainMenu extends BasicGameState {
                 System.out.print(max + "\n");
                 if (page < max) page++; //kek
             }
-            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+            if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 levelNumber = page * 3 + 0;
                 CreateLevel.editLevel(levelNumber, container);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
@@ -579,6 +617,12 @@ public class MainMenu extends BasicGameState {
                 levelNumber = page * 3 + 2;
                 CreateLevel.editLevel(levelNumber, container);
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
+            }
+        }
+
+        if(input.isKeyPressed(Input.KEY_ESCAPE) && counter > 1){
+            if(counter > 2 && counter != 4){
+                counter = 2;
             }
         }
 
