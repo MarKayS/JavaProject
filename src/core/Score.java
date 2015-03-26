@@ -8,9 +8,9 @@ public class Score {
     private int moves, time;
     private String levelName,nickname;
 
-    public Score(int moves, int time, String levelName, String nickname) {
-        this.moves = moves;
+    public Score(int time, int moves, String levelName, String nickname) {
         this.time = time;
+        this.moves = moves;
         this.levelName = levelName;
         this.nickname = nickname;
     }
