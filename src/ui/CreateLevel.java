@@ -296,6 +296,17 @@ public class CreateLevel extends BasicGameState {
                 timer = 0;
             }
         }
+
+        if(container.getInput().isKeyPressed(Input.KEY_ESCAPE)){
+            for(int i = 0; i < maxY; i ++){
+                for(int j = 0; j < maxX; j++){
+                    level[i][j] = null;
+                }
+            }
+            maxX = 0;
+            maxY = 0;
+            game.enterState(1);
+        }
     }
 
     @Override

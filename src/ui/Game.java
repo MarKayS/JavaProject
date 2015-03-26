@@ -110,6 +110,8 @@ public class Game extends BasicGameState {
                 moves++;
                 if (gamestate == -1) gamestate++;
             } else if (i.isKeyPressed(Input.KEY_R)){
+                moves = 0;
+                time = 0;
                 initGame();
             } else if (i.isKeyPressed(Input.KEY_ESCAPE)){
                 game.enterState(1);
@@ -121,9 +123,13 @@ public class Game extends BasicGameState {
                 if (levelNumber < levels.size() - 1) {
                     levelNumber++;
                     game.enterState(2, new EmptyTransition(), new FadeInTransition());
+                    moves = 0;
+                    time = 0;
                     gamestate = -1;
                 } else {
-                    gamestate=-1;
+                    moves = 0;
+                    time = 0;
+                    gamestate = -1;
                     game.enterState(1, new FadeInTransition(), new FadeInTransition());
                 }
 
