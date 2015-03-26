@@ -3,6 +3,7 @@ package ui;
 import core.Language;
 import core.Level;
 import core.Player;
+import core.Score;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -375,7 +376,21 @@ public class MainMenu extends BasicGameState {
 
     // Screen 7
     private void renderHighScores(GameContainer container, StateBasedGame game, Graphics g){
+        int x = 480;
+        int y = 315;
+        ArrayList<Score> scores = DBFunctions.getHighScores();
 
+        g.drawString("Name", x, 250);
+        g.drawString("Level", x+150, 250);
+        g.drawString("Moves", x+450, 250);
+        g.drawString("Time", x+600, 250);
+        for(Score score : scores ){
+            g.drawString(score.getNickname(),x,y);
+            g.drawString(score.getLevelName(),x+150,y);
+            g.drawString(String.valueOf(score.getMoves()),x+450,y);
+            g.drawString(String.valueOf(score.getTime()),x+600,y);
+            y = y + 50;
+        }
     }
 
     //TODO: Screen 7 @MatousVales - Highscores
@@ -526,6 +541,9 @@ public class MainMenu extends BasicGameState {
                 //game.enterState(2, new FadeOutTransition(), new FadeInTransition());
                 counter = 5;
             }
+            if(highscoresButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+                counter = 7;
+            }
 
             /* Create level */
             else if (createLvlButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -642,7 +660,7 @@ public class MainMenu extends BasicGameState {
 
         }
         if (counter == 7) {
-            //DBFunctions.gethighsccores something something
+
 
         }
 

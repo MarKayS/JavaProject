@@ -5,18 +5,18 @@ package core;
  */
 public class Score {
 
-    private int score, time;
+    private int moves, time;
     private String levelName,nickname;
 
-    public Score(int score, int time, String levelName, String nickname) {
-        this.score = score;
+    public Score(int moves, int time, String levelName, String nickname) {
+        this.moves = moves;
         this.time = time;
         this.levelName = levelName;
         this.nickname = nickname;
     }
 
-    public int getScore() {
-        return score;
+    public int getMoves() {
+        return moves;
     }
 
     public int getTime() {
