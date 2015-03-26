@@ -4,6 +4,7 @@ import java.sql.*;
 
 import core.Level;
 import core.Player;
+import core.Score;
 import ui.MainMenu;
 
 import java.util.ArrayList;
@@ -90,6 +91,38 @@ public class DBFunctions {
             }
         }
         return -1;
+    }
+
+    public static ArrayList<Score> getHighScores(){
+        ArrayList<Score> scores = new ArrayList<>();
+        String selectScore = "SELECT min(sc.moves) as score, sc.time, sc.moves, lv.levelName, pl.nickname from Scores sc join Player pl ON sc.playerID=pl.playerID join Level lv on lv.levelID=sc.levelID Group by levelName";
+
+        Statement statement;
+        Connection connection = null;
+
+        try {
+            DBConnection.connect();
+            connection = DBConnection.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectScore);
+
+            while(resultSet.next()){
+                int levelID = resultSet.getInt("levelID");
+                int gameNumber = resultSet.getInt("gameNumber");
+                int levelNumber = resultSet.getInt("levelNumber");
+                String levelName = resultSet.getString("levelName");
+                String levelParse = resultSet.getString("level");
+                scores.add(new Score(resultSet.getInt("score"), resultSet.getInt("time"), resultSet.getString("levelName"), resultSet.getString("nickname")));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return scores;
     }
 
     public static int reportScore(int moves, int time, int levelID){
