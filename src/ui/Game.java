@@ -19,10 +19,14 @@ public class Game extends BasicGameState {
     private static ArrayList<Level> levels;
     private static LevelRenderer lrend;
     static boolean faceRight = true;
-    public int gamestate = -1;  // -1 preparation, 0 game, 1 win, 2 proceed to another level
+    private static int gamestate = -3;  // -1 preparation, 0 game, 1 win, 2 proceed to another level
     private int moves = 0;
     private int time = 0;
     static int levelNumber, gameNumber;
+
+    public static void setGamestate(int gs) {
+        gamestate = gs;
+    }
 
     Game(int i) {
         this.id = i;
@@ -84,30 +88,31 @@ public class Game extends BasicGameState {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+        System.out.print(gamestate);
         if (levels.get(levelNumber).checkWin()) {
             if (gamestate != 1) {
                 DBFunctions.reportScore(moves,time/1000,levels.get(levelNumber).getLevelID());
             }
             gamestate = 1;
         }
-        if (gamestate < 1) {
+        if (gamestate < 1 && gamestate>-2) {
             if (gamestate == 0) {
                 time += delta;
             }
-            if (i.isKeyPressed(Input.KEY_UP) || i.isKeyPressed(Input.KEY_W)) {
+            if (i.isKeyPressed(Input.KEY_UP)) {
                 levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(), 'w');
                 moves++;
                 if (gamestate == -1) gamestate++;
-            } else if (i.isKeyPressed(Input.KEY_DOWN) || i.isKeyPressed(Input.KEY_S)) {
+            } else if (i.isKeyPressed(Input.KEY_DOWN)) {
                 levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(), 's');
                 moves++;
                 if (gamestate == -1) gamestate++;
-            } else if (i.isKeyPressed(Input.KEY_LEFT) || i.isKeyPressed(Input.KEY_A)) {
+            } else if (i.isKeyPressed(Input.KEY_LEFT)) {
                 faceRight = false;
                 levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(), 'a');
                 moves++;
                 if (gamestate == -1) gamestate++;
-            } else if (i.isKeyPressed(Input.KEY_RIGHT) || i.isKeyPressed(Input.KEY_D)) {
+            } else if (i.isKeyPressed(Input.KEY_RIGHT)) {
                 faceRight = true;
                 levels.get(levelNumber).move(levels.get(levelNumber).locatePlayer(), 'd');
                 moves++;
@@ -117,6 +122,7 @@ public class Game extends BasicGameState {
                 time = 0;
                 initGame();
             } else if (i.isKeyPressed(Input.KEY_ESCAPE)){
+                gamestate = -3;
                 game.enterState(1);
             }
 

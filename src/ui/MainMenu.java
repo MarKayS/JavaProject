@@ -581,6 +581,8 @@ public class MainMenu extends BasicGameState {
                 else if (page == 1) Game.setGame(0, 2);
 
                 else Game.setGame(page * 3 - 6, 0);
+
+                Game.setGamestate(-1);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -589,6 +591,8 @@ public class MainMenu extends BasicGameState {
                 else if (page == 1) Game.setGame(1, 2);
 
                 else Game.setGame(page * 3 - 5, 0);
+
+                Game.setGamestate(-1);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -597,11 +601,14 @@ public class MainMenu extends BasicGameState {
                 else if (page == 1) Game.setGame(2, 2);
 
                 else Game.setGame(page * 3 - 4, 0);
+
+                Game.setGamestate(-1);
                 game.enterState(2, new FadeOutTransition(), new FadeInTransition());
             }
         }
         if (counter == 6) {
             int levelNumber = 0;
+            input.clearKeyPressedRecord();
             if (arrowLeftButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 if (page > 0) page--;
             }
@@ -613,16 +620,23 @@ public class MainMenu extends BasicGameState {
             if (placeholder1.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 levelNumber = page * 3 + 0;
                 CreateLevel.editLevel(levelNumber, container);
+                input.consumeEvent();
+                input.clearKeyPressedRecord();
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
+
             }
             if (placeholder2.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 levelNumber = page * 3 + 1;
                 CreateLevel.editLevel(levelNumber, container);
+                input.consumeEvent();
+                input.clearKeyPressedRecord();
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
             if (placeholder3.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
                 levelNumber = page * 3 + 2;
                 CreateLevel.editLevel(levelNumber, container);
+                input.consumeEvent();
+                input.clearKeyPressedRecord();
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
 
