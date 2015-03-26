@@ -2,6 +2,7 @@ package ui;
 
 import core.Language;
 import core.Level;
+import net.java.games.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -40,8 +41,11 @@ public class MainMenu extends BasicGameState {
             arrowUp = null, arrowUpp = null, arrowDown = null, arrowDownp = null, ok = null, okp = null, okRegister = null, okRegisterp = null, placeholder = null, placeholderp = null,
             arrowRight = null, arrowRightp;
 
+    ArrayList<MouseOverArea> moas = new ArrayList<>();
+
     MouseOverArea czMouseArea, enMouseArea, nlMouseArea, loginButton, regButton, playButton, createLvlButton, editLvlButton, highscoresButton, quitButton,
             arrowUpButtonX, arrowDownButtonX, arrowUpButtonY, arrowDownButtonY, okButton, okRegisterButton, placeholder1, placeholder2, placeholder3, arrowLeftButton, arrowRightButton;
+
 
     MainMenu(int i) {
         this.id = i;
@@ -117,33 +121,33 @@ public class MainMenu extends BasicGameState {
         }
 
         //mouseOverAreas
-        czMouseArea = new MouseOverArea(container, cz, container.getWidth() / 2 - cz.getWidth() / 2 + cz.getWidth() + 50, container.getHeight() / 2);
-        enMouseArea = new MouseOverArea(container, en, container.getWidth() / 2 - en.getWidth() / 2 - en.getWidth() - 50, container.getHeight() / 2);
-        nlMouseArea = new MouseOverArea(container, nl, container.getWidth() / 2 - nl.getWidth() / 2, container.getHeight() / 2);
+        //screen 0 - Languages = 0 - 2
+        moas.add(czMouseArea = new MouseOverArea(container, cz, container.getWidth() / 2 - cz.getWidth() / 2 + cz.getWidth() + 50, container.getHeight() / 2));
+        moas.add(enMouseArea = new MouseOverArea(container, en, container.getWidth() / 2 - en.getWidth() / 2 - en.getWidth() - 50, container.getHeight() / 2));
+        moas.add(nlMouseArea = new MouseOverArea(container, nl, container.getWidth() / 2 - nl.getWidth() / 2, container.getHeight() / 2));
+        //screen 1/4 - Login/Register screen = 3-5
+        moas.add(loginButton = new MouseOverArea(container, loginImg, container.getWidth() / 2 - loginImg.getWidth() / 2 + regImg.getWidth(), container.getHeight() / 2 + 30));
+        moas.add(regButton = new MouseOverArea(container, regImg, container.getWidth() / 2 - regImg.getWidth() / 2 - regImg.getWidth(), container.getHeight() / 2 + 30));
+        moas.add(okRegisterButton = new MouseOverArea(container, okRegister, container.getWidth() / 2 - 189, container.getHeight() / 2 + 135));
+        //screen 2 - Menu screen = 6 - 10
+        moas.add(playButton = new MouseOverArea(container, play, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 - 100));
+        moas.add(createLvlButton = new MouseOverArea(container, createlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + createlvl.getHeight() * 2 - 100));
+        moas.add(editLvlButton = new MouseOverArea(container, editlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + editlvl.getHeight() * 4 - 100));
+        moas.add(highscoresButton = new MouseOverArea(container, highscores, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + highscores.getHeight() * 6 - 100));
+        moas.add(quitButton = new MouseOverArea(container, quitgame, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + quitgame.getHeight() * 8 - 100));
+        //screen 3 - Level Creator = 11 - 15
+        moas.add(arrowUpButtonX = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + 100, container.getHeight() / 2));
+        moas.add(arrowDownButtonX = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5));
+        moas.add(arrowUpButtonY = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2));
+        moas.add(arrowDownButtonY = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5));
+        moas.add(okButton = new MouseOverArea(container, ok, container.getWidth() / 2 + 100, container.getHeight() / 2 + ok.getHeight() / 2));
+        //screen 5/6 - Preview Screen = 16 - 20
+        moas.add(placeholder1 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4), container.getScreenHeight() / 2 - 165));
+        moas.add(placeholder2 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 330, container.getScreenHeight() / 2 - 165));
+        moas.add(placeholder3 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 660, container.getScreenHeight() / 2 - 165));
+        moas.add(arrowLeftButton = new MouseOverArea(container, arrowRight.getFlippedCopy(true, false), (container.getScreenWidth() / 2 - arrowRight.getWidth()), container.getScreenHeight() / 2 + 400));
+        moas.add(arrowRightButton = new MouseOverArea(container, arrowRight, (container.getScreenWidth() / 2), container.getScreenHeight() / 2 + 400));
 
-        loginButton = new MouseOverArea(container, loginImg, container.getWidth() / 2 - loginImg.getWidth() / 2 + regImg.getWidth(), container.getHeight() / 2 + 30);
-        regButton = new MouseOverArea(container, regImg, container.getWidth() / 2 - regImg.getWidth() / 2 - regImg.getWidth(), container.getHeight() / 2 + 30);
-        okRegisterButton = new MouseOverArea(container, okRegister, container.getWidth() / 2 - 189, container.getHeight() / 2 + 135);
-
-        playButton = new MouseOverArea(container, play, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 - 100);
-        createLvlButton = new MouseOverArea(container, createlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + createlvl.getHeight() * 2 - 100);
-        editLvlButton = new MouseOverArea(container, editlvl, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + editlvl.getHeight() * 4 - 100);
-        highscoresButton = new MouseOverArea(container, highscores, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + highscores.getHeight() * 6 - 100);
-        quitButton = new MouseOverArea(container, quitgame, container.getWidth() / 2 - play.getWidth() / 2 - 100, container.getHeight() / 2 + quitgame.getHeight() * 8 - 100);
-
-        arrowUpButtonX = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + 100, container.getHeight() / 2);
-        arrowDownButtonX = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5);
-        arrowUpButtonY = new MouseOverArea(container, arrowUp, container.getWidth() / 2 - arrowUp.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2);
-        arrowDownButtonY = new MouseOverArea(container, arrowDown, container.getWidth() / 2 - arrowDown.getWidth() * 2 + arrowUp.getWidth() + 100, container.getHeight() / 2 + arrowDown.getHeight() + 5);
-
-        okButton = new MouseOverArea(container, ok, container.getWidth() / 2 + 100, container.getHeight() / 2 + ok.getHeight() / 2);
-
-        placeholder1 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4), container.getScreenHeight() / 2 - 165);
-        placeholder2 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 2 + 330, container.getScreenHeight() / 2 - 165);
-        placeholder3 = new MouseOverArea(container, placeholder, ((container.getScreenWidth() - (330 * 3)) / 4) * 3 + 660, container.getScreenHeight() / 2 - 165);
-
-        arrowLeftButton = new MouseOverArea(container, arrowRight.getFlippedCopy(true, false), (container.getScreenWidth() / 2 - arrowRight.getWidth()), container.getScreenHeight() / 2 + 400);
-        arrowRightButton = new MouseOverArea(container, arrowRight, (container.getScreenWidth() / 2), container.getScreenHeight() / 2 + 400);
 
         arrowLeftButton.setMouseOverImage(arrowRightp.getFlippedCopy(true, false));
         arrowRightButton.setMouseOverImage(arrowRightp);
@@ -152,13 +156,6 @@ public class MainMenu extends BasicGameState {
         placeholder2.setMouseOverImage(placeholderp);
         placeholder3.setMouseOverImage(placeholderp);
 
-        playButton.setAcceptingInput(false);
-        createLvlButton.setAcceptingInput(false);
-        editLvlButton.setAcceptingInput(false);
-        highscoresButton.setAcceptingInput(false);
-        quitButton.setAcceptingInput(false);
-        okButton.setAcceptingInput(false);
-        okRegisterButton.setAcceptingInput(false);
     }
 
     private void renderLanguages(GameContainer container, StateBasedGame game, Graphics g) {
@@ -257,37 +254,71 @@ public class MainMenu extends BasicGameState {
         okButton.setMouseOverImage(okp);
     }
 
-
+    private void inputsetter(int screenNumber){
+        for(MouseOverArea m : moas){
+            m.setAcceptingInput(false);
+        }
+        switch(screenNumber){
+            case 0:
+                for(int i=0;i<2;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 1:
+                for(int i=3;i<5;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 2:
+                for(int i=6;i<10;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 3:
+                for(int i=11;i<15;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 4:
+                for(int i=6;i<10;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 5:
+                for(int i=16;i<20;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+            case 6:
+                for(int i=16;i<20;i++){
+                    moas.get(i).setAcceptingInput(true);
+                }
+                break;
+        }
+    }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.drawImage(logo, container.getWidth() / 2 - logo.getWidth() / 2, 50);
-
+        inputsetter(counter);
         if (counter == 0) {
+
             renderLanguages(container, game, g);
         } else if (counter == 1) {
-            czMouseArea.setAcceptingInput(false);
-            enMouseArea.setAcceptingInput(false);
-            nlMouseArea.setAcceptingInput(false);
+
             renderLogin(container, game, g);
 
             okRegisterButton.setAcceptingInput(true);
         } else if (counter == 2) {
-            loginButton.setAcceptingInput(false);
-            regButton.setAcceptingInput(false);
+
             renderMenu(container, game, g);
 
-            playButton.setAcceptingInput(true);
-            createLvlButton.setAcceptingInput(true);
-            editLvlButton.setAcceptingInput(true);
-            highscoresButton.setAcceptingInput(true);
-            quitButton.setAcceptingInput(true);
+
         } else if (counter == 3) {
             renderCreateLevel(container, game, g);
-            okButton.setAcceptingInput(true);
+
         } else if (counter == 4) {
-            okButton.setAcceptingInput(false);
-            loginButton.setAcceptingInput(false);
+
             renderRegister(container, game, g);
         } else if (counter == 5) {
             LevelRenderer levelRenderer = new LevelRenderer(1);
