@@ -17,6 +17,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import persistance.DBFunctions;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -420,7 +421,7 @@ public class MainMenu extends BasicGameState {
                 }
                 break;
             case 4:
-                for (int i = 6; i <= 10; i++) {
+                for (int i = 3; i <= 5; i++) {
                     moas.get(i).setAcceptingInput(true);
                 }
                 break;
@@ -580,7 +581,6 @@ public class MainMenu extends BasicGameState {
                 CreateLevel.setX(counterX);
                 CreateLevel.setY(counterY);
                 CreateLevel.initiateLevel(container);
-                CreateLevel.initiate = true;
                 game.enterState(3, new FadeOutTransition(), new FadeInTransition());
             }
         }
@@ -650,9 +650,18 @@ public class MainMenu extends BasicGameState {
 
         }
 
-        if(input.isKeyPressed(Input.KEY_ESCAPE) && counter > 1){
+        if(input.isKeyPressed(Input.KEY_ESCAPE) && counter >=0){
             if(counter > 2 && counter != 4){
                 counter = 2;
+            }
+            else if(counter == 4){
+                counter = 1;
+            }
+            else if (counter == 1){
+                counter = 0;
+            }
+            else if(counter == 2){
+                container.exit();
             }
         }
 
