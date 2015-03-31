@@ -527,7 +527,13 @@ public class MainMenu extends BasicGameState {
                 }
                 if (pwLowerCase && pwUpperCase && pwNumber && pwTxtField.getText().length() >= 8) {
                     DBFunctions.register(nameTxtField.getText(), surnameTxtField.getText(), loginTxtField.getText(), pwTxtField.getText());
-                    //setter
+                    ArrayList<Player> players = DBFunctions.getPlayers();
+                    int playerID = 0;
+                    for(Player player : players){
+                        if(player.getNickname().equals(loginTxtField.getText()))
+                            playerID = player.getPlayerID();
+                    }
+                    myPlayer = new Player(playerID, nameTxtField.getText(), surnameTxtField.getText(),  pwTxtField.getText(), loginTxtField.getText(), false);
                     counter = 2;
                 } else {
                     badPwPrompt = true;
